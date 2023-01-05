@@ -71,7 +71,7 @@ class _SimpleInputState extends State<SimpleInput> {
         borderRadius: BorderRadius.all(Radius.circular(30)),
         borderSide: BorderSide(
             color: Theme.of(context).primaryColor,
-            width: 1,
+            width: 2,
             style: BorderStyle.solid),
       ),
       fillColor: Theme.of(context).backgroundColor,
