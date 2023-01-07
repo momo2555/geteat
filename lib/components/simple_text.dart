@@ -50,6 +50,7 @@ class _SimpleTextState extends State<SimpleText> {
       fontWeight: _thick,
       fontStyle: widget.italic ?? false ? FontStyle.italic : FontStyle.normal,
       fontSize: widget.size ?? 14,
-    ),);
+      
+    ), textAlign: TextAlign.center,);
   }
 }

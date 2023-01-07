@@ -1,6 +1,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:geteat/views/main_sign_page.dart';
+import 'package:geteat/views/signup/signup_code_page.dart';
+import 'package:geteat/views/signup/signup_name_page.dart';
+import 'package:geteat/views/signup/signup_password_page.dart';
 
 import 'themes/main_theme.dart';
 
@@ -51,10 +54,14 @@ class RouteGenerator {
                     
                     return Container();
                   },
-                ));
-      case '/newPost':
-        return MaterialPageRoute(builder: (context) => const NewPostPage());
-      case '/newPost/confirmation':
+                ));*/
+      case '/signup_code':
+        return MaterialPageRoute(builder: (context) => const SignupCodePage());
+      case '/signup_name':
+        return MaterialPageRoute(builder: (context) => const SignupNamePage());
+        case '/signup_password':
+        return MaterialPageRoute(builder: (context) => const SignupPasswordPage());
+     /* case '/newPost/confirmation':
         return MaterialPageRoute(
             builder: (context) => const NewPostConfirmationPage());
       case '/post':

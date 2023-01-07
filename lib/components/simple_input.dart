@@ -176,6 +176,7 @@ class _SimpleInputState extends State<SimpleInput> {
   Widget _numericInput() {
     return TextFormField(
       controller: widget.controller,
+      textAlign: TextAlign.center,
       style: TextStyle(color: Theme.of(context).primaryColorLight),
       decoration: _inputdecoration(),
       keyboardType: TextInputType.number,

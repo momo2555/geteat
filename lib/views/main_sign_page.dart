@@ -81,12 +81,12 @@ class _MainSignPageState extends State<MainSignPage> {
       height: 350,
       child: Column(
          
-        children: const [
+        children:  [
           SizedBox(
             height: 10,
           ),
           SimpleText(
-            text: "Entrez votre numéro de téléphone",
+            text: "Numéro de téléphone",
             size: 18,
             thick: 9,
           ),
@@ -103,6 +103,9 @@ class _MainSignPageState extends State<MainSignPage> {
           ActionButton(
             text: "Valider",
             filled: true,
+            action: () {
+              Navigator.pushNamed(context, '/signup_code');
+            }
           ),
           
         ],
@@ -130,10 +133,10 @@ class _MainSignPageState extends State<MainSignPage> {
             children: [
               Expanded(
                 child: SingleChildScrollView(
-                  padding: const EdgeInsets.symmetric(horizontal: 50.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 60.0),
                   child: Column(children: [
                     SizedBox(
-                      height: 170,
+                      height: 190,
                     ),
                     Image.asset('assets/logos/geteat_logo.png'),
                     SizedBox(
