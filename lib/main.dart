@@ -1,7 +1,9 @@
 
 import 'package:flutter/material.dart';
+import 'package:geteat/views/client_home_page.dart';
 import 'package:geteat/views/main_sign_page.dart';
 import 'package:geteat/views/signup/signup_code_page.dart';
+import 'package:geteat/views/signup/signup_confirm_page.dart';
 import 'package:geteat/views/signup/signup_name_page.dart';
 import 'package:geteat/views/signup/signup_password_page.dart';
 
@@ -50,7 +52,7 @@ class RouteGenerator {
                         //if not showing sign in page
                         return SignInPage();
                       }
-                    }
+)                    }
                     
                     return Container();
                   },
@@ -59,8 +61,12 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (context) => const SignupCodePage());
       case '/signup_name':
         return MaterialPageRoute(builder: (context) => const SignupNamePage());
-        case '/signup_password':
+      case '/signup_password':
         return MaterialPageRoute(builder: (context) => const SignupPasswordPage());
+      case '/signup_confirm':
+        return MaterialPageRoute(builder: (context) => const SignupConfirmPage());
+      case '/client_home':
+        return MaterialPageRoute(builder: (context) => const ClientHomepage());
      /* case '/newPost/confirmation':
         return MaterialPageRoute(
             builder: (context) => const NewPostConfirmationPage());

@@ -60,7 +60,7 @@ class _SignupPasswordPageState extends State<SignupPasswordPage
             text: "Valider",
             filled: true,
             action: () {
-             
+              Navigator.pushNamed(context, '/signup_confirm');
             }
           ),
           ],
