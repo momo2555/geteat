@@ -18,8 +18,21 @@ class MainSignPage extends StatefulWidget {
 
 class _MainSignPageState extends State<MainSignPage> {
   String _password = '';
-  String _email = '';
+  String _phoneSignin = '';
+  String _phoneSignup = "";
+
+  //keys
+  final GlobalKey<FormState> _signupKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _signinKey = GlobalKey<FormState>();
+
   Widget? _actualSign;
+  String? _validatePhoneNumber(String? value) {
+    final phoneExp = RegExp(r'^\(0\)\d \d\d \d\d\ \d\d \d\d$');
+    if (!phoneExp.hasMatch(value!)) {
+      return "Le numéro de téléphone n'est pas valide";
+    }
+    return null;
+  }
   Widget _signType() {
     return FocusButton(
         buttonList: const ["Connexion", "Inscription"], byDefault: "Connexion",
@@ -38,77 +51,90 @@ class _MainSignPageState extends State<MainSignPage> {
   }
 
   Widget _signin() {
-    return SizedBox(
-      height: 350,
-      key: ValueKey(1),
-      child: Column(
-        
-        children: const [
-          SimpleInput(
-            placeholder: "Numéro de téléphone",
-            type: "phone",
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          SimpleInput(
-            placeholder: "Mot de passe",
-            type: "password",
-          ),
-          SizedBox(
-            height: 0,
-          ),
-          ActionButton(
-            text: "Mot de passe oublié ?",
-            filled: false,
-            hasBorder: false,
-          ),
-          SizedBox(
-            height: 30,
-          ),
-          ActionButton(
-            text: "Connexion",
-            filled: true,
-          )
-        ],
+    return Form(
+      key: _signinKey,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      child: SizedBox(
+        height: 350,
+        key: ValueKey(1),
+        child: Column(
+          
+          children:  [
+            SimpleInput(
+              placeholder: "Numéro de téléphone",
+              type: "phone",
+              validator: (val) {return _validatePhoneNumber(val);},
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            SimpleInput(
+              placeholder: "Mot de passe",
+              type: "password",
+            ),
+            SizedBox(
+              height: 0,
+            ),
+            ActionButton(
+              text: "Mot de passe oublié ?",
+              filled: false,
+              hasBorder: false,
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            ActionButton(
+              text: "Connexion",
+              filled: true,
+            )
+          ],
+        ),
       ),
     );
   }
 
   Widget _signup() {
-    return SizedBox(
-      key: ValueKey(2),
-      height: 350,
-      child: Column(
-         
-        children:  [
-          SizedBox(
-            height: 10,
-          ),
-          SimpleText(
-            text: "Numéro de téléphone",
-            size: 18,
-            thick: 9,
-          ),
-          SizedBox(
-            height: 30,
-          ),
-          SimpleInput(
-            placeholder: "Numéro de téléphone",
-            type: "phone",
-          ),
-          SizedBox(
-            height: 30,
-          ),
-          ActionButton(
-            text: "Valider",
-            filled: true,
-            action: () {
-              Navigator.pushNamed(context, '/signup_code');
-            }
-          ),
-          
-        ],
+    return Form(
+      key: _signupKey,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      child: SizedBox(
+        key: ValueKey(2),
+        height: 350,
+        child: Column(
+           
+          children:  [
+            SizedBox(
+              height: 10,
+            ),
+            SimpleText(
+              text: "Numéro de téléphone",
+              size: 18,
+              thick: 9,
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            SimpleInput(
+              placeholder: "Numéro de téléphone",
+              type: "phone",
+              validator: (val) {return _validatePhoneNumber(val);},
+              onChange: (val){
+                _phoneSignup = val;
+              },
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            ActionButton(
+              text: "Valider",
+              filled: true,
+              action: () {
+                Navigator.pushNamed(context, '/signup_code');
+              }
+            ),
+            
+          ],
+        ),
       ),
     );
   }

@@ -16,6 +16,7 @@ class SimpleInput extends StatefulWidget {
       this.value = "",
       this.minLines,
       this.maxLines,
+      this.inputFormatters,
       this.controller})
       : super(key: key);
   final String? placeholder;
@@ -31,6 +32,7 @@ class SimpleInput extends StatefulWidget {
   final int? minLines;
   final int? maxLines;
   final TextEditingController? controller;
+  final TextInputFormatter? inputFormatters;
   @override
   State<SimpleInput> createState() => _SimpleInputState();
 }
@@ -67,6 +69,13 @@ class _SimpleInputState extends State<SimpleInput> {
             width: 1,
             style: BorderStyle.solid),
       ),
+      errorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(30)),
+        borderSide: BorderSide(
+            color: Colors.red,
+            width: 1,
+            style: BorderStyle.solid),
+      ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.all(Radius.circular(30)),
         borderSide: BorderSide(
@@ -97,7 +106,7 @@ class _SimpleInputState extends State<SimpleInput> {
           : null,
       focusColor: Theme.of(context).primaryColorLight,
       suffixIconColor: Theme.of(context).accentColor,
-
+      
       //labelText: widget.placeholder ?? '',
     );
   }
@@ -126,6 +135,7 @@ class _SimpleInputState extends State<SimpleInput> {
 
   Widget _phoneInput() {
     return TextFormField(
+      keyboardType: TextInputType.number,
       textAlign: TextAlign.center,
       controller: widget.controller,
       style: TextStyle(color: Theme.of(context).primaryColorLight),
@@ -145,7 +155,7 @@ class _SimpleInputState extends State<SimpleInput> {
       inputFormatters: <TextInputFormatter>[
         FilteringTextInputFormatter.digitsOnly,
         // Fit the validating format.
-        //_phoneNumberFormatter, TODO : Add phone number formater
+        _UsNumberTextInputFormatter(),
       ],
     );
   }
@@ -230,5 +240,56 @@ class _SimpleInputState extends State<SimpleInput> {
     } else {
       return _simpleInput();
     }
+  }
+}
+
+/// Format incoming numeric tt to fit the format of (###) ###-#### ##
+class _UsNumberTextInputFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
+    String workValue = newValue.text;
+    final newTextLength = workValue.length;
+    var selectionIndex = newValue.selection.end;
+    if (!workValue.startsWith('0') && newTextLength>0) {
+      workValue = '0' + workValue;
+      selectionIndex++;
+    }
+    
+    
+    final newText = StringBuffer();
+    
+    var usedSubstringIndex = 0;
+   
+    if (newTextLength >= 1) {
+      newText.write('(${workValue.substring(0, usedSubstringIndex = 1)})');
+      if (newValue.selection.end >= 1) selectionIndex += 2;
+    }
+    if (newTextLength >= 3) {
+      newText.write('${workValue.substring(1, usedSubstringIndex = 2)} ');
+      if (newValue.selection.end >= 1) selectionIndex++;
+    }
+    if (newTextLength >= 5) {
+      newText.write('${workValue.substring(2, usedSubstringIndex = 4)} ');
+      if (newValue.selection.end >= 3) selectionIndex+=1;
+    }
+    if (newTextLength >= 7) {
+      newText.write('${workValue.substring(4, usedSubstringIndex = 6)} ');
+      if (newValue.selection.end >= 5) selectionIndex+=1;
+    }
+    if (newTextLength >= 9) {
+      newText.write('${workValue.substring(6, usedSubstringIndex = 8)} ');
+      if (newValue.selection.end >= 7) selectionIndex+=1;
+    }
+    // Dump the rest.
+    if (newTextLength >= usedSubstringIndex) {
+      newText.write(workValue.substring(usedSubstringIndex));
+    }
+    return TextEditingValue(
+      text: newText.toString(),
+      selection: TextSelection.collapsed(offset: selectionIndex),
+    );
   }
 }

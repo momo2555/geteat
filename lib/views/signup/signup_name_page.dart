@@ -31,7 +31,22 @@ class _SignupNamePageState extends State<SignupNamePage> {
             ),
             Image.asset('assets/logos/geteat_logo.png'),
             SizedBox(
-              height: 100,
+              height: 50,
+            ),
+            SimpleText(
+            text: "Contacte",
+            size: 18,
+            thick: 9,
+          ),
+          SizedBox(
+              height: 18,
+            ),
+          SimpleInput(
+            placeholder: "E-mail",
+            type: "email",
+          ),
+          SizedBox(
+              height: 30,
             ),
             SimpleText(
             text: "Inforations personnelles",
@@ -39,7 +54,7 @@ class _SignupNamePageState extends State<SignupNamePage> {
             thick: 9,
           ),
           SizedBox(
-              height: 25,
+              height: 18,
             ),
           SimpleInput(
             placeholder: "Nom",

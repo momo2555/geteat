@@ -25,18 +25,18 @@ class _RestaurantThumbnailState extends State<RestaurantThumbnail> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 190,
+      height: 220,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Hero(
-            tag: "coucou",
+            tag: widget.name.trim(),
             child: Container(
-              height: 100,
+              height: 130,
               clipBehavior: Clip.antiAlias,
               decoration: BoxDecoration(
                 color: Theme.of(context).backgroundColor,
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(15),
                 image: _decorationImage(),
               ),
             ),
