@@ -10,6 +10,7 @@ class SimpleText extends StatefulWidget {
   this.thick,
   this.italic,
   this.color,
+  this.center,
 
   }) : super(key: key);
   final String text;
@@ -17,6 +18,7 @@ class SimpleText extends StatefulWidget {
   final bool? italic;
   final double? size;
   final int? color;
+  final bool? center;
 
   @override
   State<SimpleText> createState() => _SimpleTextState();
@@ -40,17 +42,17 @@ class _SimpleTextState extends State<SimpleText> {
   @override
   Widget build(BuildContext context) {
     _color = Theme.of(context).primaryColorLight;
-    if (widget.color == 0) {
-      _color = Theme.of(context).primaryColorLight;
-    }else if (widget.color == 1) {
-      _color = Theme.of(context).primaryColor;
-    }
-    return Text(widget.text, style: TextStyle(
-      color: _color ?? Theme.of(context).primaryColorLight,
-      fontWeight: _thick,
-      fontStyle: widget.italic ?? false ? FontStyle.italic : FontStyle.normal,
-      fontSize: widget.size ?? 14,
-      
-    ), textAlign: TextAlign.center,);
+    List<Color> colors = [Theme.of(context).primaryColorLight,Theme.of(context).primaryColor, Theme.of(context).primaryColorDark ];
+    _color = colors[widget.color??0];
+    return Text(widget.text, 
+      style: TextStyle(
+        color: _color ?? Theme.of(context).primaryColorLight,
+        fontWeight: _thick,
+        fontStyle: widget.italic ?? false ? FontStyle.italic : FontStyle.normal,
+        fontSize: widget.size ?? 14,
+        
+        
+      ), 
+      textAlign: widget.center ?? true ?  TextAlign.center : TextAlign.left);
   }
 }

@@ -17,8 +17,13 @@ class SimpleInput extends StatefulWidget {
       this.minLines,
       this.maxLines,
       this.inputFormatters,
-      this.controller})
+      this.controller,
+      this.filled,
+      this.label,
+      })
+      
       : super(key: key);
+  final String? label;
   final String? placeholder;
   final String? type;
   final Icon? icon;
@@ -33,6 +38,7 @@ class SimpleInput extends StatefulWidget {
   final int? maxLines;
   final TextEditingController? controller;
   final TextInputFormatter? inputFormatters;
+  final bool? filled;
   @override
   State<SimpleInput> createState() => _SimpleInputState();
 }
@@ -46,46 +52,56 @@ class _SimpleInputState extends State<SimpleInput> {
 
   InputDecoration _inputdecoration() {
     return InputDecoration(
-      prefixIcon: widget.icon,
+      prefixIcon: widget.type == "phone" ? Padding(
+        padding: const EdgeInsets.only(top: 22),
+        child: Text("+33", style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 17, fontWeight: FontWeight.bold),),
+      ) : widget.icon,
       hintText: widget.placeholder ?? '',
-      prefixText: widget.type == "phone" ? "+33" : "",
+      labelText: widget.label != null ? widget.label?.toUpperCase() : null,
+      floatingLabelBehavior: FloatingLabelBehavior.always,
+    
+      
+      
+      floatingLabelStyle: TextStyle(color: Theme.of(context).primaryColorLight, ),
+      
       prefixStyle: TextStyle(
           color: Colors.green, fontWeight: FontWeight.bold, fontSize: 17),
       hintStyle: TextStyle(
           color: Theme.of(context).primaryColorLight,
           fontStyle: FontStyle.italic,
           fontWeight: FontWeight.w100),
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.all(Radius.circular(30)),
+      enabledBorder: UnderlineInputBorder(
         borderSide: BorderSide(
-            color: Theme.of(context).primaryColorLight,
-            width: 1.0,
-            style: BorderStyle.solid),
+          color: Theme.of(context).primaryColorLight,
+          width: 0.3,
+
+        )
       ),
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.all(Radius.circular(30)),
+      border:  UnderlineInputBorder(
         borderSide: BorderSide(
-            color: Theme.of(context).primaryColorLight,
-            width: 1,
-            style: BorderStyle.solid),
+          color: Theme.of(context).primaryColorLight,
+          width: 0.3,
+
+        )
       ),
-      errorBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.all(Radius.circular(30)),
+      errorBorder:  UnderlineInputBorder(
         borderSide: BorderSide(
-            color: Colors.red,
-            width: 1,
-            style: BorderStyle.solid),
+          color: Colors.red,
+          width: 0.3,
+
+        )
       ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.all(Radius.circular(30)),
+      focusedBorder: UnderlineInputBorder(
         borderSide: BorderSide(
-            color: Theme.of(context).primaryColor,
-            width: 2,
-            style: BorderStyle.solid),
+          color: Theme.of(context).primaryColor,
+          width: 0.3,
+
+        )
       ),
-      fillColor: Theme.of(context).backgroundColor,
-      filled: true,
-      contentPadding: const EdgeInsets.all(17),
+      //fillColor: Theme.of(context).backgroundColor,
+      //filled: true,
+      contentPadding: const EdgeInsets.all(10),
+      
       suffixIcon: widget.type == 'password'
           ? InkWell(
               onTap: () {
@@ -95,11 +111,11 @@ class _SimpleInputState extends State<SimpleInput> {
               },
               child: _obscureText
                   ? Icon(
-                      Icons.visibility_outlined,
+                      Icons.visibility,
                       color: Theme.of(context).primaryColor,
                     )
                   : Icon(
-                      Icons.visibility_off_outlined,
+                      Icons.visibility_off,
                       color: Theme.of(context).primaryColor,
                     ),
             )
@@ -111,13 +127,74 @@ class _SimpleInputState extends State<SimpleInput> {
     );
   }
 
+  InputDecoration _inputdecorationFilled() {
+    return InputDecoration(
+      prefixIcon: widget.icon,
+      hintText: widget.placeholder ?? '',
+      prefixText: widget.type == "phone" ? "+33" : "",
+      prefixStyle: TextStyle(
+          color: Colors.green, fontWeight: FontWeight.bold, fontSize: 17),
+      hintStyle: TextStyle(
+          color: Theme.of(context).primaryColorLight,
+          fontStyle: FontStyle.italic,
+          fontWeight: FontWeight.w100),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(10)),
+        borderSide: BorderSide(),
+      ),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(10)),
+
+       
+      ),
+      errorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(10)),
+        
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(10)),
+        
+        
+      ),
+      fillColor: Theme.of(context).primaryColorDark,
+      filled: true,
+      contentPadding: const EdgeInsets.all(17),
+      suffixIcon: widget.type == 'password'
+          ? InkWell(
+              onTap: () {
+                setState(() {
+                  _obscureText = !_obscureText;
+                });
+              },
+              child: _obscureText
+                  ? Icon(
+                      Icons.visibility,
+                      color: Theme.of(context).primaryColor,
+                    )
+                  : Icon(
+                      Icons.visibility_off,
+                      color: Theme.of(context).primaryColor,
+                    ),
+            )
+          : null,
+      focusColor: Theme.of(context).primaryColorLight,
+      suffixIconColor: Theme.of(context).accentColor,
+      
+      //labelText: widget.placeholder ?? '',
+    );
+  }
+
+  InputDecoration _decoration() {
+    return widget.filled ?? false ? _inputdecorationFilled() : _inputdecoration();
+  }
+
   //TODO implement password type
   Widget _simpleInput() {
     return TextFormField(
-      textAlign: TextAlign.center,
+      //textAlign: TextAlign.center,
       controller: widget.controller,
       style: TextStyle(color: Theme.of(context).primaryColorLight),
-      decoration: _inputdecoration(),
+      decoration: _decoration(),
       onChanged: (val) {
         value = val;
         widget.onChange != null ? widget.onChange!(val) : () {};
@@ -130,16 +207,17 @@ class _SimpleInputState extends State<SimpleInput> {
       validator: (value) =>
           (widget.validator != null ? widget.validator!(value) : null),
       initialValue: widget.value,
+      
     );
   }
 
   Widget _phoneInput() {
     return TextFormField(
       keyboardType: TextInputType.number,
-      textAlign: TextAlign.center,
+      //TextAlign.center,
       controller: widget.controller,
       style: TextStyle(color: Theme.of(context).primaryColorLight),
-      decoration: _inputdecoration(),
+      decoration: _decoration(),
       onChanged: (val) {
         value = val;
         widget.onChange != null ? widget.onChange!(val) : () {};
@@ -159,12 +237,13 @@ class _SimpleInputState extends State<SimpleInput> {
       ],
     );
   }
+  
 
   Widget _multilineInput() {
     return TextFormField(
       controller: widget.controller,
       style: TextStyle(color: Theme.of(context).primaryColorLight),
-      decoration: _inputdecoration(),
+      decoration: _decoration(),
       maxLines: widget.maxLines ?? 5,
       minLines: widget.minLines ?? 3,
       keyboardType: TextInputType.multiline,
@@ -186,9 +265,9 @@ class _SimpleInputState extends State<SimpleInput> {
   Widget _numericInput() {
     return TextFormField(
       controller: widget.controller,
-      textAlign: TextAlign.center,
+      //textAlign: TextAlign.center,
       style: TextStyle(color: Theme.of(context).primaryColorLight),
-      decoration: _inputdecoration(),
+      decoration: _decoration(),
       keyboardType: TextInputType.number,
       onChanged: (val) {
         value = val;
@@ -207,10 +286,10 @@ class _SimpleInputState extends State<SimpleInput> {
 
   Widget _passwordInput() {
     return TextFormField(
-      textAlign: TextAlign.center,
+      //textAlign: TextAlign.center,
       controller: widget.controller,
       style: TextStyle(color: Theme.of(context).primaryColorLight),
-      decoration: _inputdecoration(),
+      decoration: _decoration(),
       onChanged: (val) {
         value = val;
         widget.onChange != null ? widget.onChange!(val) : () {};

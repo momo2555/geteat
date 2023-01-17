@@ -4,6 +4,7 @@ import 'package:geteat/components/action_button.dart';
 import 'package:geteat/components/focuse_button.dart';
 import 'package:geteat/components/simple_input.dart';
 import 'package:geteat/components/simple_text.dart';
+import 'package:geteat/controllers/user_connection.dart';
 
 /*import 'package:legend_app/models/userModel.dart';
 import 'package:legend_app/server/userConnection.dart';
@@ -17,12 +18,17 @@ class MainSignPage extends StatefulWidget {
 }
 
 class _MainSignPageState extends State<MainSignPage> {
+  UserConnection _userConnection = UserConnection();
+
+
   String _password = '';
   String _phoneSignin = '';
-  String _phoneSignup = "";
+  
+  int _signinTentatives = 0;
+  
 
   //keys
-  final GlobalKey<FormState> _signupKey = GlobalKey<FormState>();
+  
   final GlobalKey<FormState> _signinKey = GlobalKey<FormState>();
 
   Widget? _actualSign;
@@ -33,27 +39,12 @@ class _MainSignPageState extends State<MainSignPage> {
     }
     return null;
   }
-  Widget _signType() {
-    return FocusButton(
-        buttonList: const ["Connexion", "Inscription"], byDefault: "Connexion",
-        onChange: (button) {
-          if(button == "Connexion") {
-            setState(() {
-              _actualSign = _signin();
-            });
-          }else {
-            setState(() {
-              _actualSign = _signup ();
-            });
-          }
-        },
-      );
-  }
+  
 
   Widget _signin() {
     return Form(
       key: _signinKey,
-      autovalidateMode: AutovalidateMode.onUserInteraction,
+      autovalidateMode: _signinTentatives > 0 ? AutovalidateMode.onUserInteraction : null,
       child: SizedBox(
         height: 350,
         key: ValueKey(1),
@@ -63,7 +54,11 @@ class _MainSignPageState extends State<MainSignPage> {
             SimpleInput(
               placeholder: "Numéro de téléphone",
               type: "phone",
+              filled: true,
               validator: (val) {return _validatePhoneNumber(val);},
+              onChange: (val)  {
+                _phoneSignin = val;
+              },
             ),
             SizedBox(
               height: 10,
@@ -71,6 +66,10 @@ class _MainSignPageState extends State<MainSignPage> {
             SimpleInput(
               placeholder: "Mot de passe",
               type: "password",
+              filled: true,
+              onChange: (val) {
+                _password = val;
+              },
             ),
             SizedBox(
               height: 0,
@@ -83,61 +82,70 @@ class _MainSignPageState extends State<MainSignPage> {
             SizedBox(
               height: 30,
             ),
-            ActionButton(
-              text: "Connexion",
-              filled: true,
-            )
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 35),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  ActionButton(
+                    text: "Connexion",
+                    filled: true,
+                    action: () {
+                      final form = _signinKey.currentState!;
+                      setState(() {
+                        _signinTentatives++;
+                      });
+                      
+                      if (!form.validate()) {
+                        /*_autoValidateModeIndex.value =
+                            AutovalidateMode.always.index;*/ // Start validating on every change.
+                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Veuillez corriger vos erreurs')));
+                      } else {
+                        form.save();
+                        //_emailPassWordvalidator();
+                        //connect the user
+                        String phone = "+33" + _phoneSignin.replaceAll("(0)", "").replaceAll(" ", "");
+                        print(phone);
+                        _userConnection.authentification(phone, _password);
+                      }
+                    },
+                  ),
+                   SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    
+                    children: [
+                      Expanded(child: Container(child: Divider(color: Theme.of(context).primaryColorLight),)),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: SimpleText(text: "OU", color: 1, size: 12,),
+                      ),
+                      Expanded(child: Container(child: Divider(color: Theme.of(context).primaryColorLight),)),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Container(
+                    child: ActionButton(
+                      text: "Inscription",
+                      clear: true,
+                      filled: true,
+                      action: () {
+                        Navigator.pushNamed(context, '/signup_name');
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),
     );
   }
 
-  Widget _signup() {
-    return Form(
-      key: _signupKey,
-      autovalidateMode: AutovalidateMode.onUserInteraction,
-      child: SizedBox(
-        key: ValueKey(2),
-        height: 350,
-        child: Column(
-           
-          children:  [
-            SizedBox(
-              height: 10,
-            ),
-            SimpleText(
-              text: "Numéro de téléphone",
-              size: 18,
-              thick: 9,
-            ),
-            SizedBox(
-              height: 30,
-            ),
-            SimpleInput(
-              placeholder: "Numéro de téléphone",
-              type: "phone",
-              validator: (val) {return _validatePhoneNumber(val);},
-              onChange: (val){
-                _phoneSignup = val;
-              },
-            ),
-            SizedBox(
-              height: 30,
-            ),
-            ActionButton(
-              text: "Valider",
-              filled: true,
-              action: () {
-                Navigator.pushNamed(context, '/signup_code');
-              }
-            ),
-            
-          ],
-        ),
-      ),
-    );
-  }
 
   @override
   void initState() {
@@ -159,23 +167,23 @@ class _MainSignPageState extends State<MainSignPage> {
             children: [
               Expanded(
                 child: SingleChildScrollView(
-                  padding: const EdgeInsets.symmetric(horizontal: 60.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
                   child: Column(children: [
                     SizedBox(
-                      height: 190,
+                      height: 170,
                     ),
-                    Image.asset('assets/logos/geteat_logo.png'),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 50),
+                      child: Image.asset('assets/logos/geteat_logo.png'),
+                    ),
                     SizedBox(
                       height: 100,
                     ),
-                    _signType(),
+                    _signin(),
                     SizedBox(
                       height: 40,
                     ),
-                    AnimatedSwitcher(
-                      duration: Duration(milliseconds: 400),
-                      child: _actualSign ?? _signin(),
-                    ),
+                    
                   ]),
                 ),
               ),

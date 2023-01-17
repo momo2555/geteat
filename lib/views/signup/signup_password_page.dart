@@ -14,6 +14,28 @@ class SignupPasswordPage extends StatefulWidget {
 
 class _SignupPasswordPageState extends State<SignupPasswordPage
 > {
+  String _password1 = '';
+  String _password2 = '';
+  String? _validatePassword1(String? value) {
+    
+    if (value == null || value.isEmpty) {
+      return "Le mot de passe ne peut pas être vide";
+    }else if (value.length < 8) {
+      return "Le mot de passe doit contenir au moins 8 caractères";
+    }
+    
+    return null;
+  }
+ String? _validatePassword2(String? value) {
+    if (value == null || value.isEmpty) {
+      return "Veuillez resaisir le mot de passe";
+    }
+    if (_password1!=value) {
+      return "Les mots de passe sont différents";
+    }
+    
+    return null;
+  }
   @override
  Widget build(BuildContext context) {
     return Scaffold(
@@ -21,49 +43,60 @@ class _SignupPasswordPageState extends State<SignupPasswordPage
         toolbarHeight: 150,
         leadingWidth: 100,
       ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(horizontal: 60),
-        child: Column(
-
-          children: [
+      body: Form(
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        child: SingleChildScrollView(
+          padding: EdgeInsets.symmetric(horizontal: 60),
+          child: Column(
+      
+            children: [
+              SizedBox(
+                height: 60,
+              ),
+              Image.asset('assets/logos/geteat_logo.png'),
+              SizedBox(
+                height: 100,
+              ),
+              SimpleText(
+              text: "Nouveau mot de passe",
+              size: 18,
+              thick: 9,
+            ),
             SizedBox(
-              height: 60,
+                height: 25,
+              ),
+            SimpleInput(
+              placeholder: "Mot de passe",
+              type: "password",
+              onChange: (val){
+                _password1 = val;
+              },
+              validator: (val) =>_validatePassword1(val),
             ),
-            Image.asset('assets/logos/geteat_logo.png'),
             SizedBox(
-              height: 100,
+                height: 15,
+              ),
+            SimpleInput(
+              placeholder: "MOt de passe",
+              type: "password",
+              onChange: (val){
+                _password2 = val;
+              },
+              validator: (val) =>_validatePassword2(val),
             ),
-            SimpleText(
-            text: "Nouveau mot de passe",
-            size: 18,
-            thick: 9,
-          ),
-          SizedBox(
-              height: 25,
+             
+            SizedBox(
+                height: 30,
+              ),
+            ActionButton(
+              text: "Valider",
+              filled: true,
+              action: () {
+                Navigator.pushNamed(context, '/signup_confirm');
+              }
             ),
-          SimpleInput(
-            placeholder: "Mot de passe",
-            type: "password",
+            ],
           ),
-          SizedBox(
-              height: 15,
-            ),
-          SimpleInput(
-            placeholder: "MOt de passe",
-            type: "password",
-          ),
-           
-          SizedBox(
-              height: 30,
-            ),
-          ActionButton(
-            text: "Valider",
-            filled: true,
-            action: () {
-              Navigator.pushNamed(context, '/signup_confirm');
-            }
-          ),
-          ],
         ),
       ),
     );

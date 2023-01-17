@@ -1,18 +1,21 @@
 
 import 'package:flutter/material.dart';
+import 'package:geteat/controllers/user_connection.dart';
+import 'package:geteat/models/user_profile_model.dart';
 import 'package:geteat/views/client_home_page.dart';
 import 'package:geteat/views/main_sign_page.dart';
+import 'package:geteat/views/pages/restaurant_page.dart';
 import 'package:geteat/views/signup/signup_code_page.dart';
 import 'package:geteat/views/signup/signup_confirm_page.dart';
 import 'package:geteat/views/signup/signup_name_page.dart';
-import 'package:geteat/views/signup/signup_password_page.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 import 'themes/main_theme.dart';
 
 
 void main() async {
-  //WidgetsFlutterBinding.ensureInitialized();
-  //await Firebase.initializeApp();
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -35,38 +38,39 @@ class MyApp extends StatelessWidget {
 
 // Route class
 class RouteGenerator {
+ 
   static Route<dynamic> generateRoute(RouteSettings settings) {
-    //UserConnection userConnection = UserConnection();
+    UserConnection _userConnection = UserConnection();
     switch (settings.name) {
       case '/':
-        return MaterialPageRoute(builder: (context) => const MainSignPage());
-        /*return MaterialPageRoute(
+        //return MaterialPageRoute(builder: (context) => const MainSignPage());
+        return MaterialPageRoute(
             builder: (context) => StreamBuilder(
-                  stream: userConnection.userStream,
+                  stream: _userConnection.userStream,
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.active) {
                       if (snapshot.hasData) {
                         //if a user is connected show the client page
-                        return MainScreen();
+                        return ClientHomepage();
                       } else {
                         //if not showing sign in page
-                        return SignInPage();
+                        return MainSignPage();
                       }
-)                    }
-                    
+                    }
+                   
                     return Container();
                   },
-                ));*/
+                ));
       case '/signup_code':
-        return MaterialPageRoute(builder: (context) => const SignupCodePage());
+        return MaterialPageRoute(builder: (context) =>  SignupCodePage(user: settings.arguments as UserProfileModel,));
       case '/signup_name':
         return MaterialPageRoute(builder: (context) => const SignupNamePage());
-      case '/signup_password':
-        return MaterialPageRoute(builder: (context) => const SignupPasswordPage());
       case '/signup_confirm':
         return MaterialPageRoute(builder: (context) => const SignupConfirmPage());
       case '/client_home':
         return MaterialPageRoute(builder: (context) => const ClientHomepage());
+      case '/restaurant':
+        return MaterialPageRoute(builder: (context) => const RestaurantPage());
      /* case '/newPost/confirmation':
         return MaterialPageRoute(
             builder: (context) => const NewPostConfirmationPage());

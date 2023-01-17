@@ -12,6 +12,7 @@ class ActionButton extends StatefulWidget {
     this.action,
     this.hasBorder,
     this.textStyle,
+    this.expanded,
   }) : super(key: key);
   final TextStyle? textStyle;
   final bool? filled;
@@ -21,6 +22,7 @@ class ActionButton extends StatefulWidget {
   final Color? color;
   final String? text;
   final Function()? action;
+  final bool? expanded;
 
   @override
   State<ActionButton> createState() => _ActionButtonState();
@@ -36,6 +38,7 @@ class _ActionButtonState extends State<ActionButton> {
           style:
               TextStyle(color: widget.color ?? Theme.of(context).accentColor)),
       style: ButtonStyle(
+          minimumSize: MaterialStateProperty.all(widget.expanded ?? false ? Size.fromHeight(50) : null),
           backgroundColor:
               MaterialStateProperty.all(Theme.of(context).backgroundColor),
           padding: MaterialStateProperty.all(
@@ -58,6 +61,7 @@ class _ActionButtonState extends State<ActionButton> {
           style:
               TextStyle(color: widget.color ?? Theme.of(context).primaryColor, fontStyle:FontStyle.italic, fontWeight: FontWeight.w200, fontSize: 16), ),
       style: ButtonStyle(
+          minimumSize: MaterialStateProperty.all(widget.expanded ?? false ? Size.fromHeight(50) : null),
           backgroundColor:
               MaterialStateProperty.all(Theme.of(context).backgroundColor),
           padding: MaterialStateProperty.all(
@@ -69,13 +73,16 @@ class _ActionButtonState extends State<ActionButton> {
 
   Widget _filledActionButton() {
     return TextButton(
+      
       style: ButtonStyle(
+          minimumSize: MaterialStateProperty.all(widget.expanded ?? false ? Size.fromHeight(50) : null),
           backgroundColor: MaterialStateProperty.all(
               widget.color ?? Theme.of(context).primaryColor),
           padding: MaterialStateProperty.all(
               const EdgeInsets.fromLTRB(25, 15, 25, 15)),
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)))),
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)))),
+            
       onPressed: () {
         widget.action != null ? widget.action!() : () {};
       },
@@ -87,12 +94,13 @@ class _ActionButtonState extends State<ActionButton> {
   Widget _clearActionButton() {
     return TextButton(
       style: ButtonStyle(
+          minimumSize: MaterialStateProperty.all(widget.expanded ?? false ? Size.fromHeight(50) : null),
           backgroundColor: MaterialStateProperty.all(
               widget.color ?? Theme.of(context).primaryColorDark),
           padding: MaterialStateProperty.all(
               const EdgeInsets.fromLTRB(25, 15, 25, 15)),
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)))),
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)))),
       onPressed: () {
         widget.action != null ? widget.action!() : () {};
       },
@@ -104,6 +112,7 @@ class _ActionButtonState extends State<ActionButton> {
   Widget _selectedActionButton() {
     return TextButton(
       style: ButtonStyle(
+          minimumSize: MaterialStateProperty.all(widget.expanded ?? false ? Size.fromHeight(50) : null),
           backgroundColor: MaterialStateProperty.all(
               widget.color ?? Theme.of(context).primaryColorLight),
           padding: MaterialStateProperty.all(

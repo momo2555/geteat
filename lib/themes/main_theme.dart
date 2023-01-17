@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 const PrimaryColor = Color.fromARGB(255, 52, 190, 72);
 const PrimaryColorLight = Color.fromARGB(255, 255, 255, 255);
-const PrimaryColorDark = Color.fromARGB(255, 71, 71, 71);
+const PrimaryColorDark = Color.fromARGB(255, 28, 28, 28);
 
 const SecondaryColor = const Color(0xFFEB7B47);
 const SecondaryColorLight = const Color(0xFFe5ffff);
@@ -43,7 +43,7 @@ class mainTheme {
       bottomAppBarTheme: base.bottomAppBarTheme.copyWith(
         elevation: 0,
 
-      )
+      ),
       
       /*textTheme: base.textTheme.copyWith(
           titleLarge: base.textTheme.titleLarge?.copyWith(color: TextColor),

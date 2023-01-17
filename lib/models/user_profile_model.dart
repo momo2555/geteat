@@ -4,84 +4,87 @@ import 'package:flutter/widgets.dart';
 import 'package:geteat/models/user_model.dart';
 
 class UserProfileModel extends UserModel {
-  String? userName;
-  String? userFirstName;
-  String? userLastName;
-  String? userProfileImage;
-  String? userProfileImageURL;
-  double? userRate;
-  String? userDescription;
-  File? userProfileImageFile;
-  UserProfileModel(email, password, uid) : super(email, password, uid);
+  String? _userName;
+  String? _userFirstName;
+  String? _userLastName;
+  String? _userProfileImage;
+  String? _userProfileImageURL;
+  double? _userRate;
+  String? _userDescription;
+  File? _userProfileImageFile;
+  UserProfileModel(email, phone, password, uid) : super(email, phone, password, uid);
   UserProfileModel.byModel(UserModel user)
-      : super(user.getEmail, '', user.getUid);
-  set setUserName(String? value) {
-    userName = value;
+      : super(user.email, user.phone,'', user.uid);
+  set userName(String? value) {
+    _userName = value;
   }
  
-  set setUserFirstName(String? value) {
-    userFirstName = value;
+  set userFirstName(String? value) {
+    _userFirstName = value;
   }
 
-  set setUserLastName(String? value) {
-    userLastName = value;
+  set userLastName(String? value) {
+    _userLastName = value;
   }
 
-  set setUserProfileImage(String? value) {
-    userProfileImage = value;
+  set userProfileImage(String? value) {
+    _userProfileImage = value;
   }
 
-  set setUserProfileImageURL(String? value) {
-    userProfileImageURL = value;
+  set userProfileImageURL(String? value) {
+    _userProfileImageURL = value;
   }
 
-  set setUserRate(double? value) {
-    userRate = value;
+  set userRate(double? value) {
+    _userRate = value;
   }
 
-  set setUserDescription(String? value) {
-    userDescription = value;
+  set userDescription(String? value) {
+    _userDescription = value;
   }
-  set setUserProfileImageFile(value) {
-    userProfileImageFile = value;
+  set userProfileImageFile(value) {
+    _userProfileImageFile = value;
   }
-  get getUserName {
-    return userName;
-  }
-
-  get getUserFirstName {
-    return userFirstName;
+  String? get userName {
+    return _userName;
   }
 
-  get getUserLastName {
-    return userLastName;
+  String? get userFirstName {
+    return _userFirstName;
   }
 
-  get getUserProfileImage {
-    return userProfileImage;
+  String? get userLastName {
+    return _userLastName;
   }
 
-  get getUserProfileImageURL {
-    return userProfileImageURL;
+  String? get userProfileImage {
+    return _userProfileImage;
   }
 
-  get getUserRate {
-    return userRate;
+  String? get userProfileImageURL {
+    return _userProfileImageURL;
   }
 
-  get getUserDescription {
-    return userDescription;
+  double? get userRate {
+    return _userRate;
   }
-  get getUserProfileImageFile {
-    return userProfileImageFile;
+
+  String? get userDescription {
+    return _userDescription;
+  }
+  get userProfileImageFile {
+    return _userProfileImageFile;
   }
 
   Map<String, dynamic> toObject() {
     return {
-      'userDescription' : userDescription ?? '',
-      'userName' : userName ?? '',
-      'userProfileImage' : userProfileImageURL ?? '',
-      'userRate' : userRate ?? 0.0
+      'userUid' : uid,
+      'userPhone' : phone,
+      'userEmail' : email,
+      
+      'userName' : _userName ?? '',
+      'userProfileImage' : _userProfileImageURL ?? '',
+      'userRate' : _userRate ?? 0.0
     };
 
   }
