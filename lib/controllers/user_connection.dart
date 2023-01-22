@@ -104,4 +104,8 @@ class UserConnection {
     await _auth.signOut();
     // Navigator.pushAndRemoveUntil(context, newRoute, (route) => false)
   }
+  Future<bool> isEmailExists(String email) async {
+    var methods = await _auth.fetchSignInMethodsForEmail(email);
+    return methods.contains('password');
+  }
 }

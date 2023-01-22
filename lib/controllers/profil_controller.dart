@@ -70,10 +70,10 @@ class ProfileController {
       mailPhoneRef.set(mailData);
       return userProfile;
   }
-  Future<UserProfileModel> createProfileByProfieModel(UserProfileModel userProfile) async {
+  Future<UserProfileModel> createProfileByProfileModel(UserProfileModel userProfile) async {
      
      //create the new doc
-     DocumentReference profileDataRef =
+      DocumentReference profileDataRef =
         fireStore.collection('users').doc(userProfile.uid); //must not be null '' (uid)
       profileDataRef.set(userProfile.toObject());
       //create reference to the mail address

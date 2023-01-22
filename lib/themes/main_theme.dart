@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-const PrimaryColor = Color.fromARGB(255, 52, 190, 72);
+const PrimaryColor = Color.fromARGB(255, 52, 191, 73);
 const PrimaryColorLight = Color.fromARGB(255, 255, 255, 255);
 const PrimaryColorDark = Color.fromARGB(255, 28, 28, 28);
 
@@ -15,7 +15,7 @@ class mainTheme {
   static final ThemeData defaultTheme = _buildMyTheme();
 
   static ThemeData _buildMyTheme() {
-    final ThemeData base = ThemeData.light();
+    final ThemeData base = ThemeData(fontFamily: 'Poppins');
 
     return base.copyWith(
       accentColor: SecondaryColor,
