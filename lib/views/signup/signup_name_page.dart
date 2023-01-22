@@ -6,7 +6,9 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:geteat/components/action_button.dart';
 import 'package:geteat/components/simple_input.dart';
 import 'package:geteat/components/simple_text.dart';
+import 'package:geteat/controllers/user_connection.dart';
 import 'package:geteat/models/user_profile_model.dart';
+import 'package:geteat/utils/phone_utils.dart';
 
 class SignupNamePage extends StatefulWidget {
   const SignupNamePage({Key? key}) : super(key: key);
@@ -16,16 +18,20 @@ class SignupNamePage extends StatefulWidget {
 }
 
 class _SignupNamePageState extends State<SignupNamePage> {
-  FirebaseAuth auth = FirebaseAuth.instance;
+  UserConnection _userConnection = UserConnection();
   final GlobalKey<FormState> _signupKey = GlobalKey<FormState>();
-  int _signupTentatives = 0;
-
+  int _signupTentatives = 1;
+  bool _emailExists = false;
+  bool _emailFirstverification = false;
+  bool _phoneExists = false;
+  bool _phoneFirstVerification = false;
   //focus
   final FocusNode _emailFocus = FocusNode();
   final FocusNode _nameFocus = FocusNode();
   final FocusNode _lastNameFocus = FocusNode();
 
   //validators
+  
   String? _validateName(String? value) {
     if (value == null || value.isEmpty) {
       return "Vous devez absolument entrer un nom";
@@ -36,23 +42,60 @@ class _SignupNamePageState extends State<SignupNamePage> {
     }
     return null;
   }
+  String? _lastEmailValue = "";
   String? _validateEmail(String? value) {
     print("coucou");
     if (value == null || value.isEmpty) {
+      _lastEmailValue = value;
       return "Veuillez saisir une adresse E-mail";
     }
     final nameExp = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
     if (!nameExp.hasMatch(value)) {
+      _lastEmailValue = value;
       return "Adresse E-mail incorrecte";
     }
-    
+    if(_lastEmailValue!=value){
+      _userConnection.isEmailExists(value).then((val){
+        _emailFirstverification = true;
+        
+          setState(() {
+            _emailExists=val;
+            print("send request mail");
+          });
+         
+      });
+    }  
+    if (_emailExists){
+      _lastEmailValue = value;
+      return "Cette addresse e-mail existe déjà.";
+    }
+    _lastEmailValue = value;
     return null;
   }
+  String? _lastPhoneValue = "";
   String? _validatePhoneNumber(String? value) {
     final phoneExp = RegExp(r'^\(0\)\d \d\d \d\d\ \d\d \d\d$');
     if (!phoneExp.hasMatch(value!)) {
+      _lastPhoneValue = value;
       return "Le numéro de téléphone n'est pas valide";
     }
+    if(_lastPhoneValue!=value){
+      print(PhoneUtils.trimePhone(value));
+      _userConnection.isPhoneExists(PhoneUtils.trimePhone(value)).then((val){
+        _phoneFirstVerification = true;
+          
+          setState(() {
+            _phoneExists = val;
+            print("send request phone");
+          });
+        
+      });
+    }  
+    if(_phoneExists) {
+      _lastPhoneValue = value;
+      return "ce numéro de téléphone existe déjà";
+    }
+    _lastPhoneValue = value;
     return null;
   }
   String? _validatePassword1(String? value) {
@@ -124,7 +167,7 @@ class _SignupNamePageState extends State<SignupNamePage> {
               type: "text",
               nextNode: _nameFocus,
               focusNode: _emailFocus,
-              validator: (val) {print("hey!");return _validateEmail(val);},
+              validator: (val) {return  _validateEmail(val);},
               onChange: (val) {
                 _email = val;
               },
@@ -182,30 +225,29 @@ class _SignupNamePageState extends State<SignupNamePage> {
                 action: () async {
                   
                   final form = _signupKey.currentState!;
-                      setState(() {
-                        _signupTentatives++;
-                      });
-                      
-                      if (!form.validate()) {
-                        /*_autoValidateModeIndex.value =
-                            AutovalidateMode.always.index;*/ // Start validating on every change.
-                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Veuillez corriger vos erreurs')));
-                      } else {
-                        form.save();
-                        //adapt phone number
-                        _phoneSignup = _phoneSignup.trim();
-                        _phoneSignup = _phoneSignup.replaceAll("(0)", "+33");
-                         _phoneSignup = _phoneSignup.replaceAll(" ", "");
-                        //TODO verification ----------------------
+                  setState(() {
+                    _signupTentatives++;
+                  });
+                  
+                  if (!form.validate()) {
+                    /*_autoValidateModeIndex.value =
+                        AutovalidateMode.always.index;*/ // Start validating on every change.
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Veuillez corriger vos erreurs')));
+                  } else {
+                    form.save();
+                    //adapt phone number
+                   _phoneSignup =  PhoneUtils.trimePhone(_phoneSignup);
+                    //TODO verification ----------------------
 
-                        
-                        
-                        UserProfileModel userProfile = UserProfileModel(_email, _phoneSignup, _password1, '');
-                        print(_phoneSignup);
-                        userProfile.userName = _name;
-                        Navigator.pushNamed(context, '/signup_code', arguments: userProfile);
-                        //_emailPassWordvalidator();
-                      }
+                    
+                    
+                    UserProfileModel userProfile = UserProfileModel(_email, _phoneSignup, _password1, '');
+                    print(_phoneSignup);
+                    userProfile.userName = _name;
+                    Navigator.pushNamed(context, '/signup_code', arguments: userProfile);
+                    //_emailPassWordvalidator();
+                  }
+                     
                 }
               ),
             ),

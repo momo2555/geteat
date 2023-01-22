@@ -108,4 +108,17 @@ class UserConnection {
     var methods = await _auth.fetchSignInMethodsForEmail(email);
     return methods.contains('password');
   }
+  Future<bool> isPhoneExists(String phone) async {
+    DocumentReference postRef =
+        fireStore.collection('phonemail').doc(phone);
+    //get user data
+    try {
+      DocumentSnapshot postSnapshot = (await postRef.get());
+      return postSnapshot.exists;
+    } catch (e) {
+      
+      return false;
+    }
+    
+  }
 }
