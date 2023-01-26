@@ -106,7 +106,10 @@ class _MainSignPageState extends State<MainSignPage> {
                         //connect the user
                         String phone = "+33" + _phoneSignin.replaceAll("(0)", "").replaceAll(" ", "");
                         print(phone);
-                        _userConnection.authentification(phone, _password);
+                        _userConnection.authentification(phone, _password).then((value) {
+                          if(value.uid == "" && value.email == "")
+                          Scaffold.of(context).showSnackBar(SnackBar(content: Text("Les identifiants que vous avez renseigné sont incorrectes")));
+                        });
                       }
                     },
                   ),

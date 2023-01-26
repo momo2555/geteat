@@ -59,7 +59,7 @@ class _ActionButtonState extends State<ActionButton> {
       },
       child: Text(widget.text ?? '',
           style:
-              TextStyle(color: widget.color ?? Theme.of(context).primaryColor, fontStyle:FontStyle.italic, fontWeight: FontWeight.w200, fontSize: 16), ),
+              TextStyle(color: widget.color ?? Theme.of(context).primaryColor, fontStyle: FontStyle.italic, fontWeight: FontWeight.w200, fontSize: 16), ),
       style: ButtonStyle(
           minimumSize: MaterialStateProperty.all(widget.expanded ?? false ? Size.fromHeight(50) : null),
           backgroundColor:

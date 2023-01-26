@@ -18,9 +18,11 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  
   UserConnection _userConnection = UserConnection();
   ProfileController _profileController = ProfileController();
   UserProfileModel? _userProfile;
+
   @override
   void initState()  {
     // TODO: implement initState
@@ -33,59 +35,61 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-          decoration: BoxDecoration(
-            color: Theme.of(context).primaryColorDark
-          ),
-          width: double.infinity,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(height: 100,),
-              Icon(Icons.person, size: 100, color: Theme.of(context).primaryColor,),
-              SizedBox(height: 5,),
-              SimpleText(
-                text: _userProfile?.userName ?? '',
-                thick: 9,
-                size: 24,
-              ),
-              SimpleText(
-                text: _userProfile?.phone ?? '',
-                size: 13,
-                thick: 9,
-                color: 1,
-                ),
-              SizedBox(height: 48,),
-            ],
-          ),
-        ),
-        Expanded(
-          child: Padding(
-            
-            padding: const EdgeInsets.all(16.0),
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              color: Theme.of(context).primaryColorDark
+            ),
+            width: double.infinity,
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(height: 30,),
-                SimpleText(text: "Informations personnelles", thick: 9,size: 16,),
-                SizedBox(height: 8),
-                ProfileListElement(action: (){}, title: "Nom et prénom", description: "Geniar Gashi"),
-                ProfileListElement(action: (){}, title: "Adresse e-mail", description: "geniar@gmail.com"),
-                ProfileListElement(action: (){}, title: "Numéro de téléphone", description: "+33 (0)6 12 34 56 78"),
-                ProfileListElement(action: (){}, title: "Mot de passe", description: "*******"),
-                SizedBox(height: 40,),
-                Center(child: ActionButton(text: "Déconnexion",action: (){_userConnection.logout();},),)
-                
+                SizedBox(height: 90,),
+                Icon(Icons.person, size: 100, color: Theme.of(context).primaryColor,),
+                SizedBox(height: 5,),
+                SimpleText(
+                  text: _userProfile?.userName ?? '',
+                  thick: 6,
+                  size: 24,
+                ),
+                SimpleText(
+                  text: _userProfile?.phone ?? '',
+                  size: 13,
+                  thick: 6,
+                  color: 1,
+                  ),
+                SizedBox(height: 38,),
               ],
             ),
           ),
-        )
-      ],
+          Container(
+            child: Padding(
+              
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: 30,),
+                  SimpleText(text: "Informations personnelles", thick: 9,size: 16,),
+                  SizedBox(height: 8),
+                  ProfileListElement(action: (){}, title: "Nom et prénom", description: _userProfile?.userName ?? "" ),
+                  ProfileListElement(action: (){}, title: "Adresse e-mail", description: _userProfile?.email ?? ""),
+                  ProfileListElement(action: (){}, title: "Numéro de téléphone", description: _userProfile?.phone ?? ""),
+                  ProfileListElement(action: (){}, title: "Mot de passe", description: "••••••••"),
+                  SizedBox(height: 40,),
+                  Center(child: ActionButton(text: "Déconnexion",action: (){_userConnection.logout();},),)
+                  
+                ],
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
 }

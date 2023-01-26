@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:geteat/components/restaurant_thumbnail.dart';
+import 'package:geteat/controllers/restaurant_controller.dart';
+import 'package:geteat/models/restaurant_model.dart';
 
 class RestaurantlistPage extends StatefulWidget {
   const RestaurantlistPage({Key? key}) : super(key: key);
@@ -12,19 +14,29 @@ class RestaurantlistPage extends StatefulWidget {
 }
 
 class _RestaurantlistPageState extends State<RestaurantlistPage> {
+  RestaurantController _restaurantController = RestaurantController();
   @override
   Widget build(BuildContext context) {
     return Container(
-      
-      child: ListView(
-        padding: EdgeInsets.symmetric(horizontal: 12.0),
-        children: [
-          SizedBox(height: 100,),
-          RestaurantThumbnail(image: "assets/images/resto_1.jpg", name : "POKE - Hawaiian Food"),
-          RestaurantThumbnail(image: "assets/images/resto_2.jpg", name : "FRENCHIE - French Tacos"),
-          RestaurantThumbnail(image: "assets/images/resto_3.jpg", name : "ITALIAN - Napolitan Pizza"),
-        ],
-      ),
+
+      child: StreamBuilder(
+        stream: _restaurantController.getAllRestaurants(),
+        builder: (context, snap){
+          if(snap.hasData) {
+            List<Widget> restaurantList = [SizedBox(height: 100,)];
+            List<RestaurantModel> restaurants = snap.data as List<RestaurantModel>;
+            for(RestaurantModel resto in restaurants) {
+              restaurantList.add(RestaurantThumbnail(restaurant: resto));
+            }
+            return ListView(
+              
+              children: restaurantList,
+            );
+          }
+          return Container();
+      }),
     );
+      
+    
   }
 }

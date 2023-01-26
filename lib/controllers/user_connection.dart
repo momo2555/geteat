@@ -26,7 +26,8 @@ class UserConnection {
   }
  
   Future<UserModel> authentification(phone, password) async {
-    UserCredential _userCredential;
+    try {
+      UserCredential _userCredential;
     
       //get first the email associated with the phone nuber
        //get the user phone reference
@@ -45,9 +46,13 @@ class UserConnection {
       UserModel _user = UserModel(email, password, userId);
       return _user;
     
-      //return a empty user
-      /*print("error");
-      return UserModel('', '', '');*/
+    } catch (e) {
+       //return a empty user
+      print("error");
+      return UserModel('', '', '', '');
+    }
+      
+     
     
   }
   void pocessPhone(phone, Function(UserModel) CodeCallBack, Function(PhoneAuthCredential, UserModel) CredentialCallback) async {
