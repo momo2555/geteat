@@ -69,7 +69,7 @@ class RestaurantController {
     DocumentSnapshot restaurantSnapshot = (await restaurantRef.get());
     restaurant = docToRestaurantModel(restaurantSnapshot);
     
-    
+    restaurant = await getImage(restaurant);
     return restaurant;
 
   }
@@ -81,29 +81,28 @@ class RestaurantController {
     restaurant.restaurantDescription = doc.get('restaurantDescription');
     restaurant.restaurantId = doc.id;
     restaurant.restaurantHours = doc.get('restaurantHours');
-    getImage(restaurant).then((value) => restaurant = value);
+    restaurant.restaurantImageName = doc.get('restaurantImageName');
+    
     
     return restaurant;
   }
 
   Future<RestaurantModel> getImage(RestaurantModel restaurant) async {
-    try {
-       List<File> imageFiles = [];
-    //download images
-    //get temp folder
-    String? imagesStorageName = restaurant.restaurantImageName;
     
-    
-    CacheStorageController cloudDownloader = CacheStorageController();
-    File fileImg = await cloudDownloader.downloadFromCloud('restaurants/', (imagesStorageName as String), LocalSaveMode.userDocuments);
-    imageFiles.add(fileImg);
-    restaurant.restaurantImage = imageFiles;
+       
+      //download images
+      //get temp
+      String? imagesStorageName = restaurant.restaurantImageName;
+      
+      
+      CacheStorageController cloudDownloader = CacheStorageController();
+      File fileImg = await cloudDownloader.downloadFromCloud('restaurants/', (imagesStorageName as String), LocalSaveMode.userDocuments);
+      
+      restaurant.restaurantImage = fileImg;
     
       
     return restaurant;
-    } catch (e) {
-      return restaurant;
-    }
+    
    
   }
 

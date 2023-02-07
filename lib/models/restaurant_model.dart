@@ -7,7 +7,7 @@ class RestaurantModel {
   String? _restaurantId;
   String? _restaurantName;
   String? _restaurantDescription;
-  List<double>? _restaurantHours;
+  List<dynamic>? _restaurantHours;
   String? _restaurantImageName;
   File? _restaurantImage;
   

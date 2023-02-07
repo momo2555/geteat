@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:geteat/controllers/user_connection.dart';
+import 'package:geteat/models/restaurant_model.dart';
 import 'package:geteat/models/user_profile_model.dart';
 import 'package:geteat/views/client_home_page.dart';
 import 'package:geteat/views/main_sign_page.dart';
@@ -70,7 +71,7 @@ class RouteGenerator {
       case '/client_home':
         return MaterialPageRoute(builder: (context) => const ClientHomepage());
       case '/restaurant':
-        return MaterialPageRoute(builder: (context) => const RestaurantPage());
+        return MaterialPageRoute(builder: (context) => RestaurantPage(restaurant: settings.arguments as RestaurantModel,),);
      /* case '/newPost/confirmation':
         return MaterialPageRoute(
             builder: (context) => const NewPostConfirmationPage());

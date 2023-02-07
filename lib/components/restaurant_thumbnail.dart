@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:geteat/components/simple_text.dart';
+import 'package:geteat/controllers/restaurant_controller.dart';
 import 'package:geteat/models/restaurant_model.dart';
 
 class RestaurantThumbnail extends StatefulWidget {
@@ -14,19 +15,38 @@ class RestaurantThumbnail extends StatefulWidget {
 }
 
 class _RestaurantThumbnailState extends State<RestaurantThumbnail> {
-  DecorationImage? _decorationImage() {
-    return DecorationImage(
-      image: AssetImage(widget.restaurant.restaurantImage),
-      fit: BoxFit.cover,
-      alignment: Alignment.center,
+  RestaurantController _restaurantController = RestaurantController();
+  
+  @override
+  void initState() {
+    // get imaqge
+    super.initState();
+    _restaurantController.getImage(widget.restaurant).then((value) {
+      setState(() {
+        
+        widget.restaurant.restaurantImage = value.restaurantImage;
+        print(value.restaurantImage);
+      });
+    }
     );
   }
-
+  DecorationImage? _decorationImage() {
+    if(widget.restaurant.restaurantImage != null){
+      return DecorationImage(
+        image: FileImage(widget.restaurant.restaurantImage) ,
+        fit: BoxFit.cover,
+        alignment: Alignment.center,
+      );
+    }else {
+      return null;
+    }
+    
+  }
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: (() {
-        Navigator.pushNamed(context, '/restaurant');
+        Navigator.pushNamed(context, '/restaurant', arguments: widget.restaurant);
       }),
       child: SizedBox(
         height: 220,
@@ -34,7 +54,7 @@ class _RestaurantThumbnailState extends State<RestaurantThumbnail> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Hero(
-              tag: widget.restaurant.restaurantName.trim(),
+              tag: widget.restaurant.restaurantId,
               child: Container(
                 height: 130,
                 clipBehavior: Clip.antiAlias,

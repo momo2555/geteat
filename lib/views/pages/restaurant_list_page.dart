@@ -22,7 +22,10 @@ class _RestaurantlistPageState extends State<RestaurantlistPage> {
       child: StreamBuilder(
         stream: _restaurantController.getAllRestaurants(),
         builder: (context, snap){
+          print("coucou");
+          print(snap);
           if(snap.hasData) {
+            print("y a des trucs");
             List<Widget> restaurantList = [SizedBox(height: 100,)];
             List<RestaurantModel> restaurants = snap.data as List<RestaurantModel>;
             for(RestaurantModel resto in restaurants) {

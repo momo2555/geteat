@@ -4,15 +4,27 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:geteat/components/menu_thumbnail.dart';
 import 'package:geteat/components/simple_close_button.dart';
+import 'package:geteat/models/restaurant_model.dart';
 
 class RestaurantPage extends StatefulWidget {
-  const RestaurantPage({Key? key}) : super(key: key);
-
+  const RestaurantPage({Key? key,required this.restaurant,}) : super(key: key);
+  final RestaurantModel restaurant;
   @override
   State<RestaurantPage> createState() => _RestaurantPageState();
 }
 
 class _RestaurantPageState extends State<RestaurantPage> {
+  DecorationImage? _decorationImage() {
+    if(widget.restaurant.restaurantImage != null){
+      return DecorationImage(
+        image: FileImage(widget.restaurant.restaurantImage) ,
+        fit: BoxFit.cover,
+        alignment: Alignment.center,
+      );
+    }else {
+      return null;
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,14 +41,12 @@ class _RestaurantPageState extends State<RestaurantPage> {
               Stack(
                 children: [
                   Hero(
-                    tag: "FRENCHIE - French Tacos".trim(),
+                    tag: widget.restaurant.restaurantId,
                     child: Container(
                       width: double.infinity,
                       height: 200,
                       decoration: BoxDecoration(
-                        image: DecorationImage(
-                            image: AssetImage('assets/images/resto_2.jpg'),
-                            fit: BoxFit.cover),
+                        image: _decorationImage(),
                       ),
                     ),
                   ),
