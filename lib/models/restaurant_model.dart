@@ -1,6 +1,7 @@
 import 'dart:core';
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class RestaurantModel {
@@ -10,6 +11,8 @@ class RestaurantModel {
   List<dynamic>? _restaurantHours;
   String? _restaurantImageName;
   File? _restaurantImage;
+  List<dynamic>? _restaurantMeals;
+
   
 
 
@@ -34,6 +37,9 @@ class RestaurantModel {
   set restaurantImageName(value) {
     _restaurantImageName = value;
   }
+  set restaurantMeals(value) {
+    _restaurantMeals = value;
+  }
 
   get restaurantId {
     return _restaurantId;
@@ -52,6 +58,9 @@ class RestaurantModel {
   }
   get restaurantImageName {
     return _restaurantImageName;
+  }
+  get restaurantMeals {
+    return _restaurantMeals;
   }
 
   dynamic toObject() {

@@ -4,10 +4,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geteat/components/restaurant_thumbnail.dart';
 import 'package:geteat/controllers/cache_storage_controller.dart';
 import 'package:geteat/controllers/user_connection.dart';
+import 'package:geteat/models/meal_model.dart';
 import 'package:geteat/models/restaurant_model.dart';
 import 'package:geteat/models/user_model.dart';
 
-class RestaurantController {
+class MealController {
   FirebaseFirestore fireStore = FirebaseFirestore.instance;
   UserConnection userConnection = UserConnection();
   //FirebaseStorage fireStorage = FirebaseStorage.instance;
@@ -32,11 +33,11 @@ class RestaurantController {
     
     return userProfile;
   }*/
-  void addRestaurant(RestaurantModel newRestaurant) async {
+  void addMeal(MealModel newMeal) async {
     UserModel user = await userConnection.UserConnected;
     //newPost.setPostUserId = user.getUid;
     //create a new document for the new post (auto generated uid)
-    DocumentReference ref = fireStore.collection('restaurants').doc();
+    DocumentReference ref = fireStore.collection('meals').doc();
     //uid of the post
     String uid = ref.id;
     //upload photos in the firestorage
@@ -56,63 +57,72 @@ class RestaurantController {
     newPost.setPostStorageImageNames = storageImageNames;*/
     
     //add the new post in the doc
-    ref.set(newRestaurant.toObject());
+    ref.set(newMeal.toObject());
   }
 
 
 
-  Future<RestaurantModel> getRestaurantById(String uid) async {
-    RestaurantModel restaurant = RestaurantModel();
-    DocumentReference restaurantRef =
-        fireStore.collection('restaurants').doc(uid);
+  Future<MealModel> getMealById(String mealId) async {
+    MealModel meal = MealModel();
+    DocumentReference mealRef =
+        fireStore.collection('meals').doc(mealId);
     //get user data
-    DocumentSnapshot restaurantSnapshot = (await restaurantRef.get());
-    restaurant = docToRestaurantModel(restaurantSnapshot);
+    DocumentSnapshot mealSnapshot = (await mealRef.get());
+    meal = docToMealModel(mealSnapshot);
     
-    //restaurant = await getImage(restaurant);
-    return restaurant;
+    meal = await getImage(meal);
+    return meal;
+
+  }
+   Future<MealModel> getMeal(DocumentReference mealRef) async {
+    MealModel meal = MealModel();
+    //get user data
+    DocumentSnapshot mealSnapshot = (await mealRef.get());
+    meal = docToMealModel(mealSnapshot);
+    
+    
+    return meal;
 
   }
 
-  RestaurantModel docToRestaurantModel(DocumentSnapshot doc) {
-    RestaurantModel restaurant = RestaurantModel();
-    restaurant.restaurantName = doc.get('restaurantName');
+  MealModel docToMealModel(DocumentSnapshot doc) {
+    MealModel meal = MealModel();
+    meal.mealName = doc.get('mealName');
     //post.setPostCurrentUserLike = postSnapshot.get('postCurrentUserLike');
-    restaurant.restaurantDescription = doc.get('restaurantDescription');
-    restaurant.restaurantId = doc.id;
-    restaurant.restaurantHours = doc.get('restaurantHours');
-    restaurant.restaurantImageName = doc.get('restaurantImageName');
-    restaurant.restaurantMeals = doc.get('restaurantMeals');
+    meal.mealDescription = doc.get('mealDescription');
+    meal.mealImageName = doc.get('mealImageName');
+    meal.mealId = doc.id;
+    //meal.mealPrice = doc.get('mealPrice');
     
-    
-    return restaurant;
+
+    return meal;
   }
 
-  Future<RestaurantModel> getImage(RestaurantModel restaurant) async {
+  Future<MealModel> getImage(MealModel meal) async {
     
        
       //download images
       //get temp
-      String? imagesStorageName = restaurant.restaurantImageName;
+      String? imagesStorageName = meal.mealImageName;
       
       
       CacheStorageController cloudDownloader = CacheStorageController();
-      File fileImg = await cloudDownloader.downloadFromCloud('restaurants/', (imagesStorageName as String), LocalSaveMode.userDocuments);
+      File fileImg = await cloudDownloader.downloadFromCloud('meals/', (imagesStorageName as String), LocalSaveMode.userDocuments);
       
-      restaurant.restaurantImage = fileImg;
+      meal.mealImage = fileImg;
     
       
-    return restaurant;
+    return meal;
     
    
   }
 
-  /*Stream<List<Future<RestaurantModel>>> converDocs(QueryDocumentSnapshot<Map<String, dynamic>> snapshots) async* {
-    List<RestaurantModel> posts = [];
+  /*Stream<List<Future<MeaelModel>>> converDocs(QueryDocumentSnapshot<Map<String, dynamic>> snapshots) async* {
+    List<MealModel> posts = [];
     
   }*/  // on part sur une autre stratégie
-  Stream<List<RestaurantModel>> getAllRestaurants()  {
-    return fireStore.collection('restaurants').limit(20).snapshots().map((event) => event.docs.map((e) =>  docToRestaurantModel(e)).toList() );
+  /*Stream<List<RestaurantModel>> getAllmeals()  {
+    return fireStore.collection('meals').limit(20).snapshots().map((event) => event.docs.map((e) =>  docToMealModel(e)).toList() );
     
-  }
+  }*/
 }

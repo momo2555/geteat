@@ -1,9 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:geteat/components/menu_thumbnail.dart';
+import 'package:geteat/components/meal_thumbnail.dart';
 import 'package:geteat/components/simple_close_button.dart';
+import 'package:geteat/controllers/meal_controller.dart';
+import 'package:geteat/models/meal_model.dart';
 import 'package:geteat/models/restaurant_model.dart';
 
 class RestaurantPage extends StatefulWidget {
@@ -14,6 +17,7 @@ class RestaurantPage extends StatefulWidget {
 }
 
 class _RestaurantPageState extends State<RestaurantPage> {
+  MealController _mealController = MealController();
   DecorationImage? _decorationImage() {
     if(widget.restaurant.restaurantImage != null){
       return DecorationImage(
@@ -28,6 +32,7 @@ class _RestaurantPageState extends State<RestaurantPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).primaryColorLight,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         toolbarHeight: 0,
@@ -57,16 +62,23 @@ class _RestaurantPageState extends State<RestaurantPage> {
                   ),
                 ],
               ),
-              MenuThumbnail(),
-              MenuThumbnail(),
-              MenuThumbnail(),
-              MenuThumbnail(),
-              MenuThumbnail(),
-              MenuThumbnail(),
-              MenuThumbnail(),
-              MenuThumbnail(),
-              MenuThumbnail(),
-              MenuThumbnail(),
+             Builder(builder: (context) {
+              List<Widget> meals = [];
+              for(DocumentReference ref in widget.restaurant.restaurantMeals) {
+                meals.add(FutureBuilder(
+                  future: _mealController.getMeal(ref),
+                  builder: (context, snapshot) {
+                  if(snapshot.hasData){
+                    print(snapshot.data);
+                    return MealThumbnail(meal: snapshot.data as MealModel);
+                  }
+                  return Container();
+                },));
+              }
+              return Column(
+                children: meals,
+              );
+             },)
             ],
           ),
         ),
