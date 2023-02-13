@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:geteat/components/edit_address_button.dart';
 import 'package:geteat/components/restaurant_thumbnail.dart';
 import 'package:geteat/controllers/restaurant_controller.dart';
 import 'package:geteat/models/restaurant_model.dart';
@@ -26,7 +27,7 @@ class _RestaurantlistPageState extends State<RestaurantlistPage> {
           print(snap);
           if(snap.hasData) {
             print("y a des trucs");
-            List<Widget> restaurantList = [SizedBox(height: 100,)];
+            List<Widget> restaurantList = [EditAddressButton()];
             List<RestaurantModel> restaurants = snap.data as List<RestaurantModel>;
             for(RestaurantModel resto in restaurants) {
               restaurantList.add(RestaurantThumbnail(restaurant: resto));
