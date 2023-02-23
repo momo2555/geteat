@@ -8,8 +8,8 @@ class MealModel {
   String? _mealDescription;
   String? _mealName;
   String? _mealImageName;
-  double? _mealPrice;
-  Map<String, dynamic>? _mealStruct;
+  num? _mealPrice;
+  List<dynamic>? _mealStruct;
   File? _mealImage;
    
    

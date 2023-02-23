@@ -75,7 +75,7 @@ class RouteGenerator {
       case '/restaurant':
         return MaterialPageRoute(builder: (context) => RestaurantPage(restaurant: settings.arguments as RestaurantModel,),);
       case '/meal':
-        return MaterialPageRoute(builder: (context) => MealPage(meal: settings.arguments as MealModel,),);
+        return MaterialPageRoute(builder: (context) => MealPage(meal: settings.arguments as MealModel),);
      /* case '/newPost/confirmation':
         return MaterialPageRoute(
             builder: (context) => const NewPostConfirmationPage());

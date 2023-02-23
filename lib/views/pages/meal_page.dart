@@ -10,6 +10,7 @@ import 'package:geteat/models/meal_model.dart';
 import 'package:geteat/themes/main_theme.dart';
 
 class MealPage extends StatefulWidget {
+
   const MealPage({
     Key? key,
     required this.meal,
@@ -21,6 +22,7 @@ class MealPage extends StatefulWidget {
 
 class _MealPageState extends State<MealPage> {
   int _lenght = 0;
+  List<Widget> _elements = [];
   DecorationImage? _decorationImage() {
     if(widget.meal.mealImage != null) {
       print(widget.meal.mealImage);
@@ -34,6 +36,15 @@ class _MealPageState extends State<MealPage> {
     }
   }
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+  for(Map<String, dynamic> element in widget.meal.mealStruct){
+    _elements.add(MealElements(elementData: element));
+  }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -121,7 +132,7 @@ class _MealPageState extends State<MealPage> {
                         thick: 6,
                       ),
                       SimpleText(
-                        text: "5.25€",
+                        text: widget.meal.mealPrice.toString() + "€",
                         size: 16,
                         color: 2,
                         thick: 6,
@@ -139,32 +150,11 @@ class _MealPageState extends State<MealPage> {
                   ),
                 ),
               ),
-              MealElements(elementData: {
-                "title": "Choisissez votre base",
-                "type": "radiolist",
-                "elements": [
-                  {"value": "Riz vinaingré", "price": "0"},
-                  {"value": "Carottes rappées", "price": "0"}
-                ]
-              }),
-              MealElements(elementData: {
-                "title": "Choisissez votre boisson",
-                "type": "checklist",
-                "elements": [
-                  {"value": "Coca-Cola", "price": "0"},
-                  {"value": "Fanta", "price": "0"},
-                  {"value": "Orangina", "price": "0"}
-                ]
-              }),
-              MealElements(elementData: {
-                "title": "Choisissez vos sauces",
-                "type": "multilist",
-                "elements": [
-                  {"value": "Harissa", "price": "0"},
-                  {"value": "Andalous", "price": "0"},
-                  {"value": "Samouraï", "price": "0"}
-                ]
-              }),
+              
+             Column(
+              children: _elements,
+             )
+              
             ],
           ),
         ),

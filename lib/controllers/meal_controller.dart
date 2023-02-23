@@ -91,8 +91,9 @@ class MealController {
     //post.setPostCurrentUserLike = postSnapshot.get('postCurrentUserLike');
     meal.mealDescription = doc.get('mealDescription');
     meal.mealImageName = doc.get('mealImageName');
+    meal.mealStruct = doc.get('mealStruct');
     meal.mealId = doc.id;
-    //meal.mealPrice = doc.get('mealPrice');
+    meal.mealPrice = doc.get('mealPrice');
     
 
     return meal;
