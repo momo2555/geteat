@@ -20,6 +20,9 @@ class _EditAddressButtonState extends State<EditAddressButton> {
         children: [
           const SizedBox(height: 40),
           GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(context, "/search_address");
+            },
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
