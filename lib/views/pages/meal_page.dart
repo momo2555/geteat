@@ -42,7 +42,7 @@ class _MealPageState extends State<MealPage> {
     super.initState();
 
   for(Map<String, dynamic> element in widget.meal.mealStruct){
-    _elements.add(MealElements(elementData: element));
+    _elements.add(MealElements(elementData: element, onChange: (c, s) {}));
   }
   }
   @override
