@@ -5,15 +5,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:geteat/components/simple_text.dart';
+import 'package:collection/collection.dart';
 
 class MealElements extends StatefulWidget {
   const MealElements({
     Key? key,
     required this.elementData,
     required this.onChange,
+    this.onError,
   }) : super(key: key);
   final Map<String, dynamic> elementData;
   final Function(List<dynamic>, num) onChange;
+  final Function(String)? onError;
   @override
   State<MealElements> createState() => _MealElementsState();
 }
@@ -23,13 +26,16 @@ class _MealElementsState extends State<MealElements> {
   String _title = "";
   String _type = "";
   List<Widget> _elementList = [];
-  late int _radioValues = 3;
+  late int _radioValues = -1;
   List<bool> _checkValues = [];
   late List<int> _multiValues = [];
   List<num> _prices = [];
   String _textValue = "";
   List<dynamic> _options = [];
   num _totalPrice = 0.0;
+  num _max = 0;
+  num _min = 0;
+  String _error = "";
   
   void computeTotalPriceCheck() {
     _totalPrice = 0.0;
@@ -39,6 +45,13 @@ class _MealElementsState extends State<MealElements> {
         _totalPrice+=price;
       }
     }
+  }
+  int totalChecked() {
+    int total = 0;
+    for(bool checked in _checkValues) {
+      if(checked) total++;
+    }
+    return total;
   }
   void computeTotalPriceMulti() {
     _totalPrice = 0.0;
@@ -73,7 +86,10 @@ class _MealElementsState extends State<MealElements> {
             icon: Icon(Icons.add_circle_outline),
             onPressed: () {
               setState(() {
-                _multiValues[id]=_multiValues[id]+1;
+                _multiValues[id]=(_multiValues[id]+1);
+                if(_max > 0 && _multiValues[id] > _max) {
+                  _multiValues[id] = _max.round();
+                }
                 computeTotalPriceMulti();
                 widget.onChange(_options, _totalPrice);
               });
@@ -145,7 +161,9 @@ class _MealElementsState extends State<MealElements> {
             value: _checkValues[id],
             onChanged: (val) {
               setState(() {
-                _checkValues[id] = val!;
+                if (!(_max > 0 && totalChecked() >= _max && val!)) {
+                  _checkValues[id] = val!;
+                }
                 computeTotalPriceCheck();
                 widget.onChange(_options, _totalPrice);
               });
@@ -157,7 +175,33 @@ class _MealElementsState extends State<MealElements> {
   }
 
   Widget _titleElement(title) {
+    Widget indication = Container();
+    if (_type == "radiolist") {
+      indication = SimpleText(text: "Obligatoire", color: 2, size: 12,);
+    }else if (_type == "checklist") {
+      String topText = "";
+      if(_min>0){
+        topText += "min ${_min}, "; 
+      }
+      if(_max>0){
+        topText += "max ${_max} "; 
+      }
+      if(topText!=""){
+        indication = SimpleText(text: topText, color: 2, size: 12,);
+      }
+      
+    }else if (_type == "multilist") {
+      String topText = "";
+      if(_max>0){
+        topText += "max ${_max}"; 
+      }
+      if(topText!=""){
+        indication = SimpleText(text: topText, color: 2, size: 12,);
+      }
+      
+    }
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         SimpleText(
           text: title,
@@ -165,8 +209,34 @@ class _MealElementsState extends State<MealElements> {
           size: 14,
           color: 2,
         ),
+        indication
       ],
     );
+  }
+
+  Widget _errorElement() {
+    
+    if(_type == "radiolist" && _radioValues==-1) {
+      _error = "Veuillez sélectionner une option";
+    }else if (_type == "checklist"){
+      List<int> checked = _checkValues.map((e) {return e?1:0;}).toList();
+      if(_min > 0 && checked.sum < _min) {
+        print(checked.sum);
+        _error = "Il faut choisir au minimum ${_min} option"; 
+      }else {
+        _error = "";
+      }
+    }else {
+      _error = "";
+    }
+    if(widget.onError != null) {
+      widget.onError!(_error);
+    }
+    if(_error!="") {
+      return SimpleText(text: _error, color: 4, thick: 8,);
+    }else{
+      return Container();
+    }
   }
 
   @override
@@ -178,6 +248,13 @@ class _MealElementsState extends State<MealElements> {
           padding: EdgeInsets.fromLTRB(16, 18, 16, 18),
           child: Builder(builder: ((context) {
             _elementList = [];
+            _prices = [];
+            if (widget.elementData.containsKey("min")) {
+              _min = widget.elementData["min"];
+            }
+            if (widget.elementData.containsKey("max")) {
+              _max = widget.elementData["max"];
+            }
             if (widget.elementData.containsKey("type")) {
               _type = widget.elementData["type"];
             }
@@ -187,9 +264,6 @@ class _MealElementsState extends State<MealElements> {
             }
             if (widget.elementData.containsKey("elements")) {
               int index = 0;
-              _elementList = [];
-              _prices = [];
-
               for (Map<String, dynamic> el in widget.elementData["elements"]) {
                 
                 if (_type == "checklist") {
@@ -210,6 +284,7 @@ class _MealElementsState extends State<MealElements> {
                 }
                 index++;
               }
+              _elementList.add(_errorElement());
               _reload++;
               return Column(children: _elementList);
             }else {

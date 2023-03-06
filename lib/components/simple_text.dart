@@ -42,7 +42,7 @@ class _SimpleTextState extends State<SimpleText> {
   @override
   Widget build(BuildContext context) {
     _color = Theme.of(context).primaryColorLight;
-    List<Color> colors = [Theme.of(context).primaryColorLight,Theme.of(context).primaryColor, Theme.of(context).primaryColorDark ];
+    List<Color> colors = [Theme.of(context).primaryColorLight,Theme.of(context).primaryColor, Theme.of(context).primaryColorDark, Color.fromARGB(255, 124, 124, 124), Colors.red ];
     _color = colors[widget.color??0];
     return Text(widget.text, 
       style: TextStyle(
