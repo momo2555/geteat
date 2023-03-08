@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -21,8 +22,13 @@ class MealPage extends StatefulWidget {
 }
 
 class _MealPageState extends State<MealPage> {
-  int _lenght = 0;
+  bool init = false;
+  int _lenght = 1;
   List<Widget> _elements = [];
+  List<num> _elementPrices = [];
+  List<String> _elementErrors = [];
+  List<Map<String, dynamic>> _elementOptions = [];
+  num _totalPrice = 0;
   DecorationImage? _decorationImage() {
     if(widget.meal.mealImage != null) {
       print(widget.meal.mealImage);
@@ -35,18 +41,41 @@ class _MealPageState extends State<MealPage> {
       return null;
     }
   }
-
+  void _computePrice() {
+    _totalPrice = widget.meal.mealPrice;
+    for(num p in _elementPrices) {
+      _totalPrice+=p;
+    }
+  }
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-
-  for(Map<String, dynamic> element in widget.meal.mealStruct){
-    _elements.add(MealElements(elementData: element, onChange: (c, s) {}));
-  }
+    
   }
   @override
   Widget build(BuildContext context) {
+    if(!init){
+      _totalPrice = widget.meal.mealPrice;
+      int elIndex = 0;
+      for(Map<String, dynamic> element in widget.meal.mealStruct){
+        _elementPrices.add(0);
+        _elementErrors.add("");
+        _elementOptions.add({});
+        int id = _elements.length;
+        _elements.add(MealElements(elementData: element, onChange: (options, price) {
+          //print("total=${price}");
+          _elementPrices[id] = price; 
+          setState(() {
+              
+            _computePrice();
+          });
+        }),);
+        elIndex++;
+      }
+      init=true;
+    }
+    
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 241, 241, 241),
       appBar: AppBar(
@@ -67,7 +96,12 @@ class _MealPageState extends State<MealPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     IconButton(
-                        onPressed: (() {}),
+                        onPressed: (() {
+                          setState(() {
+                            if(_lenght>1)_lenght--;
+                          });
+                          
+                        }),
                         icon: Icon(Icons.do_not_disturb_on_outlined)),
                     SimpleText(
                       text: '${_lenght}',
@@ -76,11 +110,16 @@ class _MealPageState extends State<MealPage> {
                       size: 15,
                     ),
                     IconButton(
-                        onPressed: () {}, icon: Icon(Icons.add_circle_outline))
+                        onPressed: () {
+                          setState(() {
+                            _lenght++;
+                          });
+                        }, icon: Icon(Icons.add_circle_outline))
                   ],
                 ),
                 ActionButton(
-                  text: 'Ajouter ${_lenght} au panier - ',
+                  
+                  text: 'Ajouter ${_lenght} au panier - ${(_totalPrice * _lenght).toStringAsFixed(2)}€',
                   color: Theme.of(context).primaryColor,
                   filled: true,
                   hasBorder: true,
