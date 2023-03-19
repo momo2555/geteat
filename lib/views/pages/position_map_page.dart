@@ -55,7 +55,7 @@ class _PositionMapPageState extends State<PositionMapPage> {
     // TODO: implement initState
 
     super.initState();
-    SchedulerBinding.instance?.addPostFrameCallback((_) {
+    SchedulerBinding.instance.addPostFrameCallback((_) {
       rootBundle.loadString("assets/style/map.json").then((string) {
         _mapStyle = string;
       });

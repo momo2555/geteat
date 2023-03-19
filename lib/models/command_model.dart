@@ -1,73 +1,77 @@
 import 'dart:core';
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:geteat/models/sub_command_model.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class CommandModel {
-  String? _mealId;
-  String? _mealDescription;
-  String? _mealName;
-  String? _mealImageName;
-  num? _mealPrice;
-  List<dynamic>? _mealStruct;
-  File? _mealImage;
+  GeoPoint? _commandPosition = const GeoPoint(0, 0);
+  Timestamp? _commandDate = Timestamp(0, 0);
+  num? _commandNumber = 0;
+  String? _commandStatus = "";
+  num? _commandTotalPrice = 0;
+  String? _commandUserId = "";
+
+  List<SubCommandModel>? _subCommands = [];
    
    
   CommandModel() : super();
 
-  set mealId(value) {
-    _mealId = value;
+  set commandPosition(value) {
+    _commandPosition = value;
   }
-  set mealName(value) {
-    _mealName = value;
+  set commandDate(value) {
+    _commandDate = value;
   }
-  set mealDescription(value) {
-    _mealDescription = value;
+  set commandNumber(value) {
+    _commandNumber = value;
   }
-  set mealPrice(value) {
-    _mealPrice = value;
+  set commandStatus(value) {
+    _commandStatus = value;
   }
-  set mealImage(value) {
-    _mealImage = value;
+  set commandTotalPrice(value) {
+    _commandTotalPrice = value;
   }
-  set mealImageName(value) {
-    _mealImageName = value;
+  set commandUserId(value) {
+    _commandUserId = value;
   }
-  set mealStruct(value) {
-    _mealStruct = value;
-  }
+ 
 
 
-  get mealId {
-    return _mealId;
+  get commandPosition {
+    return _commandPosition;
   }
-  get mealName {
-    return _mealName;
+  get commandDate {
+    return _commandDate;
   }
-  get mealDescription {
-    return _mealDescription;
+  get commandNumber {
+    return _commandNumber;
   }
-  get mealPrice {
-    return _mealPrice;
+  get commandStatus {
+    return _commandStatus;
   }
-  get mealImage {
-    return _mealImage;
+  get commandTotalPrice {
+    return _commandTotalPrice;
   }
-  get mealImageName {
-    return _mealImageName;
+  get commandUserId {
+    return _commandUserId;
   }
-  get mealStruct {
-    return _mealStruct;
-  }
+ 
+ void addSubCommand(SubCommandModel subCommand) {
+  _subCommands?.add(subCommand);
+ }
 
 
   dynamic toObject() {
     return {
-      'mealName' : _mealName,
-      'mealtDescription' : _mealDescription,
-      'mealPrice' : _mealPrice,
-      'mealImageName' : _mealImageName,
-      'mealStruct' : _mealStruct, 
+      'commandPosition' : commandPosition,
+      'commandDate' : _commandDate,
+      'commandNumber' : _commandNumber,
+      'commandStatus' : _commandStatus,
+      'commandTotalPrice' : commandTotalPrice, 
+      'commandUserId' : _commandUserId,
     };
   }
 
