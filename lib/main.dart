@@ -7,6 +7,7 @@ import 'package:geteat/models/user_profile_model.dart';
 import 'package:geteat/views/client_home_page.dart';
 import 'package:geteat/views/main_sign_page.dart';
 import 'package:geteat/views/pages/meal_page.dart';
+import 'package:geteat/views/pages/position_map_page.dart';
 import 'package:geteat/views/pages/restaurant_page.dart';
 import 'package:geteat/views/pages/search_address_page.dart';
 import 'package:geteat/views/pages/search_address_result_page.dart';
@@ -82,6 +83,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (context) => SearchAddressPage(),);
       case '/search_address_result':
         return MaterialPageRoute(builder: (context) => SearchAddressResultPage(),);
+      case '/position_map':
+        return MaterialPageRoute(builder: (context) => PositionMapPage(),);
      /* case '/newPost/confirmation':
         return MaterialPageRoute(
             builder: (context) => const NewPostConfirmationPage());

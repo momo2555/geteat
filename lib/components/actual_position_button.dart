@@ -14,32 +14,37 @@ class ActualPositionButton extends StatefulWidget {
 class _ActualPositionButtonState extends State<ActualPositionButton> {
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Row(
-          children: [
-            Icon(Icons.near_me_rounded, color: Theme.of(context).primaryColor, size: 30,),
-            Padding(
-              padding: const EdgeInsets.only(left: 23),
-              child: Column(
-                children: [
-                  SimpleText(
-                    text: "Ma position actuelle",
-                    thick: 5,
-                  ),
-                  SimpleText(
-                    text: "adress blablablabla",
-                    thick: 4,
-                    color: 1,
-                  )
-                ],
+    return GestureDetector(
+      onTap: () {
+        Navigator.pushNamed(context, "/position_map");
+      },
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
+            children: [
+              Icon(Icons.near_me_rounded, color: Theme.of(context).primaryColor, size: 30,),
+              Padding(
+                padding: const EdgeInsets.only(left: 23),
+                child: Column(
+                  children: [
+                    SimpleText(
+                      text: "Ma position actuelle",
+                      thick: 5,
+                    ),
+                    SimpleText(
+                      text: "adresse blablablabla",
+                      thick: 4,
+                      color: 1,
+                    )
+                  ],
+                ),
               ),
-            ),
-          ],
-        ),
-        Icon(Icons.navigate_next, color: Theme.of(context).primaryColorLight)
-      ],
+            ],
+          ),
+          Icon(Icons.navigate_next, color: Theme.of(context).primaryColorLight)
+        ],
+      ),
     );
   }
 }
