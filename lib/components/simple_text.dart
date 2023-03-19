@@ -46,6 +46,7 @@ class _SimpleTextState extends State<SimpleText> {
     List<Color> colors = [Theme.of(context).primaryColorLight,Theme.of(context).primaryColor, Theme.of(context).primaryColorDark, Color.fromARGB(255, 124, 124, 124), Colors.red ];
     _color = colors[widget.color??0];
     return Text(widget.text, 
+      overflow: TextOverflow.ellipsis,
       style: TextStyle(
         color: _color ?? Theme.of(context).primaryColorLight,
         fontWeight: _thick,

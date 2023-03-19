@@ -68,7 +68,7 @@ class _SearchAddressBarState extends State<SearchAddressBar> {
   Widget _searchDynamic() {
     return TextFormField(
       //textAlign: TextAlign.center,
-
+      autofocus: true,
       style: TextStyle(color: Theme.of(context).primaryColorLight),
       decoration: _decoration(),
       onChanged: (val) async {
@@ -79,7 +79,7 @@ class _SearchAddressBarState extends State<SearchAddressBar> {
         }
          
       },
-
+      
       onSaved: (value) {},
     );
   }

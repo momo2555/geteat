@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:geteat/components/simple_text.dart';
+import 'package:geteat/utils/global_utils.dart';
 
 class ActualPositionButton extends StatefulWidget {
   const ActualPositionButton({Key? key}) : super(key: key);
@@ -23,7 +24,11 @@ class _ActualPositionButtonState extends State<ActualPositionButton> {
         children: [
           Row(
             children: [
-              Icon(Icons.near_me_rounded, color: Theme.of(context).primaryColor, size: 30,),
+              Icon(
+                Icons.near_me_rounded,
+                color: Theme.of(context).primaryColor,
+                size: 30,
+              ),
               Padding(
                 padding: const EdgeInsets.only(left: 23),
                 child: Column(
@@ -32,11 +37,16 @@ class _ActualPositionButtonState extends State<ActualPositionButton> {
                       text: "Ma position actuelle",
                       thick: 5,
                     ),
-                    SimpleText(
-                      text: "adresse blablablabla",
-                      thick: 4,
-                      color: 1,
-                    )
+                    ValueListenableBuilder(
+                      valueListenable: Globals.userAddress,
+                      builder: (context, String value, widget) {
+                        return SimpleText(
+                          text: value,
+                          thick: 4,
+                          color: 1,
+                        );
+                      },
+                    ),
                   ],
                 ),
               ),

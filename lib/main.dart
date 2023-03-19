@@ -1,9 +1,9 @@
-
 import 'package:flutter/material.dart';
 import 'package:geteat/controllers/user_connection.dart';
 import 'package:geteat/models/meal_model.dart';
 import 'package:geteat/models/restaurant_model.dart';
 import 'package:geteat/models/user_profile_model.dart';
+import 'package:geteat/utils/global_utils.dart';
 import 'package:geteat/views/client_home_page.dart';
 import 'package:geteat/views/main_sign_page.dart';
 import 'package:geteat/views/pages/meal_page.dart';
@@ -66,7 +66,8 @@ class RouteGenerator {
                    
                     return Container();
                   },
-                ));
+                )
+              );
       case '/signup_code':
         return MaterialPageRoute(builder: (context) =>  SignupCodePage(user: settings.arguments as UserProfileModel,));
       case '/signup_name':

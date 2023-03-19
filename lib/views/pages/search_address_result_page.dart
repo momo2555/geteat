@@ -31,6 +31,7 @@ class _SearchAddressResultPageState extends State<SearchAddressResultPage> {
           Builder(builder: ((context) {
             if(_predictions!=null) {
               return Column(children: 
+              
                 _predictions!.map((e) => AddressResult(address: e["description"])).toList()
               ,);
             }else{
