@@ -16,7 +16,7 @@ class MealElements extends StatefulWidget {
     this.onError,
   }) : super(key: key);
   final Map<String, dynamic> elementData;
-  final Function(List<dynamic>, num) onChange;
+  final Function(Map<String, dynamic>, num) onChange;
   final Function(String)? onError;
   @override
   State<MealElements> createState() => _MealElementsState();
@@ -27,18 +27,22 @@ class _MealElementsState extends State<MealElements> {
   String _title = "";
   String _type = "";
   List<Widget> _elementList = [];
+  List<String> _elementNames = [];
   late int _radioValues = -1;
   List<bool> _checkValues = [];
   late List<int> _multiValues = [];
   List<num> _prices = [];
   String _textValue = "";
-  List<dynamic> _options = [];
+  Map<String, dynamic> _options = {
+    "value" : "",
+    "contents" : [],
+  };
   num _totalPrice = 0.0;
   num _max = 0;
   num _min = 0;
   String _error = "";
 
-  void computeTotalPriceCheck() {
+  void _computeTotalPriceCheck() {
     _totalPrice = 0.0;
     int i = 0;
     for (num price in _prices) {
@@ -48,8 +52,33 @@ class _MealElementsState extends State<MealElements> {
       i++;
     }
   }
-
-  int totalChecked() {
+  void _updateOptions() {
+    _options["value"] = _title;
+    _options["contents"] = [];
+    if (_type == "multilist") {
+       int i = 0;
+      for(int val in _multiValues) {
+        if (val > 0)  {
+          _options["contents"].add("${_elementNames[i]} x$val");
+        }
+      }
+    }else if (_type == "checklist") {
+      int i = 0;
+      for(bool val in _checkValues) {
+        if (val)  {
+          _options["contents"].add(_elementNames[i]);
+        }
+      }
+    }else if (_type == "radiolist") {
+      if (_radioValues > -1) {
+        _options["contents"].add(_elementNames[_radioValues]);
+      }
+    }else if (_type == "text") {
+      _options["contents"].add(_textValue);
+    }
+    
+  }
+  int _totalChecked() {
     int total = 0;
     for (bool checked in _checkValues) {
       if (checked) total++;
@@ -57,7 +86,7 @@ class _MealElementsState extends State<MealElements> {
     return total;
   }
 
-  void computeTotalPriceMulti() {
+  void _computeTotalPriceMulti() {
     _totalPrice = 0.0;
     int i = 0;
     for (num price in _prices) {
@@ -71,19 +100,20 @@ class _MealElementsState extends State<MealElements> {
     if (price > 0) strPrice = "(${price.toStringAsFixed(2)}€)";
 
     List<Widget> rightEl = [];
-    if (_multiValues[id] > 0)
+    if (_multiValues[id] > 0){
       rightEl.add(
         IconButton(
           icon: Icon(Icons.do_not_disturb_on),
           onPressed: () {
+            _updateOptions();
             setState(() {
               _multiValues[id] = _multiValues[id] - 1;
-              computeTotalPriceMulti();
+              _computeTotalPriceMulti();
               widget.onChange(_options, _totalPrice);
             });
           },
         ),
-      );
+      );}
     rightEl.add(SimpleText(
       text: _multiValues[id].toString(),
       color: 1,
@@ -91,19 +121,19 @@ class _MealElementsState extends State<MealElements> {
     rightEl.add(IconButton(
       icon: Icon(Icons.add_circle_outline),
       onPressed: () {
+        _updateOptions();
         setState(() {
           _multiValues[id] = (_multiValues[id] + 1);
           if (_max > 0 && _multiValues[id] > _max) {
             _multiValues[id] = _max.round();
           }
-          computeTotalPriceMulti();
+          _computeTotalPriceMulti();
           widget.onChange(_options, _totalPrice);
         });
       },
     ));
 
-    return Container(
-      child: Row(
+    return Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           SimpleText(
@@ -114,15 +144,13 @@ class _MealElementsState extends State<MealElements> {
             children: rightEl,
           )
         ],
-      ),
-    );
+      );
   }
 
   Widget _radioElement(value, id, price) {
     String strPrice = "";
     if (price > 0) strPrice = "(${price.toStringAsFixed(2)}€)";
-    return Container(
-        child: Row(
+    return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         SimpleText(
@@ -133,6 +161,7 @@ class _MealElementsState extends State<MealElements> {
           value: id,
           groupValue: _radioValues,
           onChanged: (int? val) {
+            _updateOptions();
             setState(
               () {
                 _radioValues = val!;
@@ -143,7 +172,7 @@ class _MealElementsState extends State<MealElements> {
           },
         ),
       ],
-    ));
+    );
   }
 
   Widget _checkElement(value, id, price) {
@@ -161,11 +190,12 @@ class _MealElementsState extends State<MealElements> {
           Checkbox(
             value: _checkValues[id],
             onChanged: (val) {
+              _updateOptions();
               setState(() {
-                if (!(_max > 0 && totalChecked() >= _max && val!)) {
+                if (!(_max > 0 && _totalChecked() >= _max && val!)) {
                   _checkValues[id] = val!;
                 }
-                computeTotalPriceCheck();
+                _computeTotalPriceCheck();
                 widget.onChange(_options, _totalPrice);
               });
             },
@@ -178,7 +208,7 @@ class _MealElementsState extends State<MealElements> {
   Widget _titleElement(title) {
     Widget indication = Container();
     if (_type == "radiolist") {
-      indication = SimpleText(
+      indication = const SimpleText(
         text: "Obligatoire",
         color: 2,
         size: 12,
@@ -186,10 +216,10 @@ class _MealElementsState extends State<MealElements> {
     } else if (_type == "checklist") {
       String topText = "";
       if (_min > 0) {
-        topText += "min ${_min}, ";
+        topText += "min $_min, ";
       }
       if (_max > 0) {
-        topText += "max ${_max} ";
+        topText += "max $_max ";
       }
       if (topText != "") {
         indication = SimpleText(
@@ -264,6 +294,7 @@ class _MealElementsState extends State<MealElements> {
           padding: EdgeInsets.fromLTRB(16, 18, 16, 18),
           child: Builder(builder: ((context) {
             _elementList = [];
+            _elementNames = [];
             _prices = [];
             if (widget.elementData.containsKey("min")) {
               _min = widget.elementData["min"];
@@ -297,16 +328,19 @@ class _MealElementsState extends State<MealElements> {
                   _prices.add(el["price"]);
                   _elementList
                       .add(_checkElement(el["value"], index, el["price"]));
+                  _elementNames.add(el["value"]);
                 } else if (_type == "radiolist") {
                   // _radioValues = 0;
                   _prices.add(el["price"]);
                   _elementList
                       .add(_radioElement(el["value"], index, el["price"]));
+                  _elementNames.add(el["value"]);
                 } else if (_type == "multilist") {
                   if (_reload == 0) _multiValues.add(0);
                   _prices.add(el["price"]);
                   _elementList
                       .add(_multiElement(el["value"], index, el["price"]));
+                  _elementNames.add(el["value"]);
                 }
                 index++;
               }
