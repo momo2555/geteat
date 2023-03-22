@@ -42,7 +42,7 @@ class _AddressResultState extends State<AddressResult> {
           List<num> pos = [position.latitude, position.longitude];
           _locationTools.updatePosition(pos);
         });
-        Navigator.pop(context);
+        Globals.goBack(context);
         
       },
       child: Container(

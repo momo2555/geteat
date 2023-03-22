@@ -14,10 +14,11 @@ class CommandModel {
   num? _commandTotalPrice = 0;
   String? _commandUserId = "";
 
-  List<SubCommandModel>? _subCommands = [];
+  List<SubCommandModel> _subCommands = [];
    
    
   CommandModel() : super();
+  
 
   set commandPosition(value) {
     _commandPosition = value;
@@ -59,10 +60,15 @@ class CommandModel {
     return _commandUserId;
   }
  
- void addSubCommand(SubCommandModel subCommand) {
-  _subCommands?.add(subCommand);
- }
-
+  void addSubCommand(SubCommandModel subCommand) {
+    _subCommands.add(subCommand);
+  }
+  void updateCommade(SubCommandModel subCommand, int index){
+    _subCommands[index] = subCommand;
+  }
+  SubCommandModel? getCommand(SubCommandModel subCommand, int index) {
+    return _subCommands[index];
+  }
 
   dynamic toObject() {
     return {

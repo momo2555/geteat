@@ -7,8 +7,11 @@ import 'package:geteat/components/action_button.dart';
 import 'package:geteat/components/meal_elements.dart';
 import 'package:geteat/components/simple_close_button.dart';
 import 'package:geteat/components/simple_text.dart';
+import 'package:geteat/models/command_model.dart';
 import 'package:geteat/models/meal_model.dart';
+import 'package:geteat/models/sub_command_model.dart';
 import 'package:geteat/themes/main_theme.dart';
+import 'package:geteat/utils/global_utils.dart';
 
 class MealPage extends StatefulWidget {
 
@@ -22,13 +25,13 @@ class MealPage extends StatefulWidget {
 }
 
 class _MealPageState extends State<MealPage> {
-  bool init = false;
-  int _lenght = 1;
+  bool _init = false;
   List<Widget> _elements = [];
   List<num> _elementPrices = [];
   List<String> _elementErrors = [];
   List<Map<String, dynamic>> _elementOptions = [];
-  num _totalPrice = 0;
+  SubCommandModel _command = SubCommandModel();
+  ///num _totalPrice = 0;
   DecorationImage? _decorationImage() {
     if(widget.meal.mealImage != null) {
       print(widget.meal.mealImage);
@@ -42,9 +45,10 @@ class _MealPageState extends State<MealPage> {
     }
   }
   void _computePrice() {
-    _totalPrice = widget.meal.mealPrice;
+    //_totalPrice = widget.meal.mealPrice;
+    _command.subCommandTotalPrice = widget.meal.mealPrice;
     for(num p in _elementPrices) {
-      _totalPrice+=p;
+      _command.subCommandTotalPrice+=p;
     }
   }
   @override
@@ -55,8 +59,8 @@ class _MealPageState extends State<MealPage> {
   }
   @override
   Widget build(BuildContext context) {
-    if(!init){
-      _totalPrice = widget.meal.mealPrice;
+    if(!_init){
+      _command.subCommandTotalPrice = widget.meal.mealPrice;
       int elIndex = 0;
       for(Map<String, dynamic> element in widget.meal.mealStruct){
         _elementPrices.add(0);
@@ -67,13 +71,12 @@ class _MealPageState extends State<MealPage> {
           //print("total=${price}");
           _elementPrices[id] = price; 
           setState(() {
-              
             _computePrice();
           });
         }),);
         elIndex++;
       }
-      init=true;
+      _init=true;
     }
     
     return Scaffold(
@@ -98,13 +101,13 @@ class _MealPageState extends State<MealPage> {
                     IconButton(
                         onPressed: (() {
                           setState(() {
-                            if(_lenght>1)_lenght--;
+                            if(_command.subCommandLength>1)_command.subCommandLength--;
                           });
                           
                         }),
                         icon: Icon(Icons.do_not_disturb_on_outlined)),
                     SimpleText(
-                      text: '${_lenght}',
+                      text: '${_command.subCommandLength}',
                       color: 2,
                       thick: 7,
                       size: 15,
@@ -112,19 +115,22 @@ class _MealPageState extends State<MealPage> {
                     IconButton(
                         onPressed: () {
                           setState(() {
-                            _lenght++;
+                            _command.subCommandLength++;
                           });
                         }, icon: Icon(Icons.add_circle_outline))
                   ],
                 ),
                 ActionButton(
                   
-                  text: 'Ajouter ${_lenght} au panier - ${(_totalPrice * _lenght).toStringAsFixed(2)}€',
+                  text: 'Ajouter ${_command.subCommandLength} au panier - ${(_command.subCommandTotalPrice * _command.subCommandLength).toStringAsFixed(2)}€',
                   color: Theme.of(context).primaryColor,
                   filled: true,
                   hasBorder: true,
                   expanded: true,
-                  action: () {},
+                  action: () {
+                     Globals.goBack(context);
+                     Globals.goToKart.value = true;
+                  },
                 ),
               ],
             ),

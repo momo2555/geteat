@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/widgets.dart';
+import 'package:geteat/utils/global_utils.dart';
 
 class SimpleCloseButton extends StatefulWidget {
   const SimpleCloseButton({Key? key}) : super(key: key);
@@ -24,7 +25,7 @@ class _SimpleCloseButtonState extends State<SimpleCloseButton> {
       child: CloseButton(
         color: Theme.of(context).backgroundColor,
         onPressed: (){
-          Navigator.pop(context);
+           Globals.goBack(context);
         },
 
       ),
