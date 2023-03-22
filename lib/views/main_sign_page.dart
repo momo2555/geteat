@@ -76,6 +76,7 @@ class _MainSignPageState extends State<MainSignPage> {
             ),
             ActionButton(
               text: "Mot de passe oublié ?",
+              color: Theme.of(context).primaryColor,
               filled: false,
               hasBorder: false,
             ),
@@ -89,7 +90,10 @@ class _MainSignPageState extends State<MainSignPage> {
                 children: [
                   ActionButton(
                     text: "Connexion",
+                    rounded: true,
                     filled: true,
+                    backColor: Theme.of(context).primaryColor,
+                    color: Theme.of(context).primaryColorLight,
                     action: () {
                       final form = _signinKey.currentState!;
                       setState(() {
@@ -133,7 +137,10 @@ class _MainSignPageState extends State<MainSignPage> {
                   Container(
                     child: ActionButton(
                       text: "Inscription",
-                      clear: true,
+                      //clear: true,
+                      rounded: true,
+                      backColor: Theme.of(context).primaryColorDark,
+                      color: Theme.of(context).primaryColor,
                       filled: true,
                       action: () {
                         Navigator.pushNamed(context, '/signup_name');

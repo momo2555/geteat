@@ -221,7 +221,10 @@ class _SignupNamePageState extends State<SignupNamePage> {
               child: ActionButton(
                 expanded: true,
                 text: "Valider",
+                
                 filled: true,
+                backColor: Theme.of(context).primaryColor,
+                rounded: true,
                 action: () async {
                   
                   final form = _signupKey.currentState!;

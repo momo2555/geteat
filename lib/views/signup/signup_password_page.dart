@@ -77,7 +77,7 @@ class _SignupPasswordPageState extends State<SignupPasswordPage
                 height: 15,
               ),
             SimpleInput(
-              placeholder: "MOt de passe",
+              placeholder: "Mot de passe",
               type: "password",
               onChange: (val){
                 _password2 = val;

@@ -123,10 +123,10 @@ class _MealPageState extends State<MealPage> {
                 ActionButton(
                   
                   text: 'Ajouter ${_command.subCommandLength} au panier - ${(_command.subCommandTotalPrice * _command.subCommandLength).toStringAsFixed(2)}€',
-                  color: Theme.of(context).primaryColor,
+                  backColor: Theme.of(context).backgroundColor,
                   filled: true,
-                  hasBorder: true,
                   expanded: true,
+                  color: Theme.of(context).primaryColorLight,
                   action: () {
                      Globals.goBack(context);
                      Globals.goToKart.value = true;

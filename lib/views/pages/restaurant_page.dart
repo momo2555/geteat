@@ -11,6 +11,7 @@ import 'package:geteat/controllers/meal_controller.dart';
 import 'package:geteat/models/meal_model.dart';
 import 'package:geteat/models/restaurant_model.dart';
 import 'package:geteat/utils/global_utils.dart';
+import 'package:geteat/utils/icons_utils.dart';
 
 class RestaurantPage extends StatefulWidget {
   const RestaurantPage({Key? key,required this.restaurant,}) : super(key: key);
@@ -54,14 +55,24 @@ class _RestaurantPageState extends State<RestaurantPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      SimpleText(text: "Bien ajouté au panier", color: 2, thick: 3,),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(right: 10),
+                            child: GeIcons.loadingOk,
+                          ),
+                          
+                          SimpleText(text: "Bien ajouté au panier", color: 2, thick: 3,),
+                        ],
+                      ),
                       Padding(
                         padding: const EdgeInsets.only(top: 14),
                         child: ActionButton(
-                          text: 'Voir mon panier',
+                          text: 'Voir mon panier'.toUpperCase(),
                           color: Theme.of(context).primaryColor,
                           filled: true,
-                          hasBorder: true,
+                          backColor: Theme.of(context).backgroundColor,
                           expanded: true,
                           action: () {
                             
