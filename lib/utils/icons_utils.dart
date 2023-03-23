@@ -11,31 +11,31 @@ class GeIcons {
   static get homeBlack {
     return SvgPicture.asset(
       GeIcons.assetName("home_black"),
-      height: 24,
-      width: 24,
+      height: 22,
+      width: 22,
     );
   }
   static get homeGrey {
     return SvgPicture.asset(
       GeIcons.assetName("home_black"),
-      height: 24,
-      width: 24,
+      height: 22,
+      width: 22,
       color: GeIcons.inactiveGrey,
     );
   }
   static get personBlack {
     return SvgPicture.asset(
       GeIcons.assetName("person_grey"),
-      height: 24,
-      width: 24,
+      height: 22,
+      width: 22,
       color: Colors.black,
     );
   }
   static get personGrey {
     return SvgPicture.asset(
       GeIcons.assetName("person_grey"),
-      height: 24,
-      width: 24,
+      height: 22,
+      width: 22,
       color: GeIcons.inactiveGrey,
       
     );
@@ -43,24 +43,24 @@ class GeIcons {
   static get cartBlack {
     return SvgPicture.asset(
       GeIcons.assetName("cart_black"),
-      height: 24,
-      width: 24,
+      height: 22,
+      width: 22,
       
     );
   }
   static get cartGrey {
     return SvgPicture.asset(
       GeIcons.assetName("cart_black"),
-      height: 24,
-      width: 24,
+      height: 22,
+      width: 22,
       color: GeIcons.inactiveGrey,
     );
   }
   static get commandsBlack {
     return SvgPicture.asset(
       GeIcons.assetName("commands"),
-      height: 24,
-      width: 24,
+      height: 22,
+      width: 22,
       color: Colors.black
       
     );
@@ -68,8 +68,8 @@ class GeIcons {
   static get commandsGrey{
     return SvgPicture.asset(
       GeIcons.assetName("commands"),
-      height: 24,
-      width: 24,
+      height: 22,
+      width: 22,
       color: GeIcons.inactiveGrey,
       
     );
@@ -117,8 +117,8 @@ class GeIcons {
   static get loadingOk {
     return SvgPicture.asset(
       GeIcons.assetName("loading_ok"),
-      height: 24,
-      width: 24
+      height: 22,
+      width: 22
     );
   }
   static get loadingOkSmall {

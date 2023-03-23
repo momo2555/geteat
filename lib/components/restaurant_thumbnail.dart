@@ -25,7 +25,7 @@ class _RestaurantThumbnailState extends State<RestaurantThumbnail> {
       setState(() {
         
         widget.restaurant.restaurantImage = value.restaurantImage;
-        print(value.restaurantImage);
+        
       });
     }
     );
@@ -49,14 +49,14 @@ class _RestaurantThumbnailState extends State<RestaurantThumbnail> {
         Navigator.pushNamed(context, '/restaurant', arguments: widget.restaurant);
       }),
       child: SizedBox(
-        height: 220,
+        height: 250,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Hero(
               tag: widget.restaurant.restaurantId,
               child: Container(
-                height: 130,
+                height: 160,
                 clipBehavior: Clip.antiAlias,
                 decoration: BoxDecoration(
                   color: Theme.of(context).backgroundColor,

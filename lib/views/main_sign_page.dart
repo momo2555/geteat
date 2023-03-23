@@ -54,7 +54,7 @@ class _MainSignPageState extends State<MainSignPage> {
             SimpleInput(
               placeholder: "Numéro de téléphone",
               type: "phone",
-              filled: true,
+              style: "filled",
               validator: (val) {return _validatePhoneNumber(val);},
               onChange: (val)  {
                 _phoneSignin = val;
@@ -66,7 +66,7 @@ class _MainSignPageState extends State<MainSignPage> {
             SimpleInput(
               placeholder: "Mot de passe",
               type: "password",
-              filled: true,
+              style: "filled",
               onChange: (val) {
                 _password = val;
               },

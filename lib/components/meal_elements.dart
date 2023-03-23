@@ -158,6 +158,8 @@ class _MealElementsState extends State<MealElements> {
           color: 2,
         ),
         Radio<int>(
+          focusColor: Theme.of(context).backgroundColor,
+          fillColor: MaterialStateProperty.all(Theme.of(context).backgroundColor),
           value: id,
           groupValue: _radioValues,
           onChanged: (int? val) {
@@ -189,6 +191,7 @@ class _MealElementsState extends State<MealElements> {
           ),
           Checkbox(
             value: _checkValues[id],
+            fillColor: MaterialStateProperty.all(Theme.of(context).backgroundColor),
             onChanged: (val) {
               _updateOptions();
               setState(() {
@@ -313,7 +316,7 @@ class _MealElementsState extends State<MealElements> {
               _elementList.add(Padding(
                 padding: const EdgeInsets.only(top: 6),
                 child: SimpleInput(
-                  filled: true,
+                  style: "light",
                   maxLines: 3,
                   type: "multiline",
                 ),

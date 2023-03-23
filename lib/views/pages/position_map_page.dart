@@ -90,9 +90,8 @@ class _PositionMapPageState extends State<PositionMapPage> {
               children: [
                 ActionButton(
                   text: 'Confirmer ma position',
-                  color: Theme.of(context).primaryColor,
+                  backColor: Theme.of(context).backgroundColor,
                   filled: true,
-                  hasBorder: true,
                   expanded: true,
                   action: () {},
                 ),
@@ -124,7 +123,7 @@ class _PositionMapPageState extends State<PositionMapPage> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(15, 15, 10, 15),
+            padding: const EdgeInsets.fromLTRB(18, 15, 18, 15),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -133,7 +132,10 @@ class _PositionMapPageState extends State<PositionMapPage> {
                   thick: 6,
                   color: 2,
                 ),
-                SimpleInput(),
+                SizedBox(height: 15,),
+                SimpleInput(
+                  style: "light",
+                ),
               ],
             ),
           ),

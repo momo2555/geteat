@@ -19,14 +19,12 @@ class _RestaurantlistPageState extends State<RestaurantlistPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-
+      padding: EdgeInsets.fromLTRB(16, 5, 16, 0),
       child: StreamBuilder(
         stream: _restaurantController.getAllRestaurants(),
         builder: (context, snap){
-          print("coucou");
-          print(snap);
           if(snap.hasData) {
-            print("y a des trucs");
+            
             List<Widget> restaurantList = [EditAddressButton()];
             List<RestaurantModel> restaurants = snap.data as List<RestaurantModel>;
             for(RestaurantModel resto in restaurants) {
