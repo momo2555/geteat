@@ -4,7 +4,7 @@ import 'package:geteat/models/meal_model.dart';
 class SubCommandModel {
   num? _subCommandTotalPrice = 0;
   MealModel? _subCommandMeal;
-  Map<String, dynamic>? _subCommandOptions = {};
+  List<Map<String, dynamic>>? _subCommandOptions = [];
   num? _subCommandLength = 1;
   
   

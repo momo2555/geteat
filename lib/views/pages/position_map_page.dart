@@ -24,7 +24,9 @@ class _PositionMapPageState extends State<PositionMapPage> {
   String _mapStyle = "";
   LocationTools _locationTools = LocationTools();
   CameraPosition _userPosition() {
+   
     List position = _locationTools.getPositionValue();
+    print(position);
     return CameraPosition(
         target: LatLng(position[0] as double, position[1] as double),
         zoom: 19.151926040649414);

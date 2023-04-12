@@ -61,6 +61,7 @@ class _MealElementsState extends State<MealElements> {
         if (val > 0)  {
           _options["contents"].add("${_elementNames[i]} x$val");
         }
+        i++;
       }
     }else if (_type == "checklist") {
       int i = 0;
@@ -68,6 +69,7 @@ class _MealElementsState extends State<MealElements> {
         if (val)  {
           _options["contents"].add(_elementNames[i]);
         }
+        i++;
       }
     }else if (_type == "radiolist") {
       if (_radioValues > -1) {
@@ -105,10 +107,11 @@ class _MealElementsState extends State<MealElements> {
         IconButton(
           icon: Icon(Icons.do_not_disturb_on),
           onPressed: () {
-            _updateOptions();
+            
             setState(() {
               _multiValues[id] = _multiValues[id] - 1;
               _computeTotalPriceMulti();
+              _updateOptions();
               widget.onChange(_options, _totalPrice);
             });
           },
@@ -121,13 +124,13 @@ class _MealElementsState extends State<MealElements> {
     rightEl.add(IconButton(
       icon: Icon(Icons.add_circle_outline),
       onPressed: () {
-        _updateOptions();
         setState(() {
           _multiValues[id] = (_multiValues[id] + 1);
           if (_max > 0 && _multiValues[id] > _max) {
             _multiValues[id] = _max.round();
           }
           _computeTotalPriceMulti();
+          _updateOptions();
           widget.onChange(_options, _totalPrice);
         });
       },
@@ -163,11 +166,12 @@ class _MealElementsState extends State<MealElements> {
           value: id,
           groupValue: _radioValues,
           onChanged: (int? val) {
-            _updateOptions();
+            
             setState(
               () {
                 _radioValues = val!;
                 _totalPrice = _prices[id];
+                _updateOptions();
                 widget.onChange(_options, _totalPrice);
               },
             );
@@ -193,12 +197,13 @@ class _MealElementsState extends State<MealElements> {
             value: _checkValues[id],
             fillColor: MaterialStateProperty.all(Theme.of(context).backgroundColor),
             onChanged: (val) {
-              _updateOptions();
+              
               setState(() {
                 if (!(_max > 0 && _totalChecked() >= _max && val!)) {
                   _checkValues[id] = val!;
                 }
                 _computeTotalPriceCheck();
+                _updateOptions();
                 widget.onChange(_options, _totalPrice);
               });
             },
@@ -319,6 +324,11 @@ class _MealElementsState extends State<MealElements> {
                   style: "light",
                   maxLines: 3,
                   type: "multiline",
+                  onChange: (val) {
+                    _textValue = val;
+                    _updateOptions();
+                    widget.onChange(_options, 0);
+                  },
                 ),
               ));
               return Column(children: _elementList);

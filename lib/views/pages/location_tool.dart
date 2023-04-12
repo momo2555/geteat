@@ -118,9 +118,15 @@ class LocationTools {
     
   }
   Future<List<Placemark>> getAddressFromLatLng(Position position) async {
-    List<Placemark> places = await placemarkFromCoordinates(
+    try {
+      List<Placemark> places = await placemarkFromCoordinates(
             position.latitude, position.longitude);
-    return places;
+      return places;
+    }catch (e) {
+      print(e);
+      return  [];
+    }
+    
   }  
 
   void updateAddress(String address, String city) {

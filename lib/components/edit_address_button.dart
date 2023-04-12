@@ -38,13 +38,14 @@ class _EditAddressButtonState extends State<EditAddressButton> {
                   _locationTools.updatePosition(_position);
                   
                 });
-                
+                for(var place in places) {
+                  print(place.street);
+                  
+                }
+                  
               }
               
-              for(var place in places) {
-                print(place.street);
-                
-              }
+              
             });
           });
         }
