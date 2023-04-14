@@ -3,10 +3,12 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geteat/components/action_button.dart';
 import 'package:geteat/components/meal_elements.dart';
 import 'package:geteat/components/simple_close_button.dart';
 import 'package:geteat/components/simple_text.dart';
+import 'package:geteat/controllers/command_controller.dart';
 import 'package:geteat/models/command_model.dart';
 import 'package:geteat/models/meal_model.dart';
 import 'package:geteat/models/sub_command_model.dart';
@@ -30,6 +32,7 @@ class _MealPageState extends State<MealPage> {
   List<String> _elementErrors = [];
   List<Map<String, dynamic>> _elementOptions = [];
   SubCommandModel _command = SubCommandModel();
+  CommandController _commandController = CommandController();
 
   ///num _totalPrice = 0;
   DecorationImage? _decorationImage() {
@@ -44,15 +47,17 @@ class _MealPageState extends State<MealPage> {
       return null;
     }
   }
-  bool isError () {
+
+  bool isError() {
     bool error = false;
-    for(String er in _elementErrors) {
-      if (er!="") {
+    for (String er in _elementErrors) {
+      if (er != "") {
         error = true;
       }
     }
     return error;
   }
+
   void _computePrice() {
     //_totalPrice = widget.meal.mealPrice;
     _command.subCommandTotalPrice = widget.meal.mealPrice;
@@ -71,6 +76,7 @@ class _MealPageState extends State<MealPage> {
   Widget build(BuildContext context) {
     if (!_init) {
       _command.subCommandTotalPrice = widget.meal.mealPrice;
+      _command.subCommandMeal = widget.meal;
       int elIndex = 0;
       for (Map<String, dynamic> element in widget.meal.mealStruct) {
         _elementPrices.add(0);
@@ -82,7 +88,7 @@ class _MealPageState extends State<MealPage> {
             elementData: element,
             onChange: (options, price) {
               //print("total=${price}");
-             // _command.
+              // _command.
               _elementPrices[id] = price;
               _elementOptions[id] = options;
               _command.subCommandOptions = _elementOptions;
@@ -153,9 +159,15 @@ class _MealPageState extends State<MealPage> {
                     if (!isError()) {
                       Globals.goBack(context);
                       Globals.goToKart.value = true;
-                    }else{
-                      //Erroe
-                      //Scaffold.of(context).showSnackBar(SnackBar(content: Text("Il y a des erreurs dans le formulalaire !")));
+                      _commandController.addToUserCart(_command);
+                    } else {
+                      Fluttertoast.showToast(
+                        msg: "Il y a des erreurs dans le formulalaire !",
+                        backgroundColor: Colors.red,
+                        toastLength: Toast.LENGTH_LONG,
+                        
+                      );
+                     
                     }
                   },
                 ),

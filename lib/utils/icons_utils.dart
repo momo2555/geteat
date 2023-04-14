@@ -109,7 +109,7 @@ class GeIcons {
       GeIcons.assetName("location_arrow")
     );
   }
-  static get LocationMarkerBlack {
+  static get locationMarkerBlack {
     return SvgPicture.asset(
       GeIcons.assetName("location_marker_black")
     );

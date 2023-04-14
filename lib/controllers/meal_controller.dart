@@ -62,15 +62,17 @@ class MealController {
 
 
 
-  Future<MealModel> getMealById(String mealId) async {
+  Future<MealModel> getMealById(String mealId, bool withPicture) async {
     MealModel meal = MealModel();
     DocumentReference mealRef =
         fireStore.collection('meals').doc(mealId);
     //get user data
     DocumentSnapshot mealSnapshot = (await mealRef.get());
     meal = docToMealModel(mealSnapshot);
-    
-    meal = await getImage(meal);
+    if(withPicture) {
+      meal = await getImage(meal);
+    }
+      
     return meal;
 
   }
@@ -117,7 +119,10 @@ class MealController {
     
    
   }
-
+  Future<MealModel> getMealUpdate(MealModel meal, bool withPicture) async {
+    meal = await getMealById(meal.mealId, withPicture);
+    return meal;
+  }
   /*Stream<List<Future<MeaelModel>>> converDocs(QueryDocumentSnapshot<Map<String, dynamic>> snapshots) async* {
     List<MealModel> posts = [];
     

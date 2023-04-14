@@ -7,6 +7,7 @@ import 'package:geteat/models/sub_command_model.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class CommandModel {
+  String? _commandId = "";
   GeoPoint? _commandPosition = const GeoPoint(0, 0);
   Timestamp? _commandDate = Timestamp(0, 0);
   num? _commandNumber = 0;
@@ -20,6 +21,9 @@ class CommandModel {
   CommandModel() : super();
   
 
+  set commandId(value) {
+    _commandId = value;
+  }
   set commandPosition(value) {
     _commandPosition = value;
   }
@@ -40,7 +44,9 @@ class CommandModel {
   }
  
 
-
+  get commandId {
+    return _commandId;
+  } 
   get commandPosition {
     return _commandPosition;
   }
@@ -59,15 +65,21 @@ class CommandModel {
   get commandUserId {
     return _commandUserId;
   }
+  get subCommandList {
+    return _subCommands;
+  }
  
   void addSubCommand(SubCommandModel subCommand) {
     _subCommands.add(subCommand);
   }
-  void updateCommade(SubCommandModel subCommand, int index){
+  void updateSubCommand(SubCommandModel subCommand, int index){
     _subCommands[index] = subCommand;
   }
-  SubCommandModel? getCommand(SubCommandModel subCommand, int index) {
+  SubCommandModel? getSubCommand(SubCommandModel subCommand, int index) {
     return _subCommands[index];
+  }
+  SubCommandModel getLastAddedSubCommand() {
+    return _subCommands.last;
   }
 
   dynamic toObject() {

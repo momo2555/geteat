@@ -91,4 +91,10 @@ class _ClientHomepageState extends State<ClientHomepage> {
       ),
     );
   }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    print("home page dispose");
+  }
 }

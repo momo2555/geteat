@@ -4,12 +4,15 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:geteat/components/simple_text.dart';
 import 'package:geteat/utils/global_utils.dart';
+import 'package:geteat/utils/icons_utils.dart';
 import 'package:geteat/views/pages/location_tool.dart';
 
-
 class EditAddressButton extends StatefulWidget {
-  const EditAddressButton({Key? key}) : super(key: key);
-
+  const EditAddressButton({
+    Key? key,
+    this.type,
+  }) : super(key: key);
+  final int? type;
   @override
   State<EditAddressButton> createState() => _EditAddressButtonState();
 }
@@ -22,66 +25,122 @@ class _EditAddressButtonState extends State<EditAddressButton> {
   List<num> _position = [];
   @override
   Widget build(BuildContext context) {
-    if(_intCounter==0){
+    if (_intCounter == 0) {
       _locationTools.handleLocationPermission(context).then((permission) {
-        if(permission) {
+        if (permission) {
           _locationTools.getCurrentPosition(context).then((position) {
-            print("lat: "+ position.latitude.toString() + "; long: " + position.longitude.toString());
+            print("lat: " +
+                position.latitude.toString() +
+                "; long: " +
+                position.longitude.toString());
             _locationTools.getAddressFromLatLng(position).then((places) {
-              if(places.length>0){
+              if (places.length > 0) {
                 setState(() {
-                  
                   _address = places[0].street ?? "";
                   _city = places[0].locality ?? "";
                   _position = [position.latitude, position.longitude];
                   _locationTools.updateAddress(_address, _city);
                   _locationTools.updatePosition(_position);
-                  
                 });
-                for(var place in places) {
+                for (var place in places) {
                   print(place.street);
-                  
                 }
-                  
               }
-              
-              
             });
           });
         }
-
       });
       _intCounter++;
     }
-    return Container(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(height: 40),
-          GestureDetector(
-            onTap: () {
-              Navigator.pushNamed(context, "/search_address");
-            },
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SimpleText(text: "Mon Adresse", thick: 5,size: 15,),
-                Row(
-                  children: [
-                    ValueListenableBuilder(valueListenable: Globals.userAddress, builder: (context, String value, widget){
-                      return SimpleText(text: "${value}, ${_locationTools.getCityValue()}", color: 1,thick: 8,size: 15,);
-                    }),
-                    
-                    Icon(Icons.expand_more, color: Theme.of(context).primaryColorLight,)
-                  ],
-                )
-              ],
+    if ((widget.type ?? 0) == 0) {
+      return Container(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(height: 40),
+            GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(context, "/search_address");
+              },
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SimpleText(
+                    text: "Mon Adresse",
+                    thick: 5,
+                    size: 15,
+                  ),
+                  Row(
+                    children: [
+                      ValueListenableBuilder(
+                          valueListenable: Globals.userAddress,
+                          builder: (context, String value, widget) {
+                            return SimpleText(
+                              text:
+                                  "${value}, ${_locationTools.getCityValue()}",
+                              color: 1,
+                              thick: 8,
+                              size: 15,
+                            );
+                          }),
+                      Icon(
+                        Icons.expand_more,
+                        color: Theme.of(context).primaryColorLight,
+                      )
+                    ],
+                  )
+                ],
+              ),
             ),
+            const SizedBox(height: 40),
+          ],
+        ),
+      );
+    } else if ((widget.type ?? 0) == 1) {
+      return Container(
+        child: GestureDetector(
+          onTap: () {
+                Navigator.pushNamed(context, "/search_address");
+              },
+          child: Row(
+            
+            children: [
+              Padding(
+                padding: EdgeInsets.only(right: 20, left: 20),
+                child: GeIcons.locationMarkerBlack,
+              ),
+              
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ValueListenableBuilder(
+                        valueListenable: Globals.userAddress,
+                        builder: (context, String value, widget) {
+                          return Padding(
+                            padding: const EdgeInsets.only( right: 16),
+                            child: SimpleText(
+                              text: "$value, ${_locationTools.getCityValue()}",
+                              color: 2,
+                              thick: 8,
+                              size: 16,
+                            ),
+                          );
+                        })
+                  ],
+                ),
+              ),
+              Icon(
+                Icons.arrow_forward_ios,
+                color: Theme.of(context).backgroundColor,
+                size: 18,
+              ),
+            ],
           ),
-          const SizedBox(height: 40),
-        ],
-      ),
-    );
-    
+        ),
+      );
+    } else {
+      return Container();
+    }
   }
 }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:geteat/components/simple_text.dart';
+import 'package:geteat/controllers/meal_controller.dart';
 import 'package:geteat/models/meal_model.dart';
 import 'package:geteat/models/sub_command_model.dart';
 
@@ -17,18 +18,31 @@ class CartElement extends StatefulWidget {
 }
 
 class _CartElementState extends State<CartElement> {
-  MealModel? meal;
+  MealModel? _meal;
+  MealController _mealController = MealController();
   @override
   DecorationImage? _decorationImage() {
-    if (meal != null && meal!.mealImage != null) {
+    if (_meal != null && _meal!.mealImage != null) {
       return DecorationImage(
-        image: FileImage(meal?.mealImage),
+        image: FileImage(_meal?.mealImage),
         fit: BoxFit.cover,
         alignment: Alignment.center,
+        
       );
     } else {
       return null;
     }
+  }
+  
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _mealController.getMealUpdate(widget.subCommand.subCommandMeal, true).then((value) {
+      setState(() {
+        _meal = value;
+      });
+    });
   }
 
   Widget build(BuildContext context) {
@@ -40,8 +54,9 @@ class _CartElementState extends State<CartElement> {
             height: 54,
             width: 54,
             decoration: BoxDecoration(
+              image: _decorationImage(),
               borderRadius: BorderRadius.all(Radius.circular(15)),
-              color: Colors.red,
+              
             ),
           ),
           Expanded(
@@ -57,7 +72,7 @@ class _CartElementState extends State<CartElement> {
                     thick: 7,
                   ),
                   SimpleText(
-                    text: "2 Salamon Poke",
+                    text: "${widget.subCommand.subCommandLength}x ${_meal?.mealName ?? ''}",
                     color: 3,
                     thick: 5,
                     size: 12,
@@ -67,7 +82,7 @@ class _CartElementState extends State<CartElement> {
             ),
           ),
           SimpleText(
-            text: "10.50€",
+            text: "${widget.subCommand.subCommandTotalPrice.toStringAsFixed(2)}€" ,
             color: 2,
             size: 16,
             thick: 5,

@@ -1,9 +1,11 @@
 
+import 'package:geteat/controllers/meal_controller.dart';
 import 'package:geteat/models/meal_model.dart';
 
 class SubCommandModel {
+  MealController _mealController = MealController();
   num? _subCommandTotalPrice = 0;
-  MealModel? _subCommandMeal;
+  MealModel _subCommandMeal = MealModel();
   List<Map<String, dynamic>>? _subCommandOptions = [];
   num? _subCommandLength = 1;
   
@@ -26,10 +28,10 @@ class SubCommandModel {
   }
 
   
-  get subCommandTotalPrice {
+  get subCommandTotalPrice  {
     return _subCommandTotalPrice;
   }
-  get subCommandMeal {
+  MealModel get subCommandMeal {
     return _subCommandMeal;
   }
   get subCommandOptions {
@@ -42,8 +44,21 @@ class SubCommandModel {
 
   dynamic toObject() {
     return {
-     
+     "subCommandLength" : _subCommandLength,
+     "subCommandMealRef" : "${_subCommandMeal.mealId}",
+     "subCommandOptions" : _subCommandOptions,
+     "subCommandTotalPrice" : subCommandTotalPrice,
     };
+  }
+
+  factory SubCommandModel.fromDataBase(Map<String, dynamic> data) {
+    SubCommandModel subCommandModel = SubCommandModel();
+    subCommandModel.subCommandLength = data["subCommandLength"];
+    subCommandModel.subCommandOptions = data["subCommandOptions"];
+    subCommandModel.subCommandTotalPrice = data["subCommandTotalPrice"];
+    
+    //get meal obj
+    return SubCommandModel();
   }
 
 
