@@ -19,12 +19,18 @@ class CommandController {
     var subCommandsRef = cartRef.collection("subCommands");
     subCommandsRef.add(subCommand.toObject());
     //update total price
-    num newPrice = 0.0;
+    await updateTotalPrice();
+   
+  }
+  Future updateTotalPrice()  async {
+    var cartRef = (await getCart()).reference;
+    var subCommandsRef = cartRef.collection("subCommands");
+     num newPrice = 0.0;
     for (QueryDocumentSnapshot<Map<String, dynamic>> doc in (await subCommandsRef.get()).docs) {
       newPrice+=doc.get("subCommandTotalPrice");
     }
     cartRef.update({"commandTotalPrice" : newPrice});
-   
+
   }
   Future createNewCart() async {
    UserModel user = await _userConnection.UserConnected;
@@ -37,7 +43,7 @@ class CommandController {
    ref.set(cart.toObject());
     
   }
-  Future<QueryDocumentSnapshot> getCart() async {
+  Future<QueryDocumentSnapshot<Map<String, dynamic>>> getCart() async {
      UserModel user = await _userConnection.UserConnected;
     
     var query =  _fireStore.collection("commands")
@@ -53,6 +59,27 @@ class CommandController {
     return docs[0];
    
   }
+  Future<CommandModel> docToCommand(QueryDocumentSnapshot<Map<String, dynamic>> doc, bool withMealPictures) async {
+    
+    CommandModel command = CommandModel();
+    command.commandId = doc.id;
+    command.commandDate = doc.get("commandDate");
+    command.commandNumber = doc.get("commandNumber");
+    command.commandPosition = doc.get("commandPosition");
+    command.commandStatus = doc.get("commandStatus");
+    command.commandTotalPrice = doc.get("commandTotalPrice");
+    command.commandUserId = doc.get("commandUserId");
+    //subCommands
+    var docRef = doc.reference;
+    var subCommandsRef = docRef.collection("subCommands");
+    
+    //update total price
+    for (QueryDocumentSnapshot<Map<String, dynamic>> doc in (await subCommandsRef.get()).docs) {
+      command.addSubCommand(docToSubCommand(doc));
+      command.getLastAddedSubCommand().subCommandMeal = await _mealController.getMealUpdate(command.getLastAddedSubCommand().subCommandMeal, withMealPictures);
+    }
+    return command;
+  }
   SubCommandModel docToSubCommand(QueryDocumentSnapshot<Map<String, dynamic>> doc) {
     var subCommandModel = SubCommandModel();
     subCommandModel.subCommandLength = doc.get("subCommandLength");
@@ -61,40 +88,55 @@ class CommandController {
     subCommandModel.subCommandMeal.mealId = doc.get("subCommandMealRef");
     return subCommandModel;
   }
-  Stream<List<SubCommandModel>> getSubCommands() async* {
+  Future<List<SubCommandModel>> getSubCommands() async {
+    List<SubCommandModel> subCommands = [];
     var cartRef = (await getCart()).reference;
-    cartRef.collection("subCommands").snapshots().listen((event) {
-      print(event.docs.map((e) => e.data()));
-    });
-    yield* cartRef.collection("subCommands").snapshots().map((event) => 
+    for (var doc in (await cartRef.collection("subCommands").get()).docs) {
+      subCommands.add(docToSubCommand(doc));
+    }
+    return subCommands;
+  }
+  Stream<List<SubCommandModel>> getSubCommandsAsStream() async* {
+    var cartRef = (await getCart()).reference;
+    
+    yield* cartRef.collection("subCommands").snapshots(includeMetadataChanges: true).map((event) => 
       event.docs.map((doc) => docToSubCommand(doc)).toList()
     );
     
   }
+  Stream<List<CommandModel>> getAllUserCommands() async* {
+   
+   UserModel user = await _userConnection.UserConnected;
+    
+    var query =  _fireStore.collection("commands")
+      .where("commandUserId", isEqualTo: user.uid)
+      .orderBy("commandDate");
+    
+     Stream<QuerySnapshot<Map<String, dynamic>>> result = query.snapshots(includeMetadataChanges: true);
+     await for (final r in result) {
+      List<CommandModel> commands = [];
+      if (!r.metadata.isFromCache) {
+        for (QueryDocumentSnapshot<Map<String, dynamic>> doc in r.docs){
+          if(doc.get("commandStatus")!="temp") {
+            commands.add(await docToCommand(doc, false));
+          }
+          
+        }
+        yield commands;
+      }
+    }
+    
+  }
   Future<num> getCartTotalPrice() async {
+    await updateTotalPrice();
     num price = (await getCart()).get("commandTotalPrice");
     return price;
   }
   Future<CommandModel> getCartAsCommandModel (bool withMealPictures) async {
     CommandModel cartCommand = CommandModel();
-    var cart = (await getCart());
-    cartCommand.commandId = cart.id;
-    cartCommand.commandDate = cart.get("commandDate");
-    cartCommand.commandNumber = cart.get("commandNumber");
-    cartCommand.commandPosition = cart.get("commandPosition");
-    cartCommand.commandStatus = cart.get("commandStatus");
-    cartCommand.commandTotalPrice = cart.get("commandTotalPrice");
-    cartCommand.commandUserId = cart.get("commandUserId");
-    //subCommands
-    var cartRef = cart.reference;
-    var subCommandsRef = cartRef.collection("subCommands");
-    
-    //update total price
-    num newPrice = 0.0;
-    for (QueryDocumentSnapshot<Map<String, dynamic>> doc in (await subCommandsRef.get()).docs) {
-      cartCommand.addSubCommand(docToSubCommand(doc));
-      cartCommand.getLastAddedSubCommand().subCommandMeal = await _mealController.getMealUpdate(cartCommand.getLastAddedSubCommand().subCommandMeal, withMealPictures);
-    }
+    QueryDocumentSnapshot<Map<String, dynamic>> cart = (await getCart());
+    cartCommand = await docToCommand(cart, withMealPictures);
+
     return cartCommand;
     
 

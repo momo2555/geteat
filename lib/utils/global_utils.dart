@@ -1,9 +1,12 @@
+import 'dart:ffi';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geteat/models/command_model.dart';
 
 class Globals {
+  static var homeIndex =  ValueNotifier<int>(0);
   static var userPosition = ValueNotifier<List<num>>([0.0,0.0]);
   static var userAddress = ValueNotifier<String>("");
   static var userCity = ValueNotifier<String>("");

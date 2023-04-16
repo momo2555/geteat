@@ -64,6 +64,7 @@ class _MealPageState extends State<MealPage> {
     for (num p in _elementPrices) {
       _command.subCommandTotalPrice += p;
     }
+    _command.subCommandTotalPrice *= _command.subCommandLength;
   }
 
   @override
@@ -130,6 +131,7 @@ class _MealPageState extends State<MealPage> {
                           setState(() {
                             if (_command.subCommandLength > 1)
                               _command.subCommandLength--;
+                              _computePrice();
                           });
                         }),
                         icon: Icon(Icons.do_not_disturb_on_outlined)),
@@ -141,8 +143,10 @@ class _MealPageState extends State<MealPage> {
                     ),
                     IconButton(
                         onPressed: () {
+                          
                           setState(() {
                             _command.subCommandLength++;
+                            _computePrice();
                           });
                         },
                         icon: Icon(Icons.add_circle_outline))
@@ -150,7 +154,7 @@ class _MealPageState extends State<MealPage> {
                 ),
                 ActionButton(
                   text:
-                      'Ajouter ${_command.subCommandLength} au panier - ${(_command.subCommandTotalPrice * _command.subCommandLength).toStringAsFixed(2)}€',
+                      'Ajouter ${_command.subCommandLength} au panier - ${(_command.subCommandTotalPrice).toStringAsFixed(2)}€',
                   backColor: Theme.of(context).backgroundColor,
                   filled: true,
                   expanded: true,

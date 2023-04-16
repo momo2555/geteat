@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:geteat/controllers/user_connection.dart';
 import 'package:geteat/models/meal_model.dart';

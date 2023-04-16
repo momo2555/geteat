@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:geteat/utils/global_utils.dart';
 import 'package:geteat/utils/icons_utils.dart';
 import 'package:geteat/views/pages/cart_page.dart';
 import 'package:geteat/views/pages/command_page.dart';
@@ -16,7 +17,7 @@ class ClientHomepage extends StatefulWidget {
 }
 
 class _ClientHomepageState extends State<ClientHomepage> {
-  int _selectedPage = 0;
+  
   List<Widget> _pages = [];
   @override
   void initState() {
@@ -46,7 +47,7 @@ class _ClientHomepageState extends State<ClientHomepage> {
                 //fixedColor: Theme.of(context).backgroundColor,
                 selectedItemColor: Theme.of(context).backgroundColor,
                 unselectedItemColor: GeIcons.inactiveGrey,
-                currentIndex: _selectedPage,
+                currentIndex: Globals.homeIndex.value,
                 showSelectedLabels: true,
                 showUnselectedLabels: true,
                 type: BottomNavigationBarType.fixed,
@@ -55,29 +56,29 @@ class _ClientHomepageState extends State<ClientHomepage> {
                 
                 items: [
                   BottomNavigationBarItem(
-                    icon: _selectedPage == 0 ? GeIcons.homeBlack : GeIcons.homeGrey,
+                    icon: Globals.homeIndex.value == 0 ? GeIcons.homeBlack : GeIcons.homeGrey,
                     label: "Commander",
                     backgroundColor: Theme.of(context).primaryColorLight,
                   ),
                   BottomNavigationBarItem(
-                    icon: _selectedPage == 1 ? GeIcons.cartBlack : GeIcons.cartGrey,
+                    icon: Globals.homeIndex.value == 1 ? GeIcons.cartBlack : GeIcons.cartGrey,
                     label: "Panier",
                     backgroundColor: Theme.of(context).primaryColorLight,
                   ),
                   BottomNavigationBarItem(
-                    icon: _selectedPage == 2 ? GeIcons.commandsBlack : GeIcons.commandsGrey,//GeIcons.personBlack,
+                    icon: Globals.homeIndex.value == 2 ? GeIcons.commandsBlack : GeIcons.commandsGrey,//GeIcons.personBlack,
                     label: "Commandes",
                     backgroundColor: Theme.of(context).primaryColorLight,
                   ),
                   BottomNavigationBarItem(
-                    icon: _selectedPage == 3 ? GeIcons.personBlack : GeIcons.personGrey,
+                    icon: Globals.homeIndex.value == 3 ? GeIcons.personBlack : GeIcons.personGrey,
                     label: "Profil",
                     backgroundColor: Theme.of(context).primaryColorLight,
                   ),
                 ],
                 onTap: (int index) {
                   setState(() {
-                    _selectedPage = index;
+                    Globals.homeIndex.value = index;
                   });
                 },
               ),
@@ -86,7 +87,7 @@ class _ClientHomepageState extends State<ClientHomepage> {
         ),
         body: AnimatedSwitcher(
           duration: Duration(milliseconds: 200),
-          child: _pages[_selectedPage],
+          child: _pages[Globals.homeIndex.value],
         ),
       ),
     );

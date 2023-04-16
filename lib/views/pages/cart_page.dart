@@ -40,7 +40,7 @@ class _cartPageState extends State<cartPage> {
             child: ListView(
               children: [
                 StreamBuilder(
-                  stream: _commandController.getSubCommands(),
+                  stream: _commandController.getSubCommandsAsStream(),
                   builder:
                       (context, AsyncSnapshot<List<SubCommandModel>> snapshot) {
                     print("data = ");
