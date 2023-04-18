@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:geteat/components/simple_text.dart';
+import 'package:geteat/controllers/command_controller.dart';
 import 'package:geteat/controllers/meal_controller.dart';
 import 'package:geteat/models/meal_model.dart';
 import 'package:geteat/models/sub_command_model.dart';
@@ -27,18 +28,19 @@ class _CartElementState extends State<CartElement> {
         image: FileImage(_meal?.mealImage),
         fit: BoxFit.cover,
         alignment: Alignment.center,
-        
       );
     } else {
       return null;
     }
   }
-  
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _mealController.getMealUpdate(widget.subCommand.subCommandMeal, true).then((value) {
+    _mealController
+        .getMealUpdate(widget.subCommand.subCommandMeal, true)
+        .then((value) {
       setState(() {
         _meal = value;
       });
@@ -46,6 +48,7 @@ class _CartElementState extends State<CartElement> {
   }
 
   Widget build(BuildContext context) {
+    CommandController _commandController = CommandController();
     return Container(
       padding: EdgeInsets.only(top: 10, bottom: 10),
       child: Row(
@@ -56,7 +59,6 @@ class _CartElementState extends State<CartElement> {
             decoration: BoxDecoration(
               image: _decorationImage(),
               borderRadius: BorderRadius.all(Radius.circular(15)),
-              
             ),
           ),
           Expanded(
@@ -72,7 +74,8 @@ class _CartElementState extends State<CartElement> {
                     thick: 7,
                   ),
                   SimpleText(
-                    text: "${widget.subCommand.subCommandLength}x ${_meal?.mealName ?? ''}",
+                    text:
+                        "${widget.subCommand.subCommandLength}x ${_meal?.mealName ?? ''}",
                     color: 3,
                     thick: 5,
                     size: 12,
@@ -82,11 +85,18 @@ class _CartElementState extends State<CartElement> {
             ),
           ),
           SimpleText(
-            text: "${widget.subCommand.subCommandTotalPrice.toStringAsFixed(2)}€" ,
+            text:
+                "${widget.subCommand.subCommandTotalPrice.toStringAsFixed(2)}€",
             color: 2,
             size: 16,
             thick: 5,
-          )
+          ),
+          IconButton(
+            onPressed: () async {
+              await _commandController.deleteCartSubCommand(widget.subCommand);
+            },
+            icon: Icon(Icons.delete),
+          ),
         ],
       ),
     );

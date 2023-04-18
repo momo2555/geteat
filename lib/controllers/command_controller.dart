@@ -82,10 +82,12 @@ class CommandController {
   }
   SubCommandModel docToSubCommand(QueryDocumentSnapshot<Map<String, dynamic>> doc) {
     var subCommandModel = SubCommandModel();
+    subCommandModel.subCommandId = doc.id;
     subCommandModel.subCommandLength = doc.get("subCommandLength");
     //subCommandModel.subCommandOptions = doc.get("subCommandOptions");
     subCommandModel.subCommandTotalPrice = doc.get("subCommandTotalPrice");
     subCommandModel.subCommandMeal.mealId = doc.get("subCommandMealRef");
+  
     return subCommandModel;
   }
   Future<List<SubCommandModel>> getSubCommands() async {
@@ -149,5 +151,10 @@ class CommandController {
     var currentPos = Globals.userPosition.value;
     cartRef.update({"commandPosition" : GeoPoint(currentPos[0] as double, currentPos[1] as double)});
     
+  }
+  Future deleteCartSubCommand(SubCommandModel subCommand)async  {
+    var cartRef = (await getCart()).reference;
+    cartRef.collection("subCommands").doc(subCommand.subCommandId).delete();
+    await updateTotalPrice();
   }
 }

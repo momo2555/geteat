@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geteat/models/command_model.dart';
+import 'package:geteat/models/sub_command_model.dart';
 
 class Globals {
   static var homeIndex =  ValueNotifier<int>(0);
@@ -12,6 +13,9 @@ class Globals {
   static var userCity = ValueNotifier<String>("");
   static var goToKart = ValueNotifier<bool>(false);
   static var userCart = CommandModel();
+  static List<CommandModel> persistantCommands = [];
+  static List<SubCommandModel> persistantCart = [];
+  static num persistantCartPrice = 0;
   static void goBack(context) {
     Globals.goToKart.value = false;
     Navigator.pop(context);

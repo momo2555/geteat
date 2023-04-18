@@ -19,6 +19,7 @@ class cartPage extends StatefulWidget {
 
 class _cartPageState extends State<cartPage> {
   CommandController _commandController = CommandController();
+  
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -40,12 +41,13 @@ class _cartPageState extends State<cartPage> {
             child: ListView(
               children: [
                 StreamBuilder(
+                  initialData: Globals.persistantCart,
                   stream: _commandController.getSubCommandsAsStream(),
                   builder:
                       (context, AsyncSnapshot<List<SubCommandModel>> snapshot) {
-                    print("data = ");
-                    print(snapshot.data);
+                    
                     if (snapshot.hasData) {
+                      Globals.persistantCart = snapshot.data ?? [];
                       return Column(
                         children: snapshot.data!
                             .map((subCommand) => Padding(
@@ -66,9 +68,12 @@ class _cartPageState extends State<cartPage> {
         Container(
           padding: EdgeInsets.all(16.0),
           height: 95,
+          
           child: FutureBuilder(
+            initialData: Globals.persistantCartPrice,
             future: _commandController.getCartTotalPrice(),
             builder: (context, AsyncSnapshot<num>  snapshot) {
+              Globals.persistantCartPrice =snapshot.data ?? 0;
               return ActionButton(
                   text: "Valider Commande - ${snapshot.hasData ? snapshot.data?.toStringAsFixed(2)??'':''}€",
                   backColor: Theme.of(context).backgroundColor,

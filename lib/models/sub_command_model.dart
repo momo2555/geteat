@@ -3,11 +3,12 @@ import 'package:geteat/controllers/meal_controller.dart';
 import 'package:geteat/models/meal_model.dart';
 
 class SubCommandModel {
-  MealController _mealController = MealController();
+  
   num? _subCommandTotalPrice = 0;
   MealModel _subCommandMeal = MealModel();
   List<Map<String, dynamic>>? _subCommandOptions = [];
   num? _subCommandLength = 1;
+  String? _subCommandId = "";
   
   
    
@@ -26,10 +27,16 @@ class SubCommandModel {
   set subCommandLength(value) {
     _subCommandLength = value;
   }
+ set subCommandId(value) {
+    _subCommandId = value;
+  }
 
   
   get subCommandTotalPrice  {
     return _subCommandTotalPrice;
+  }
+   get subCommandId  {
+    return _subCommandId;
   }
   MealModel get subCommandMeal {
     return _subCommandMeal;

@@ -76,6 +76,8 @@ class _RestaurantPageState extends State<RestaurantPage> {
                           expanded: true,
                           action: () {
                             //go to cart 
+                            Globals.homeIndex.value = 1;
+                            Globals.goBack(context); 
                           },
                         ),
                       ),
