@@ -62,6 +62,10 @@ class _CommandDetailsState extends State<CommandDetails> {
                     rounded: true,
                     color: Theme.of(context).primaryColorLight,
                     backColor: Theme.of(context).primaryColor,
+                    action: () {
+                      widget.command.withCommandDetails = true;
+                      Navigator.pushNamed(context, "/state_page", arguments: widget.command);
+                    },
                   );
                 }else {
                   return SimpleText(text: "Commmande terminée", color: 3,);

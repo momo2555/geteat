@@ -7,6 +7,7 @@ import 'package:geteat/models/sub_command_model.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class CommandModel {
+  bool? _withCommandDetails;
   String? _commandId = "";
   GeoPoint? _commandPosition = const GeoPoint(0, 0);
   Timestamp? _commandDate = Timestamp(0, 0);
@@ -20,7 +21,9 @@ class CommandModel {
    
   CommandModel() : super();
   
-
+  set withCommandDetails(value) {
+    _withCommandDetails = value;
+  }
   set commandId(value) {
     _commandId = value;
   }
@@ -42,8 +45,11 @@ class CommandModel {
   set commandUserId(value) {
     _commandUserId = value;
   }
- 
 
+ 
+  get withCommandDetails {
+    return _withCommandDetails;
+  }
   get commandId {
     return _commandId;
   } 

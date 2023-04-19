@@ -129,6 +129,14 @@ class CommandController {
     }
     
   }
+  Stream<String> getCommandStatus (CommandModel command) async* {
+    var query =  _fireStore.collection("commands")
+      .doc(command.commandId);
+    Stream<DocumentSnapshot<Map<String, dynamic>>> result = query.snapshots(includeMetadataChanges: true);
+    await for (final r in result) {
+      yield r.get("commandStatus") as String;
+    }
+  }
   Future<num> getCartTotalPrice() async {
     await updateTotalPrice();
     num price = (await getCart()).get("commandTotalPrice");

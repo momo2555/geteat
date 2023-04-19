@@ -1,12 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:geteat/controllers/user_connection.dart';
+import 'package:geteat/models/command_model.dart';
 import 'package:geteat/models/meal_model.dart';
 import 'package:geteat/models/restaurant_model.dart';
 import 'package:geteat/models/user_profile_model.dart';
 import 'package:geteat/utils/global_utils.dart';
 import 'package:geteat/views/client_home_page.dart';
 import 'package:geteat/views/main_sign_page.dart';
+import 'package:geteat/views/pages/command_status_page.dart';
 import 'package:geteat/views/pages/confirmation_page.dart';
 import 'package:geteat/views/pages/meal_page.dart';
 import 'package:geteat/views/pages/position_map_page.dart';
@@ -90,6 +92,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (context) => PositionMapPage(),);
       case '/confirmation_page':
         return MaterialPageRoute(builder: (context) => ConfirmationPage(),);
+      case '/state_page':
+        return MaterialPageRoute(builder: (context) => CommandStatusPage(command: settings.arguments as CommandModel,),);
      /* case '/newPost/confirmation':
         return MaterialPageRoute(
             builder: (context) => const NewPostConfirmationPage());

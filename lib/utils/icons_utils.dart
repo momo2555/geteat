@@ -121,6 +121,21 @@ class GeIcons {
       width: 22
     );
   }
+  static get loadingOkGreen {
+    return SvgPicture.asset(
+      GeIcons.assetName("loading_ok"),
+      height: 34,
+      width: 34
+    );
+  }
+   static get loadingOkGrey {
+    return SvgPicture.asset(
+      GeIcons.assetName("loading_ok_grey"),
+      height: 34,
+      width: 34,
+      
+    );
+  }
   static get loadingOkSmall {
     return SvgPicture.asset(
       GeIcons.assetName("loading_ok")
