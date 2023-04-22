@@ -44,7 +44,7 @@ class _RestaurantThumbnailState extends State<RestaurantThumbnail> {
   }
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return InkWell(
       onTap: (() {
         Navigator.pushNamed(context, '/restaurant', arguments: widget.restaurant);
       }),

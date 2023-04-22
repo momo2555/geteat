@@ -54,51 +54,55 @@ class _EditAddressButtonState extends State<EditAddressButton> {
     }
     if ((widget.type ?? 0) == 0) {
       return Container(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 40),
-            GestureDetector(
+            child: InkWell(
               onTap: () {
                 Navigator.pushNamed(context, "/search_address");
               },
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SimpleText(
-                    text: "Mon Adresse",
-                    thick: 5,
-                    size: 15,
-                  ),
-                  Row(
-                    children: [
-                      ValueListenableBuilder(
-                          valueListenable: Globals.userAddress,
-                          builder: (context, String value, widget) {
-                            return SimpleText(
-                              text:
-                                  "${value}, ${_locationTools.getCityValue()}",
-                              color: 1,
-                              thick: 8,
-                              size: 15,
-                            );
-                          }),
-                      Icon(
-                        Icons.expand_more,
-                        color: Theme.of(context).primaryColorLight,
-                      )
-                    ],
-                  )
-                ],
-              ),
+              
+                child: Column(
+                  
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 40),
+                    SimpleText(
+                      text: "Mon Adresse",
+                      thick: 5,
+                      size: 15,
+                    ),
+                    Row(
+                      children: [
+                        ValueListenableBuilder(
+                            valueListenable: Globals.userAddress,
+                            builder: (context, String value, widget) {
+                              return Expanded(
+                                child: SimpleText(
+                                  text:
+                                      "${value}, ${_locationTools.getCityValue()}",
+                                  color: 1,
+                                  thick: 8,
+                                  size: 15,
+                                  cut: true,
+                                  center: false,
+                                ),
+                              );
+                            }),
+                        Icon(
+                          Icons.expand_more,
+                          color: Theme.of(context).primaryColorLight,
+                        )
+                      ],
+                    ),
+                    const SizedBox(height: 40),
+                  ],
+                ),
+              
             ),
-            const SizedBox(height: 40),
-          ],
-        ),
+            
+        
       );
     } else if ((widget.type ?? 0) == 1) {
       return Container(
-        child: GestureDetector(
+        child: InkWell(
           onTap: () {
                 Navigator.pushNamed(context, "/search_address");
               },
@@ -124,6 +128,7 @@ class _EditAddressButtonState extends State<EditAddressButton> {
                               color: 2,
                               thick: 8,
                               size: 16,
+                              cut: true,
                             ),
                           );
                         })

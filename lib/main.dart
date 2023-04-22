@@ -2,11 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:geteat/controllers/user_connection.dart';
 import 'package:geteat/models/command_model.dart';
+import 'package:geteat/models/load_model.dart';
 import 'package:geteat/models/meal_model.dart';
 import 'package:geteat/models/restaurant_model.dart';
 import 'package:geteat/models/user_profile_model.dart';
 import 'package:geteat/utils/global_utils.dart';
 import 'package:geteat/views/client_home_page.dart';
+import 'package:geteat/views/load/load_page.dart';
 import 'package:geteat/views/main_sign_page.dart';
 import 'package:geteat/views/pages/command_status_page.dart';
 import 'package:geteat/views/pages/confirmation_page.dart';
@@ -19,9 +21,8 @@ import 'package:geteat/views/signup/signup_code_page.dart';
 import 'package:geteat/views/signup/signup_confirm_page.dart';
 import 'package:geteat/views/signup/signup_name_page.dart';
 import 'package:firebase_core/firebase_core.dart';
-
-import 'themes/main_theme.dart';
-
+import 'package:provider/provider.dart';
+import 'package:geteat/themes/main_theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,19 +37,17 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      initialRoute: '/',
-      onGenerateRoute: (settings) => RouteGenerator.generateRoute(settings),
-      title: 'GetEat',
-      theme: mainTheme.defaultTheme,
-    );
+        debugShowCheckedModeBanner: false,
+        initialRoute: '/',
+        onGenerateRoute: (settings) => RouteGenerator.generateRoute(settings),
+        title: 'GetEat',
+        theme: mainTheme.defaultTheme,
+      );
   }
 }
 
-
 // Route class
 class RouteGenerator {
- 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     UserConnection _userConnection = UserConnection();
     switch (settings.name) {
@@ -67,34 +66,61 @@ class RouteGenerator {
                         return MainSignPage();
                       }
                     }
-                   
+
                     return Container();
                   },
-                )
-              );
+                ));
       case '/signup_code':
-        return MaterialPageRoute(builder: (context) =>  SignupCodePage(user: settings.arguments as UserProfileModel,));
+        return MaterialPageRoute(
+            builder: (context) => SignupCodePage(
+                  user: settings.arguments as UserProfileModel,
+                ));
       case '/signup_name':
         return MaterialPageRoute(builder: (context) => const SignupNamePage());
       case '/signup_confirm':
-        return MaterialPageRoute(builder: (context) => const SignupConfirmPage());
+        return MaterialPageRoute(
+            builder: (context) => const SignupConfirmPage());
       case '/client_home':
         return MaterialPageRoute(builder: (context) => const ClientHomepage());
       case '/restaurant':
-        return MaterialPageRoute(builder: (context) => RestaurantPage(restaurant: settings.arguments as RestaurantModel,),);
+        return MaterialPageRoute(
+          builder: (context) => RestaurantPage(
+            restaurant: settings.arguments as RestaurantModel,
+          ),
+        );
       case '/meal':
-        return MaterialPageRoute(builder: (context) => MealPage(meal: settings.arguments as MealModel),);
+        return MaterialPageRoute(
+          builder: (context) => MealPage(meal: settings.arguments as MealModel),
+        );
       case '/search_address':
-        return MaterialPageRoute(builder: (context) => SearchAddressPage(),);
+        return MaterialPageRoute(
+          builder: (context) => SearchAddressPage(),
+        );
       case '/search_address_result':
-        return MaterialPageRoute(builder: (context) => SearchAddressResultPage(),);
+        return MaterialPageRoute(
+          builder: (context) => SearchAddressResultPage(),
+        );
       case '/position_map':
-        return MaterialPageRoute(builder: (context) => PositionMapPage(),);
+        return MaterialPageRoute(
+          builder: (context) => PositionMapPage(),
+        );
       case '/confirmation_page':
-        return MaterialPageRoute(builder: (context) => ConfirmationPage(),);
+        return MaterialPageRoute(
+          builder: (context) => ConfirmationPage(),
+        );
       case '/state_page':
-        return MaterialPageRoute(builder: (context) => CommandStatusPage(command: settings.arguments as CommandModel,),);
-     /* case '/newPost/confirmation':
+        return MaterialPageRoute(
+          builder: (context) => CommandStatusPage(
+            command: settings.arguments as CommandModel,
+          ),
+        );
+      case '/load_page':
+        return MaterialPageRoute(
+          builder: (context) => LoadPage(
+            load: settings.arguments as LoadModel,
+          ),
+        );
+      /* case '/newPost/confirmation':
         return MaterialPageRoute(
             builder: (context) => const NewPostConfirmationPage());
       case '/post':
@@ -132,7 +158,6 @@ class RouteGenerator {
       */
       default:
         return MaterialPageRoute(builder: (context) => Container());
-
     }
   }
 }

@@ -10,9 +10,12 @@ import 'package:geteat/components/edit_address_button.dart';
 import 'package:geteat/components/simple_close_button.dart';
 import 'package:geteat/components/simple_text.dart';
 import 'package:geteat/controllers/command_controller.dart';
+import 'package:geteat/models/command_model.dart';
 import 'package:geteat/models/sub_command_model.dart';
+import 'package:geteat/models/load_model.dart';
 import 'package:geteat/utils/global_utils.dart';
 import 'package:geteat/utils/icons_utils.dart';
+import 'package:provider/provider.dart';
 
 class ConfirmationPage extends StatefulWidget {
   const ConfirmationPage({Key? key}) : super(key: key);
@@ -113,13 +116,15 @@ class _ConfirmationPageState extends State<ConfirmationPage> {
                                   text: subCommand.subCommandMeal.mealName,
                                   color: 3,
                                 ),
-                                SimpleText(text: "${(subCommand.subCommandTotalPrice as num).toStringAsFixed(2)}€", color: 3),
+                                SimpleText(
+                                    text:
+                                        "${(subCommand.subCommandTotalPrice as num).toStringAsFixed(2)}€",
+                                    color: 3),
                               ],
                             ),
                           );
                         }
                         return Column(
-                          
                           children: invoiceList,
                         );
                       },
@@ -136,19 +141,41 @@ class _ConfirmationPageState extends State<ConfirmationPage> {
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: ActionButton(
-              text: "Confirmer la commande - ${Globals.userCart.commandTotalPrice}€",
+              text:
+                  "Confirmer la commande - ${(Globals.userCart.commandTotalPrice as num).toStringAsFixed(2)}€",
               backColor: Theme.of(context).primaryColor,
               filled: true,
               expanded: true,
               color: Theme.of(context).primaryColorLight,
-              action: () {
-                _commandController.confirmCart();
-                Fluttertoast.showToast(msg: "Votre commande a bien été confirmé");
-                Globals.goBack(context);
-
+              action: () async {
+                CommandModel command = CommandModel();
+                Navigator.popAndPushNamed(
+                  context,
+                  '/load_page',
+                  arguments: LoadModel(
+                    callback: (_) async {
+                      command =
+                          await _commandController.confirmCart();
+                      command.withCommandDetails = false;
+                      Globals.persistantCommands.insert(0, command);
+                      Globals.persistantCart = [];
+                      Globals.homeIndex.value = 2;
+                     
+                    },
+                    afterCallback: (_) {
+                      
+                      Navigator.of(_).pushNamed("/state_page",
+                          arguments: command);
+                      Fluttertoast.showToast(
+                          msg: "Votre commande a bien été confirmée");
+                    },
+                    message: "Commande en cours de creéation",
+                    minimumTime: 1,
+                  ),
+                );
               },
             ),
-          ),
+          )
         ),
       ),
     );

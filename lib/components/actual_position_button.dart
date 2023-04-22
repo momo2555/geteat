@@ -15,7 +15,7 @@ class ActualPositionButton extends StatefulWidget {
 class _ActualPositionButtonState extends State<ActualPositionButton> {
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return InkWell(
       onTap: () {
         Navigator.pushNamed(context, "/position_map");
       },

@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:geteat/components/simple_text.dart';
@@ -49,7 +50,7 @@ class _MealThumbnailState extends State<MealThumbnail> {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(16),
-      child: GestureDetector(
+      child: InkWell(
         onTap: () {
           Navigator.pushNamed(context, '/meal', arguments: widget.meal);
         },

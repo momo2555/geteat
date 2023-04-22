@@ -6,6 +6,7 @@ import 'package:geteat/components/simple_text.dart';
 import 'package:geteat/controllers/command_controller.dart';
 import 'package:geteat/models/command_model.dart';
 import 'package:geteat/models/sub_command_model.dart';
+import 'package:geteat/utils/command_utils.dart';
 import 'package:geteat/utils/icons_utils.dart';
 
 class CommandStatusPage extends StatefulWidget {
@@ -34,14 +35,16 @@ class _CommandStatusPageState extends State<CommandStatusPage> {
             child: Column(
           children: [
             SimpleText(
-              text: "Commande #${widget.command.commandNumber}",
+              text: "Commande ${CommandUtils.commandNumber(widget.command)}",
               size: 18,
               thick: 9,
               color: 2,
             ),
             Builder(
+              
               builder: (context) {
-                List<Widget> details = [];
+                if(widget.command.withCommandDetails) {
+                   List<Widget> details = [];
                 for (SubCommandModel element in widget.command.subCommandList) {
                   details.add(Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -93,6 +96,10 @@ class _CommandStatusPageState extends State<CommandStatusPage> {
                     ),
                   ),
                 );
+                }else {
+                  return Container();
+                }
+               
               },
             ),
             SizedBox(
@@ -166,12 +173,15 @@ class _CommandStatusPageState extends State<CommandStatusPage> {
                         thick: 7,
                         size: 18,
                       ),
-                      SizedBox(height: 100),
+                      
                     ],
                   ),
                 );
               },
             ),
+            SizedBox(height: 134),
+            SimpleText(text: "Pour voir le processus de votre commande,\n veuillez vous rendre sur commander.", color: 3,),
+            SizedBox(height: 40),
           ],
         )),
       ),

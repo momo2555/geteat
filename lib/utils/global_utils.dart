@@ -18,7 +18,12 @@ class Globals {
   static num persistantCartPrice = 0;
   static void goBack(context) {
     Globals.goToKart.value = false;
-    Navigator.pop(context);
+    try {
+       Navigator.pop(context);
+    }catch(e) {
+      print(e);
+    }
+   
   }
 
 }

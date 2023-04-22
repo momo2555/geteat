@@ -35,7 +35,7 @@ class _AddressResultState extends State<AddressResult> {
       cityTab.add(details[i]);
     }
     city = cityTab.join(', ');
-    return GestureDetector(
+    return InkWell(
       onTap: () {
         _locationTools.updateAddress(address, city);
         _locationTools.getPlacePosition(widget.address).then((position) {
@@ -58,12 +58,13 @@ class _AddressResultState extends State<AddressResult> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SimpleText(
-                      text: address,
+                      text: address.trim(),
                       thick: 5,
                     ),
                     SimpleText(
-                      text: city,
+                      text: city.trim(),
                       color: 1,
+                      cut: true,
                     ),
                     /*Expanded(
                         child: Divider(

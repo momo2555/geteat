@@ -12,6 +12,7 @@ import 'package:geteat/models/meal_model.dart';
 import 'package:geteat/models/restaurant_model.dart';
 import 'package:geteat/utils/global_utils.dart';
 import 'package:geteat/utils/icons_utils.dart';
+import 'package:provider/provider.dart';
 
 class RestaurantPage extends StatefulWidget {
   const RestaurantPage({Key? key,required this.restaurant,}) : super(key: key);
@@ -21,6 +22,7 @@ class RestaurantPage extends StatefulWidget {
 }
 
 class _RestaurantPageState extends State<RestaurantPage> {
+  
   MealController _mealController = MealController();
   DecorationImage? _decorationImage() {
     if(widget.restaurant.restaurantImage != null){
@@ -35,6 +37,7 @@ class _RestaurantPageState extends State<RestaurantPage> {
   }
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColorLight,
       appBar: AppBar(

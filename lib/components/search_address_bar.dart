@@ -86,7 +86,7 @@ class _SearchAddressBarState extends State<SearchAddressBar> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return InkWell(
       onTap: () {
         if (widget.static) {
           Navigator.pushNamed(context, "/search_address_result");

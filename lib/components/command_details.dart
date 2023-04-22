@@ -6,6 +6,7 @@ import 'package:geteat/components/action_button.dart';
 import 'package:geteat/components/simple_text.dart';
 import 'package:geteat/models/command_model.dart';
 import 'package:geteat/models/sub_command_model.dart';
+import 'package:geteat/utils/command_utils.dart';
 
 class CommandDetails extends StatefulWidget {
   const CommandDetails({
@@ -32,18 +33,27 @@ class _CommandDetailsState extends State<CommandDetails> {
         ),
       );
     }
-    _commandsDetail.last = SimpleText(
+    if(_commandsDetail.length > 0) {
+      try {
+         _commandsDetail.last = SimpleText(
           text:
               "${_commandsDetail.last.text} | ${(widget.command.commandTotalPrice as num).toStringAsFixed(2)}€",
           color: 3,
         );
+      }catch(e) {
+        print(e);
+      }
+      
+
+    }
+   
     
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SimpleText(text: "Command #${widget.command.commandNumber}", color: 2, size: 16, thick: 6,),
+          SimpleText(text: "Command ${CommandUtils.commandNumber(widget.command)} ", color: 2, size: 16, thick: 6,),
           Row(
             crossAxisAlignment: CrossAxisAlignment.end,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
