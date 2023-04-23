@@ -128,7 +128,14 @@ class _RestaurantPageState extends State<RestaurantPage> {
                     print(snapshot.data);
                     return MealThumbnail(meal: snapshot.data as MealModel);
                   }
-                  return Container();
+                  return Container(
+                    height: 100,
+                    child: Center(
+                      child: CircularProgressIndicator(
+                        color: Theme.of(context).primaryColor,
+                      ),
+                    ),
+                  );
                 },));
               }
               return Column(

@@ -50,9 +50,14 @@ class _LoadPageState extends State<LoadPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              CircularProgressIndicator(
-                color: Theme.of(context).primaryColor,
-                strokeWidth: 10,
+              Container(
+                width: 70,
+                height: 70,
+                child: CircularProgressIndicator(
+                  color: Theme.of(context).primaryColor,
+                  strokeWidth: 10,
+                  
+                ),
               ),
               SizedBox(height: 20),
               SimpleText(

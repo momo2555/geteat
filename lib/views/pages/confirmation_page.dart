@@ -157,7 +157,7 @@ class _ConfirmationPageState extends State<ConfirmationPage> {
                       command =
                           await _commandController.confirmCart();
                       command.withCommandDetails = false;
-                      Globals.persistantCommands.insert(0, command);
+                      (Globals.persistantCommands ?? []).insert(0, command);
                       Globals.persistantCart = [];
                       Globals.homeIndex.value = 2;
                      

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geteat/controllers/meal_controller.dart';
 import 'package:geteat/controllers/user_connection.dart';
 import 'package:geteat/models/command_model.dart';
@@ -105,10 +106,15 @@ class CommandController {
   }
 
   Stream<List<SubCommandModel>> getSubCommandsAsStream() async* {
-    var cartRef = (await getCart()).reference;
-    yield* cartRef.collection("subCommands").snapshots(includeMetadataChanges: true).map((event) => 
-      event.docs.map((doc) => docToSubCommand(doc)).toList()
-    );
+    try {
+      var cartRef = (await getCart()).reference;
+      yield* cartRef.collection("subCommands").snapshots(includeMetadataChanges: true).map((event) => 
+        event.docs.map((doc) => docToSubCommand(doc)).toList()
+      );
+    } catch(e) {
+      Fluttertoast.showToast(msg: "Une erreur est survenue");
+    }
+    
   }
 
   Stream<List<CommandModel>> getAllUserCommands() async* {

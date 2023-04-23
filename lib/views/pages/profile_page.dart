@@ -9,6 +9,7 @@ import 'package:geteat/controllers/profil_controller.dart';
 import 'package:geteat/controllers/user_connection.dart';
 import 'package:geteat/models/user_model.dart';
 import 'package:geteat/models/user_profile_model.dart';
+import 'package:geteat/utils/global_utils.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -27,7 +28,10 @@ class _ProfilePageState extends State<ProfilePage> {
     // TODO: implement initState
     super.initState();
     _profileController.getUserProfile.then((UserProfileModel user) {
-      setState(() => _userProfile = user);
+      Globals.persistanttUserProfile = user;
+      setState(() {
+        _userProfile = user;
+      });
     });
   }
 
@@ -58,12 +62,12 @@ class _ProfilePageState extends State<ProfilePage> {
                     height: 5,
                   ),
                   SimpleText(
-                    text: _userProfile?.userName ?? '',
+                    text:( _userProfile?.userName ?? Globals.persistanttUserProfile.userName)??"",
                     thick: 6,
                     size: 24,
                   ),
                   SimpleText(
-                    text: _userProfile?.phone ?? '',
+                    text: _userProfile?.phone ?? Globals.persistanttUserProfile.phone,
                     size: 13,
                     thick: 6,
                     color: 1,
@@ -93,15 +97,15 @@ class _ProfilePageState extends State<ProfilePage> {
                     ProfileListElement(
                         action: () {},
                         title: "Nom et prénom",
-                        description: _userProfile?.userName ?? ""),
+                        description: _userProfile?.userName ?? Globals.persistanttUserProfile.userName),
                     ProfileListElement(
                         action: () {},
                         title: "Adresse e-mail",
-                        description: _userProfile?.email ?? ""),
+                        description: _userProfile?.email ?? Globals.persistanttUserProfile.email),
                     ProfileListElement(
                         action: () {},
                         title: "Numéro de téléphone",
-                        description: _userProfile?.phone ?? ""),
+                        description: _userProfile?.phone ?? Globals.persistanttUserProfile.phone),
                     ProfileListElement(
                         action: () {},
                         title: "Mot de passe",

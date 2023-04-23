@@ -19,6 +19,18 @@ class cartPage extends StatefulWidget {
 
 class _cartPageState extends State<cartPage> {
   CommandController _commandController = CommandController();
+  Widget _loading(BuildContext context) {
+    print("loading");
+    return Center(
+      child: Container(
+        height: 50,
+        width: 50,
+        child: CircularProgressIndicator(
+          color: Theme.of(context).primaryColor,
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,29 +57,33 @@ class _cartPageState extends State<cartPage> {
                   (context, AsyncSnapshot<List<SubCommandModel>> snapshot) {
                 if (snapshot.hasData) {
                   Globals.persistantCart = snapshot.data ?? [];
-                  if ((snapshot.data ?? []).length > 0) {
-                    return SingleChildScrollView(
-                      child: Column(
-                        children: snapshot.data!
-                            .map((subCommand) => Padding(
-                                  padding: EdgeInsets.fromLTRB(15, 10, 15, 0),
-                                  child: CartElement(subCommand: subCommand),
-                                ))
-                            .toList(),
-                      ),
-                    );
+                  if (snapshot.data != null) {
+                    if ((snapshot.data ?? []).length > 0) {
+                      return SingleChildScrollView(
+                        child: Column(
+                          children: snapshot.data!
+                              .map((subCommand) => Padding(
+                                    padding: EdgeInsets.fromLTRB(15, 10, 15, 0),
+                                    child: CartElement(subCommand: subCommand),
+                                  ))
+                              .toList(),
+                        ),
+                      );
+                    } else {
+                      return Center(
+                        child: SimpleText(
+                          text: "Le panier est vide",
+                          color: 3,
+                          size: 20,
+                          thick: 6,
+                        ),
+                      );
+                    }
                   } else {
-                    return Center(
-                      child: SimpleText(
-                        text: "Le panier est vide",
-                        color: 3,
-                        size: 20,
-                        thick: 6,
-                      ),
-                    );
+                    return _loading(context);
                   }
                 } else {
-                  return Column();
+                  return _loading(context);
                 }
               },
             ),
@@ -107,6 +123,7 @@ class _cartPageState extends State<cartPage> {
                       Globals.userCart =
                           await _commandController.getCartAsCommandModel(false);
 
+                      Globals.goBack(context);
                       Navigator.pushNamed(context, "/confirmation_page");
                     });
               } else {
