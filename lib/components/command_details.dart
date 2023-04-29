@@ -78,7 +78,7 @@ class _CommandDetailsState extends State<CommandDetails> {
                     },
                   );
                 }else {
-                  return SimpleText(text: "Commmande terminée", color: 3,);
+                  return Container(child: SimpleText(text: "Commmande terminée", color: 3,cut: true,));
                 }
                 
               }) 

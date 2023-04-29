@@ -81,9 +81,13 @@ class RouteGenerator {
                               }
                             }else {
                               return Container(
-                                child: CircularProgressIndicator(
-                                  color: Theme.of(context).primaryColor,
-                                )
+                                height: 70,
+                                width: 70,
+                                child: Center(
+                                  child: CircularProgressIndicator(
+                                    color: Theme.of(context).primaryColor,
+                                  ),
+                                ),
                               );
                             }
                           

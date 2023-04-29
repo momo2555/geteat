@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geteat/components/action_button.dart';
 import 'package:geteat/components/simple_input.dart';
 import 'package:geteat/components/simple_text.dart';
@@ -192,9 +193,8 @@ class _SignupCodePageState extends State<SignupCodePage> {
                               ),
                             );
                           } on Exception catch (e) {
-                            Scaffold.of(context).showSnackBar(SnackBar(
-                                content: Text(
-                                    "Une erreur s'est produite lors de la création de votre compte")));
+                           Fluttertoast.showToast(msg: 
+                                    "Une erreur s'est produite lors de la création de votre compte");
                           }
                           //credentialUser.user.li
                         }

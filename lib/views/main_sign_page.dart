@@ -199,10 +199,9 @@ class _MainSignPageState extends State<MainSignPage> {
   @override
   void initState() {
     // TODO: implement initState
-    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
-        .then((_) {
-      super.initState();
-    });
+    super.initState();
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+        
   }
 
   @override

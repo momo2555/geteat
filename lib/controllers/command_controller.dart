@@ -175,7 +175,7 @@ class CommandController {
     cartRef.update({"commandDate": Timestamp.now()});
     var currentPos = Globals.userPosition.value;
     cartRef.update({"commandPosition" : GeoPoint(currentPos[0] as double, currentPos[1] as double)});
-    cartRef.update({"commandPositionComment" :Globals.userPositonComment});
+    cartRef.update({"commandPositionComment" :Globals.userPositonComment.value});
     //get command number
     int commandNum = (await _fireStore.collection("geteat").doc("config").get()).get("commandNumber");
     commandNum++;

@@ -22,26 +22,30 @@ class _EditAddressButtonState extends State<EditAddressButton> {
   int _intCounter = 0;
   String _address = "...";
   String _city = "";
-  List<num> _position = [];
+  List<num> _position = [0.0,0.0];
   @override
-  Widget build(BuildContext context) {
-    if (_intCounter == 0) {
-      _locationTools.handleLocationPermission(context).then((permission) {
+  void initState() {
+    // TODO: implement initState
+
+    super.initState();
+    _locationTools.handleLocationPermission(context).then((permission) {
         if (permission) {
           _locationTools.getCurrentPosition(context).then((position) {
             print("lat: " +
                 position.latitude.toString() +
                 "; long: " +
                 position.longitude.toString());
-            _locationTools.getAddressFromLatLng(position).then((places) {
+             _locationTools.getAddressFromLatLng(position).then((places) {
+             
               if (places.length > 0) {
-                setState(() {
+                
                   _address = places[0].street ?? "";
                   _city = places[0].locality ?? "";
                   _position = [position.latitude, position.longitude];
                   _locationTools.updateAddress(_address, _city);
                   _locationTools.updatePosition(_position);
-                });
+                  
+                
                 for (var place in places) {
                   print(place.street);
                 }
@@ -50,8 +54,10 @@ class _EditAddressButtonState extends State<EditAddressButton> {
           });
         }
       });
-      _intCounter++;
-    }
+  }
+  @override
+  Widget build(BuildContext context) {
+    
     if ((widget.type ?? 0) == 0) {
       return Container(
             child: InkWell(
