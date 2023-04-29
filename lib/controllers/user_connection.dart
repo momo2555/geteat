@@ -57,7 +57,7 @@ class UserConnection {
   }
   void pocessPhone(phone, Function(UserModel) CodeCallBack, Function(PhoneAuthCredential, UserModel) CredentialCallback) async {
     UserModel user =  UserModel('', phone, '');
-                        
+       _auth.setSettings(appVerificationDisabledForTesting: true);               
   await _auth.verifyPhoneNumber(
     phoneNumber: phone,
     verificationCompleted: (PhoneAuthCredential credential) async {

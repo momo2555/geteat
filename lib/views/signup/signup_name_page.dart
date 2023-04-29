@@ -241,11 +241,7 @@ class _SignupNamePageState extends State<SignupNamePage> {
                     //adapt phone number
                    _phoneSignup =  PhoneUtils.trimePhone(_phoneSignup);
                     //TODO verification ----------------------
-
-                    
-                    
                     UserProfileModel userProfile = UserProfileModel(_email, _phoneSignup, _password1, '');
-                    print(_phoneSignup);
                     userProfile.userName = _name;
                     Navigator.pushNamed(context, '/signup_code', arguments: userProfile);
                     //_emailPassWordvalidator();

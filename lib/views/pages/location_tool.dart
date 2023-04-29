@@ -136,6 +136,9 @@ class LocationTools {
   void updatePosition(List<num> coor) {
     Globals.userPosition.value = coor;
   }
+  void updatePositionComment(String comment) {
+    Globals.userPositonComment.value = comment;
+  }
   
   String getAddressValue() {
     return Globals.userAddress.value;
@@ -145,6 +148,9 @@ class LocationTools {
   }
   List<num> getPositionValue() {
     return Globals.userPosition.value;
+  }
+  String getPositionCommentValue() {
+    return Globals.userPositonComment.value;
   }
   
 

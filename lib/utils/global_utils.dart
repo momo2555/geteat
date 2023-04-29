@@ -10,9 +10,11 @@ import 'package:geteat/models/user_profile_model.dart';
 class Globals {
   static var homeIndex =  ValueNotifier<int>(0);
   static var userPosition = ValueNotifier<List<num>>([0.0,0.0]);
+  static var userPositonComment = ValueNotifier<String>("");
   static var userAddress = ValueNotifier<String>("");
   static var userCity = ValueNotifier<String>("");
   static var goToKart = ValueNotifier<bool>(false);
+  static var connexionWait = ValueNotifier<bool>(false);
   static var userCart = CommandModel();
   static List<CommandModel>? persistantCommands;
   static List<SubCommandModel>? persistantCart;

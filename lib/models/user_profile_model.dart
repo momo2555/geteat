@@ -1,5 +1,7 @@
 import 'dart:io';
 
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/widgets.dart';
 import 'package:geteat/models/user_model.dart';
 
@@ -13,6 +15,8 @@ class UserProfileModel extends UserModel {
   String? _userDescription;
   String? _userAddress;
   String? _userCity;
+  GeoPoint? _userPosition;
+  String? _userType = "client";
   File? _userProfileImageFile;
   UserProfileModel(email, phone, password, uid) : super(email, phone, password, uid);
   UserProfileModel.byModel(UserModel user)
@@ -53,6 +57,12 @@ class UserProfileModel extends UserModel {
   set userCity(value) {
     _userCity = value;
   }
+  set userType(value) {
+    _userType = value;
+  }
+  set userPosition(value) {
+    _userPosition = value;
+  }
   String? get userName {
     return _userName;
   }
@@ -90,16 +100,25 @@ class UserProfileModel extends UserModel {
   get userProfileImageFile {
     return _userProfileImageFile;
   }
+  get userType {
+    return _userType;
+  }
+  get userPosition {
+    return _userPosition;
+  }
 
   Map<String, dynamic> toObject() {
     return {
       'userUid' : uid,
       'userPhone' : phone,
       'userEmail' : email,
-      
+      'userType' : _userType ?? 0,
       'userName' : _userName ?? '',
+      'userCity' : _userCity ?? "",
+      'userAddress' : _userAddress ?? "",
       'userProfileImage' : _userProfileImageURL ?? '',
-      'userRate' : _userRate ?? 0.0
+      'userRate' : _userRate ?? 0.0,
+      'userPosition' : _userPosition ?? const GeoPoint(0, 0),
     };
 
   }

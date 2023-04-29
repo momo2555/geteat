@@ -32,6 +32,7 @@ class _ActualPositionButtonState extends State<ActualPositionButton> {
               Padding(
                 padding: const EdgeInsets.only(left: 23),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SimpleText(
                       text: "Ma position actuelle",

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:geteat/controllers/profil_controller.dart';
 import 'package:geteat/controllers/user_connection.dart';
 import 'package:geteat/models/command_model.dart';
 import 'package:geteat/models/load_model.dart';
@@ -9,6 +10,7 @@ import 'package:geteat/models/user_profile_model.dart';
 import 'package:geteat/utils/global_utils.dart';
 import 'package:geteat/views/client_home_page.dart';
 import 'package:geteat/views/load/load_page.dart';
+import 'package:geteat/views/main_kitchen_page.dart';
 import 'package:geteat/views/main_sign_page.dart';
 import 'package:geteat/views/pages/command_status_page.dart';
 import 'package:geteat/views/pages/confirmation_page.dart';
@@ -50,6 +52,7 @@ class MyApp extends StatelessWidget {
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     UserConnection _userConnection = UserConnection();
+    ProfileController _profileController = ProfileController();
     switch (settings.name) {
       case '/':
         //return MaterialPageRoute(builder: (context) => const MainSignPage());
@@ -60,7 +63,32 @@ class RouteGenerator {
                     if (snapshot.connectionState == ConnectionState.active) {
                       if (snapshot.hasData) {
                         //if a user is connected show the client page
-                        return ClientHomepage();
+                        return FutureBuilder(
+                          future: _profileController.getUserProfile,
+                          builder: (context, AsyncSnapshot<UserProfileModel> snapshot) {
+                            if(snapshot.hasData) {
+                              String type = snapshot.data?.userType;
+                              if(type == "client") {
+                                return ClientHomepage();
+                              }
+                              else if(type == "kitchen") {
+                                return MainKitchenPage();
+                              }else if(type == "delivering") {
+                                return Container();
+                              }
+                              else {
+                                return Container();
+                              }
+                            }else {
+                              return Container(
+                                child: CircularProgressIndicator(
+                                  color: Theme.of(context).primaryColor,
+                                )
+                              );
+                            }
+                          
+                        },);
+                        
                       } else {
                         //if not showing sign in page
                         return MainSignPage();

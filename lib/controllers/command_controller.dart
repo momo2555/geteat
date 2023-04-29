@@ -72,6 +72,13 @@ class CommandController {
     command.commandStatus = doc.get("commandStatus");
     command.commandTotalPrice = doc.get("commandTotalPrice");
     command.commandUserId = doc.get("commandUserId");
+    try {
+      command.commandPositionComment = doc.get("commandPositionComment");
+    }catch(e) {
+      doc.reference.update({"commandPositionComment" : ""});
+      //command.commandPositionComment = doc.get("commandPositionComment");
+    }
+    
     //subCommands
     var docRef = doc.reference;
     var subCommandsRef = docRef.collection("subCommands");
@@ -168,6 +175,7 @@ class CommandController {
     cartRef.update({"commandDate": Timestamp.now()});
     var currentPos = Globals.userPosition.value;
     cartRef.update({"commandPosition" : GeoPoint(currentPos[0] as double, currentPos[1] as double)});
+    cartRef.update({"commandPositionComment" :Globals.userPositonComment});
     //get command number
     int commandNum = (await _fireStore.collection("geteat").doc("config").get()).get("commandNumber");
     commandNum++;

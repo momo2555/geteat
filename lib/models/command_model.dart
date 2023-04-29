@@ -15,6 +15,7 @@ class CommandModel {
   String? _commandStatus = "";
   num? _commandTotalPrice = 0;
   String? _commandUserId = "";
+  String? _commandPositionComment = "";
 
   List<SubCommandModel> _subCommands = [];
    
@@ -45,6 +46,9 @@ class CommandModel {
   set commandUserId(value) {
     _commandUserId = value;
   }
+  set commandPositionComment(value) {
+    _commandPositionComment = value;
+  }
 
  
   get withCommandDetails {
@@ -74,6 +78,9 @@ class CommandModel {
   get subCommandList {
     return _subCommands;
   }
+  get commandPositionComment {
+    return _commandPositionComment;
+  }
  
   void addSubCommand(SubCommandModel subCommand) {
     _subCommands.add(subCommand);
@@ -96,6 +103,7 @@ class CommandModel {
       'commandStatus' : _commandStatus,
       'commandTotalPrice' : commandTotalPrice, 
       'commandUserId' : _commandUserId,
+      'commandPositionComment' : _commandPositionComment,
     };
   }
 
