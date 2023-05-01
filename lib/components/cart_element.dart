@@ -6,7 +6,9 @@ import 'package:geteat/components/action_button.dart';
 import 'package:geteat/components/simple_text.dart';
 import 'package:geteat/controllers/command_controller.dart';
 import 'package:geteat/controllers/meal_controller.dart';
+import 'package:geteat/controllers/restaurant_controller.dart';
 import 'package:geteat/models/meal_model.dart';
+import 'package:geteat/models/restaurant_model.dart';
 import 'package:geteat/models/sub_command_model.dart';
 import 'package:provider/provider.dart';
 
@@ -22,9 +24,28 @@ class CartElement extends StatefulWidget {
 
 class _CartElementState extends State<CartElement> {
   MealModel? _meal;
+  RestaurantModel? _restaurant;
   MealController _mealController = MealController();
+  RestaurantController _restaurantController = RestaurantController();
   CommandController _commandController = CommandController();
-  
+  setupAll() {
+    _mealController.getMealUpdate(widget.subCommand.subCommandMeal, true).then(
+      (value) async {
+        _restaurant = await _restaurantController.getRestaurantById(value.mealRestaurantId);
+        try {
+          
+          setState(()  {
+            _meal = value;
+           
+          });
+          
+        } catch (e) {
+          print("error cart element");
+        }
+      },
+    );
+    
+  }
   DecorationImage? _decorationImage() {
     if (_meal != null && _meal!.mealImage != null) {
       return DecorationImage(
@@ -41,27 +62,15 @@ class _CartElementState extends State<CartElement> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _mealController
-        .getMealUpdate(widget.subCommand.subCommandMeal, true)
-        .then((value) {
-      setState(() {
-        _meal = value;
-      });
-    });
+    setupAll();
   }
-  
- @override
+
+  @override
   void didUpdateWidget(covariant CartElement oldWidget) {
     // TODO: implement didUpdateWidget
     super.didUpdateWidget(oldWidget);
     super.activate();
-     _mealController
-        .getMealUpdate(widget.subCommand.subCommandMeal, true)
-        .then((value) {
-      setState(() {
-        _meal = value;
-      });
-    });
+   setupAll();
   }
 
   @override
@@ -85,7 +94,7 @@ class _CartElementState extends State<CartElement> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SimpleText(
-                    text: "Pokea",
+                    text: _restaurant!=null? _restaurant?.restaurantName : "",
                     color: 2,
                     size: 16,
                     thick: 7,
@@ -110,33 +119,40 @@ class _CartElementState extends State<CartElement> {
           ),
           IconButton(
             onPressed: () async {
-              showDialog(context: context, builder: (context){
-                return AlertDialog(
-                  title: SimpleText(text: "Supressions", color: 2,),
-                  content: SimpleText(text: "Voulez vous vraiment supprimer cette élement de votre panier", color: 2),
-                  
-                  actions: [
-                    ActionButton(
-                      backColor: Theme.of(context).primaryColorDark,
-                      text: "Annuler",
-                      filled: true,
-                      action: () {
-                        Navigator.pop(context);
-                      },
-                      
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    title: SimpleText(
+                      text: "Supressions",
+                      color: 2,
                     ),
-                    ActionButton(
-                      filled: true,
-                      text: "Supprimer",
-                      action: () async {
-                        await _commandController.deleteCartSubCommand(widget.subCommand);
-                        Navigator.pop(context);
-                      },
-                    ),
-                  ],
-                );
-              },);
-              
+                    content: SimpleText(
+                        text:
+                            "Voulez vous vraiment supprimer cette élement de votre panier",
+                        color: 2),
+                    actions: [
+                      ActionButton(
+                        backColor: Theme.of(context).primaryColorDark,
+                        text: "Annuler",
+                        filled: true,
+                        action: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                      ActionButton(
+                        filled: true,
+                        text: "Supprimer",
+                        action: () async {
+                          await _commandController
+                              .deleteCartSubCommand(widget.subCommand);
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ],
+                  );
+                },
+              );
             },
             icon: Icon(Icons.delete),
           ),

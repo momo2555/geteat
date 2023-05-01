@@ -112,7 +112,11 @@ class _MealPageState extends State<MealPage> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         toolbarHeight: 0,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
       ),
+      extendBody: true,
+      extendBodyBehindAppBar:  true,
       bottomNavigationBar: BottomAppBar(
         elevation: 5,
         child: Container(
@@ -190,14 +194,14 @@ class _MealPageState extends State<MealPage> {
                     tag: widget.meal.mealId,
                     child: Container(
                       width: double.infinity,
-                      height: 150,
+                      height: 170,
                       decoration: BoxDecoration(
                         image: _decorationImage(),
                       ),
                     ),
                   ),
                   Positioned(
-                    top: 10,
+                    top: 45,
                     left: 15,
                     child: SimpleCloseButton(),
                   ),

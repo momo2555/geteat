@@ -60,7 +60,7 @@ class CommandModel {
   get commandPosition {
     return _commandPosition;
   }
-  get commandDate {
+  Timestamp? get commandDate {
     return _commandDate;
   }
   get commandNumber {

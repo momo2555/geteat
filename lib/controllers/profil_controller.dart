@@ -58,8 +58,8 @@ class ProfileController {
 
     //get the link of the profile image
     
-    Reference imgRef = fireStorage.ref('userImages/'+(userProfile.userProfileImage??''));
-    userProfile.userProfileImageURL = await imgRef.getDownloadURL(); // TODO erreor dowload time exceeded
+    //Reference imgRef = fireStorage.ref('userImages/'+(userProfile.userProfileImage??''));
+    //userProfile.userProfileImageURL = await imgRef.getDownloadURL(); // TODO erreor dowload time exceeded
     
     return userProfile;
   }

@@ -63,6 +63,7 @@ class UserProfileModel extends UserModel {
   set userPosition(value) {
     _userPosition = value;
   }
+
   String? get userName {
     return _userName;
   }

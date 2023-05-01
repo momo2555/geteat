@@ -6,7 +6,7 @@ class SubCommandModel {
   
   num? _subCommandTotalPrice = 0;
   MealModel _subCommandMeal = MealModel();
-  List<Map<String, dynamic>>? _subCommandOptions = [];
+  List<dynamic>? _subCommandOptions = [];
   num? _subCommandLength = 1;
   String? _subCommandId = "";
   
@@ -48,6 +48,20 @@ class SubCommandModel {
     return _subCommandLength;
   }
  
+  String getOptionsAsText() {
+    List<String> options = [];
+    print("----------------------------");
+      print(_subCommandOptions);
+      print("----------------------------");
+    for (Map<String, dynamic> option in _subCommandOptions??[]) {
+      
+      if (option.keys.contains("contents")) {
+        options.add((option["contents"] as List).join(","));
+      }
+      
+    }
+    return options.join(" | ");
+  }
 
   dynamic toObject() {
     return {

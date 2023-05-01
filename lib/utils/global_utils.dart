@@ -8,6 +8,8 @@ import 'package:geteat/models/sub_command_model.dart';
 import 'package:geteat/models/user_profile_model.dart';
 
 class Globals {
+  static List<CommandModel> commandStack = [];
+  static bool commandPopupOn = false;
   static var homeIndex =  ValueNotifier<int>(0);
   static var userPosition = ValueNotifier<List<num>>([0.0,0.0]);
   static var userPositonComment = ValueNotifier<String>("");

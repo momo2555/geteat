@@ -117,7 +117,7 @@ class _CommandStatusPageState extends State<CommandStatusPage> {
 
                 if (snapshot.hasData) {
                   String status = snapshot.data ?? "";
-                  received = (status == "received") || (status == "archieved");
+                  received = (status == "received") || (status == "archived");
                   livering = received || status == "delivery";
                   confirmed = livering || status == "kitchen"; 
                   if (confirmed) {

@@ -2,6 +2,7 @@ import 'dart:core';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:geteat/models/restaurant_model.dart';
 
 class MealModel {
   String? _mealId;
@@ -11,8 +12,7 @@ class MealModel {
   num? _mealPrice;
   List<dynamic>? _mealStruct;
   File? _mealImage;
-   
-   
+  String? _mealRestaurantId ;
   MealModel() : super();
 
   set mealId(value) {
@@ -35,6 +35,9 @@ class MealModel {
   }
   set mealStruct(value) {
     _mealStruct = value;
+  }
+  set mealRestaurantId(value) {
+   _mealRestaurantId = value;
   }
 
 
@@ -59,6 +62,9 @@ class MealModel {
   get mealStruct {
     return _mealStruct;
   }
+  get mealRestaurantId {
+    return _mealRestaurantId;
+  }
 
 
   dynamic toObject() {
@@ -68,6 +74,7 @@ class MealModel {
       'mealPrice' : _mealPrice,
       'mealImageName' : _mealImageName,
       'mealStruct' : _mealStruct, 
+      'mealRestaurantId' : _mealRestaurantId,
     };
   }
 

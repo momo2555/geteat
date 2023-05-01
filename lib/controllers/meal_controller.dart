@@ -96,6 +96,7 @@ class MealController {
     meal.mealStruct = doc.get('mealStruct');
     meal.mealId = doc.id;
     meal.mealPrice = doc.get('mealPrice');
+    meal.mealRestaurantId = doc.get('mealRestaurantId');
     
 
     return meal;

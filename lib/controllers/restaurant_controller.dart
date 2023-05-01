@@ -8,17 +8,17 @@ import 'package:geteat/models/restaurant_model.dart';
 import 'package:geteat/models/user_model.dart';
 
 class RestaurantController {
-  FirebaseFirestore fireStore = FirebaseFirestore.instance;
-  UserConnection userConnection = UserConnection();
+  FirebaseFirestore _fireStore = FirebaseFirestore.instance;
+  UserConnection _userConnection = UserConnection();
   //FirebaseStorage fireStorage = FirebaseStorage.instance;
 
   /*Future<UserProfileModel> get getUserProfile async {
 
-    UserModel user = await userConnection.UserConnected;
+    UserModel user = await _userConnection.UserConnected;
     UserProfileModel userProfile = UserProfileModel.byModel(user);
     //get the user reference 
     DocumentReference profileDataRef =
-        fireStore.collection('users').doc(userProfile.getUid);
+        _fireStore.collection('users').doc(userProfile.getUid);
     //get user data
     DocumentSnapshot profileData = (await profileDataRef.get());
     userProfile.setUserName = profileData.get('userName');
@@ -33,10 +33,10 @@ class RestaurantController {
     return userProfile;
   }*/
   void addRestaurant(RestaurantModel newRestaurant) async {
-    UserModel user = await userConnection.UserConnected;
+    UserModel user = await _userConnection.UserConnected;
     //newPost.setPostUserId = user.getUid;
     //create a new document for the new post (auto generated uid)
-    DocumentReference ref = fireStore.collection('restaurants').doc();
+    DocumentReference ref = _fireStore.collection('restaurants').doc();
     //uid of the post
     String uid = ref.id;
     //upload photos in the firestorage
@@ -64,7 +64,7 @@ class RestaurantController {
   Future<RestaurantModel> getRestaurantById(String uid) async {
     RestaurantModel restaurant = RestaurantModel();
     DocumentReference restaurantRef =
-        fireStore.collection('restaurants').doc(uid);
+        _fireStore.collection('restaurants').doc(uid);
     //get user data
     DocumentSnapshot restaurantSnapshot = (await restaurantRef.get());
     restaurant = docToRestaurantModel(restaurantSnapshot);
@@ -83,10 +83,13 @@ class RestaurantController {
     restaurant.restaurantHours = doc.get('restaurantHours');
     restaurant.restaurantImageName = doc.get('restaurantImageName');
     restaurant.restaurantMeals = doc.get('restaurantMeals');
+
     
     
     return restaurant;
   }
+
+
 
   Future<RestaurantModel> getImage(RestaurantModel restaurant) async {
     
@@ -112,7 +115,7 @@ class RestaurantController {
     
   }*/  // on part sur une autre stratégie
   Stream<List<RestaurantModel>> getAllRestaurants()  {
-    return fireStore.collection('restaurants').limit(20).snapshots().map((event) => event.docs.map((e) =>  docToRestaurantModel(e)).toList() );
+    return _fireStore.collection('restaurants').limit(20).snapshots().map((event) => event.docs.map((e) =>  docToRestaurantModel(e)).toList() );
     
   }
 }

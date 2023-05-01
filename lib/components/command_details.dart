@@ -50,43 +50,47 @@ class _CommandDetailsState extends State<CommandDetails> {
     
     return Padding(
       padding: const EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SimpleText(text: "Command ${CommandUtils.commandNumber(widget.command)} ", color: 2, size: 16, thick: 6,),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: _commandsDetail,
-              ),
-              Builder(builder: 
-              (context)  {
-                if(widget.command.commandStatus != "archived") {
-                  return ActionButton(
-                    text: "En cours",
-                    filled: true,
-                    hasBorder: false,
-                    rounded: true,
-                    color: Theme.of(context).primaryColorLight,
-                    backColor: Theme.of(context).primaryColor,
-                    action: () {
-                      widget.command.withCommandDetails = true;
-                      Navigator.pushNamed(context, "/state_page", arguments: widget.command);
-                    },
-                  );
-                }else {
-                  return Container(child: SimpleText(text: "Commmande terminée", color: 3,cut: true,));
-                }
+      child: Container(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SimpleText(text: "Command ${CommandUtils.commandNumber(widget.command)} ", color: 2, size: 16, thick: 6,),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: _commandsDetail,
+                ),
+                Builder(builder: 
+                (context)  {
+                  if(widget.command.commandStatus == "archived") {
+                    return Container(child: SimpleText(text: "Commmande terminée", color: 3,cut: true,));
+                  }else if(widget.command.commandStatus == "refused"){
+                     return Container(child: SimpleText(text: "Refusé", color: 4,cut: true,thick: 7,));
+                  }else {
+                    return ActionButton(
+                      text: "En cours",
+                      filled: true,
+                      hasBorder: false,
+                      rounded: true,
+                      color: Theme.of(context).primaryColorLight,
+                      backColor: Theme.of(context).primaryColor,
+                      action: () {
+                        widget.command.withCommandDetails = true;
+                        Navigator.pushNamed(context, "/state_page", arguments: widget.command);
+                      },
+                    );
+                  }
+                  
+                }) 
                 
-              }) 
-              
-            ],
-          ),
-          Divider(color: Color.fromARGB(255, 72, 72, 72),),
-        ],
+              ],
+            ),
+            Divider(color: Color.fromARGB(255, 72, 72, 72),),
+          ],
+        ),
       ),
     );
   }

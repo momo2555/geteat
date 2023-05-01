@@ -43,7 +43,11 @@ class _RestaurantPageState extends State<RestaurantPage> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         toolbarHeight: 0,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
       ),
+      extendBody: true,
+      extendBodyBehindAppBar:  true,
       bottomNavigationBar: ValueListenableBuilder(
         valueListenable: Globals.goToKart,
         builder: (context, bool value, child) {
@@ -112,7 +116,7 @@ class _RestaurantPageState extends State<RestaurantPage> {
                     ),
                   ),
                   Positioned(
-                    top: 10,
+                    top: 45,
                     left: 15,
                     child: SimpleCloseButton(),
                   ),
