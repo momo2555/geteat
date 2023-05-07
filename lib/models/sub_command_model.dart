@@ -50,9 +50,7 @@ class SubCommandModel {
  
   String getOptionsAsText() {
     List<String> options = [];
-    print("----------------------------");
-      print(_subCommandOptions);
-      print("----------------------------");
+    
     for (Map<String, dynamic> option in _subCommandOptions??[]) {
       
       if (option.keys.contains("contents")) {

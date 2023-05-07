@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
@@ -19,6 +20,7 @@ class CacheStorageController {
   Future<File> downloadFromCloud(
       String folderPath, String fileName, LocalSaveMode mode) async {
     Reference downloadRef = fireStorage.ref(folderPath + fileName);
+    (await downloadRef.getMetadata()).updated;
     //by default the directory is the cache
     Directory tempDir = await getTemporaryDirectory();
     if (mode == LocalSaveMode.userDocuments) {
@@ -33,6 +35,17 @@ class CacheStorageController {
     }
     File file = File(tempPathFilePath);
     //check if the file exists (if it exists do not download it again)
+    DateTime lastModifiedLocal = DateTime.fromMillisecondsSinceEpoch(0);
+    try {
+       lastModifiedLocal = await file.lastModified();
+       print("______________<.>______________");
+       print(lastModifiedLocal.toString());
+    } catch (e) {
+      print("impossible to get modified date of the file");
+    }
+    
+    DateTime? lastModifiedCloud = (await downloadRef.getMetadata()).timeCreated;
+    print(lastModifiedCloud.toString());
     if (file.existsSync()) {
       //return the existing file
       return file;

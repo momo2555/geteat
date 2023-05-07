@@ -302,6 +302,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.1"
+  flutter_spinbox:
+    dependency: "direct main"
+    description:
+      name: flutter_spinbox
+      sha256: ba52f88304774efca16545a8173dfe89c58ec3e794a19cb5d5d6183732bb5ea0
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.13.0"
   flutter_svg:
     dependency: "direct main"
     description:
@@ -831,4 +839,4 @@ packages:
     version: "3.1.1"
 sdks:
   dart: ">=2.19.0 <3.0.0"
-  flutter: ">=3.3.0"
+  flutter: ">=3.7.0"

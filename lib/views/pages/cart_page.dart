@@ -19,6 +19,7 @@ class cartPage extends StatefulWidget {
 
 class _cartPageState extends State<cartPage> {
   CommandController _commandController = CommandController();
+  bool _loadingButton = false;
   Widget _loading(BuildContext context) {
     print("loading");
     return Center(
@@ -91,7 +92,6 @@ class _cartPageState extends State<cartPage> {
         ),
         Container(
           padding: EdgeInsets.all(16.0),
-          height: 95,
           child: StreamBuilder(
             initialData: Globals.persistantCartPrice,
             stream: _commandController.getCartTotalPrice(),
@@ -99,32 +99,24 @@ class _cartPageState extends State<cartPage> {
               Globals.persistantCartPrice = snapshot.data ?? 0;
               if ((snapshot.data ?? 0) != 0.0) {
                 return ActionButton(
+                    wait: _loadingButton,
                     text:
                         "Valider Commande - ${snapshot.hasData ? snapshot.data?.toStringAsFixed(2) ?? '' : ''}€",
-                    backColor: Theme.of(context).backgroundColor,
+                    backColor: Theme.of(context).colorScheme.background,
                     filled: true,
                     expanded: true,
                     color: Theme.of(context).primaryColorLight,
                     action: () async {
-                      showDialog(
-                          context: context,
-                          builder: (context) {
-                            return Center(
-                              child: Container(
-                                height: 70,
-                                width: 70,
-                                child: CircularProgressIndicator(
-                                  color: Theme.of(context).primaryColor,
-                                  strokeWidth: 10,
-                                ),
-                              ),
-                            );
-                          });
+                      setState(() {
+                        _loadingButton = true;
+                      });
                       Globals.userCart =
                           await _commandController.getCartAsCommandModel(false);
 
-                      Globals.goBack(context);
                       Navigator.pushNamed(context, "/confirmation_page");
+                      setState(() {
+                        _loadingButton = false;
+                      });
                     });
               } else {
                 return Container();

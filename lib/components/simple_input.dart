@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_spinbox/material.dart';
 
 class SimpleInput extends StatefulWidget {
   const SimpleInput({
@@ -129,7 +130,7 @@ class _SimpleInputState extends State<SimpleInput> {
     return InputDecoration(
       prefixIcon: widget.icon,
       hintText: widget.placeholder ?? '',
-      prefixText: widget.type == "phone" ? "+33" : "",
+      prefixText: widget.type == "phone" ? "+33" :null,
       prefixStyle: TextStyle(
           color: Colors.green, fontWeight: FontWeight.bold, fontSize: 17),
       hintStyle: TextStyle(
@@ -181,7 +182,7 @@ class _SimpleInputState extends State<SimpleInput> {
     return InputDecoration(
       prefixIcon: widget.icon,
       hintText: widget.placeholder ?? '',
-      prefixText: widget.type == "phone" ? "+33" : "",
+      prefixText: widget.type == "phone" ? "+33" : null,
       prefixStyle: TextStyle(
           color: Colors.green, fontWeight: FontWeight.bold, fontSize: 17),
       hintStyle: TextStyle(
@@ -311,7 +312,7 @@ class _SimpleInputState extends State<SimpleInput> {
       },
       validator: (value) =>
           (widget.validator != null ? widget.validator!(value) : null),
-      //initialValue: widget.value,
+      initialValue: widget.value,
     );
   }
 
@@ -336,7 +337,22 @@ class _SimpleInputState extends State<SimpleInput> {
       initialValue: widget.value,
     );
   }
-
+  Widget _spinboxInput () {
+    return SpinBox(
+      textStyle:  TextStyle(color: (widget.style??"default")=="light"?Theme.of(context).primaryColorDark:Theme.of(context).primaryColorLight),
+      decoration: _decoration(),
+      decimals: 2,
+       //acceleration: 0.01,
+      digits: 3,
+      step: 0.01,
+      spacing: 40,
+      value: double.parse(widget.value),
+      onChanged: (val) {
+        value = val.toString();
+        widget.onChange != null ? widget.onChange!(val.toString()) : () {};
+      },
+    );
+  }
   Widget _passwordInput() {
     return TextFormField(
       //textAlign: TextAlign.center,
@@ -369,6 +385,8 @@ class _SimpleInputState extends State<SimpleInput> {
       return _passwordInput();
     } else if (widget.type == 'phone') {
       return _phoneInput();
+    } else if (widget.type == 'spinbox') {
+      return _spinboxInput();
     } else {
       return _simpleInput();
     }

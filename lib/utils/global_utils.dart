@@ -4,10 +4,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geteat/models/command_model.dart';
+import 'package:geteat/models/restaurant_model.dart';
 import 'package:geteat/models/sub_command_model.dart';
 import 'package:geteat/models/user_profile_model.dart';
 
 class Globals {
+  static var kitchenSelectedRestaurantEdition = ValueNotifier<String>("");
+  static RestaurantModel selectedRestaurantEdition = RestaurantModel();
   static List<CommandModel> commandStack = [];
   static bool commandPopupOn = false;
   static var homeIndex =  ValueNotifier<int>(0);

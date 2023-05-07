@@ -15,10 +15,10 @@ class CommandsRightPane extends StatefulWidget {
 }
 
 class _CommandsRightPaneState extends State<CommandsRightPane> {
- CommandController _commandController = CommandController(); 
+  CommandController _commandController = CommandController();
   @override
   Widget build(BuildContext context) {
-     return Scaffold(
+    return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColorLight,
         elevation: 2,
@@ -30,29 +30,35 @@ class _CommandsRightPaneState extends State<CommandsRightPane> {
           size: 16,
         ),
         centerTitle: true,
-        
+        automaticallyImplyLeading: false,
       ),
       backgroundColor: Theme.of(context).colorScheme.surface,
       body: Container(
         padding: EdgeInsets.all(10),
-        child: SingleChildScrollView(child: StreamBuilder(
-          stream: _commandController.getOnDeliveryCommands(),
-          builder: (context, AsyncSnapshot<List<KitchenDeliveryElement>> snapshot) {
-            if (snapshot.hasData) {
-              return Column(
-                children: snapshot.data ?? [],
-              );
-            }else {
-              return Center(
-                child: Container(height: 50, width: 50, child: CircularProgressIndicator(
-                  color: Theme.of(context).primaryColor,
-                ),),
-              );
-            }
-          },
-        ),),
+        child: SingleChildScrollView(
+          child: StreamBuilder(
+            stream: _commandController.getOnDeliveryCommands(),
+            builder: (context,
+                AsyncSnapshot<List<KitchenDeliveryElement>> snapshot) {
+              if (snapshot.hasData) {
+                return Column(
+                  children: snapshot.data ?? [],
+                );
+              } else {
+                return Center(
+                  child: Container(
+                    height: 50,
+                    width: 50,
+                    child: CircularProgressIndicator(
+                      color: Theme.of(context).primaryColor,
+                    ),
+                  ),
+                );
+              }
+            },
+          ),
+        ),
       ),
     );
-    
   }
 }

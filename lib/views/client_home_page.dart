@@ -41,7 +41,7 @@ class _ClientHomepageState extends State<ClientHomepage> {
             top: false,
             child: Scaffold(
               
-              extendBody: true,
+              
               appBar: AppBar(
                 automaticallyImplyLeading: false,
                 toolbarHeight: 0,

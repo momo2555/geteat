@@ -4,6 +4,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:geteat/components/kitchen_menu_element.dart';
 import 'package:geteat/components/simple_text.dart';
 import 'package:geteat/controllers/user_connection.dart';
+import 'package:geteat/utils/global_utils.dart';
 
 class KitchenDrawerMenu extends StatefulWidget {
   const KitchenDrawerMenu({Key? key}) : super(key: key);
@@ -49,7 +50,10 @@ class _KitchenDrawerMenuState extends State<KitchenDrawerMenu> {
               ),
               
             ), 
-
+            KitchenMenuElement(text: "Edition", onClick: () {
+              Globals.kitchenSelectedRestaurantEdition.value = "";
+              Navigator.pushNamed(context, "/edit");
+            },),
             KitchenMenuElement(text: "Déconnexion", onClick: () {
               _userConnection.logout();
             },),

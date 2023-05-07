@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:path/path.dart' as p;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geteat/components/restaurant_thumbnail.dart';
 import 'package:geteat/controllers/cache_storage_controller.dart';
@@ -10,6 +10,7 @@ import 'package:geteat/models/user_model.dart';
 class RestaurantController {
   FirebaseFirestore _fireStore = FirebaseFirestore.instance;
   UserConnection _userConnection = UserConnection();
+  CacheStorageController _cloudDownloader = CacheStorageController();
   //FirebaseStorage fireStorage = FirebaseStorage.instance;
 
   /*Future<UserProfileModel> get getUserProfile async {
@@ -92,22 +93,12 @@ class RestaurantController {
 
 
   Future<RestaurantModel> getImage(RestaurantModel restaurant) async {
-    
-       
-      //download images
-      //get temp
-      String? imagesStorageName = restaurant.restaurantImageName;
-      
-      
-      CacheStorageController cloudDownloader = CacheStorageController();
-      File fileImg = await cloudDownloader.downloadFromCloud('restaurants/', (imagesStorageName as String), LocalSaveMode.userDocuments);
-      
-      restaurant.restaurantImage = fileImg;
-    
-      
+    //download images
+    //get temp
+    String? imagesStorageName = restaurant.restaurantImageName;
+    File fileImg = await _cloudDownloader.downloadFromCloud('restaurants/', (imagesStorageName as String), LocalSaveMode.userDocuments);
+    restaurant.restaurantImage = fileImg;
     return restaurant;
-    
-   
   }
 
   /*Stream<List<Future<RestaurantModel>>> converDocs(QueryDocumentSnapshot<Map<String, dynamic>> snapshots) async* {
@@ -116,6 +107,26 @@ class RestaurantController {
   }*/  // on part sur une autre stratégie
   Stream<List<RestaurantModel>> getAllRestaurants()  {
     return _fireStore.collection('restaurants').limit(20).snapshots().map((event) => event.docs.map((e) =>  docToRestaurantModel(e)).toList() );
-    
+  }
+
+  void updateRestaurantImageName(RestaurantModel restaurant) {
+    if(restaurant.restaurantImage!=null) {
+      var ext = p.extension((restaurant.restaurantImage as File).path);
+      restaurant.restaurantImageName = "${restaurant.restaurantId}.$ext";
+    }
+  }
+  Future<void> editRestaurant(RestaurantModel restaurant) async {
+    //upload image
+    updateRestaurantImageName(restaurant);
+    await _cloudDownloader.uploadImage(restaurant.restaurantImage, "restaurants/${restaurant.restaurantImageName}");
+    //Save data
+     _fireStore.collection("restaurants").doc(restaurant.restaurantId).set(restaurant.toObject());
+
+  }
+  Future<void> createRestaurant(RestaurantModel restaurant) async {
+    var ref = _fireStore.collection("restaurants").doc();
+    restaurant.restaurantId = ref.id;
+    editRestaurant(restaurant);
+
   }
 }

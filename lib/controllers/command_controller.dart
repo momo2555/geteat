@@ -70,7 +70,7 @@ class CommandController {
       DocumentSnapshot<Map<String, dynamic>> doc, bool withMealPictures) async {
     CommandModel command = CommandModel();
     command.commandId = doc.id;
-    print(doc.data());
+    //print(doc.data());
     command.commandDate = doc.get("commandDate");
     command.commandNumber = doc.get("commandNumber");
     command.commandPosition = doc.get("commandPosition");
@@ -286,6 +286,8 @@ class CommandController {
     }
     return false;
   }
+
+  
   
 
 }

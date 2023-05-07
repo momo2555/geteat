@@ -9,6 +9,8 @@ import 'package:geteat/models/restaurant_model.dart';
 import 'package:geteat/models/user_profile_model.dart';
 import 'package:geteat/utils/global_utils.dart';
 import 'package:geteat/views/client_home_page.dart';
+import 'package:geteat/views/kitchen/edit_meal_page.dart';
+import 'package:geteat/views/kitchen/edit_pages.dart';
 import 'package:geteat/views/load/load_page.dart';
 import 'package:geteat/views/main_kitchen_page.dart';
 import 'package:geteat/views/main_sign_page.dart';
@@ -150,6 +152,16 @@ class RouteGenerator {
         return MaterialPageRoute(
           builder: (context) => LoadPage(
             load: settings.arguments as LoadModel,
+          ),
+        );
+      case '/edit':
+        return MaterialPageRoute(
+          builder: (context) => EditPage(),
+        );
+      case '/edit_meal':
+        return MaterialPageRoute(
+          builder: (context) => EditMealPage(
+            meal: settings.arguments as MealModel,
           ),
         );
       /* case '/newPost/confirmation':

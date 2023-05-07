@@ -9,7 +9,7 @@ import 'package:geteat/models/restaurant_model.dart';
 import 'package:geteat/models/user_model.dart';
 
 class MealController {
-  FirebaseFirestore fireStore = FirebaseFirestore.instance;
+  FirebaseFirestore _fireStore = FirebaseFirestore.instance;
   UserConnection userConnection = UserConnection();
   //FirebaseStorage fireStorage = FirebaseStorage.instance;
 
@@ -19,7 +19,7 @@ class MealController {
     UserProfileModel userProfile = UserProfileModel.byModel(user);
     //get the user reference 
     DocumentReference profileDataRef =
-        fireStore.collection('users').doc(userProfile.getUid);
+        _fireStore.collection('users').doc(userProfile.getUid);
     //get user data
     DocumentSnapshot profileData = (await profileDataRef.get());
     userProfile.setUserName = profileData.get('userName');
@@ -37,7 +37,7 @@ class MealController {
     UserModel user = await userConnection.UserConnected;
     //newPost.setPostUserId = user.getUid;
     //create a new document for the new post (auto generated uid)
-    DocumentReference ref = fireStore.collection('meals').doc();
+    DocumentReference ref = _fireStore.collection('meals').doc();
     //uid of the post
     String uid = ref.id;
     //upload photos in the firestorage
@@ -65,7 +65,7 @@ class MealController {
   Future<MealModel> getMealById(String mealId, bool withPicture) async {
     MealModel meal = MealModel();
     DocumentReference mealRef =
-        fireStore.collection('meals').doc(mealId);
+        _fireStore.collection('meals').doc(mealId);
     //get user data
     DocumentSnapshot mealSnapshot = (await mealRef.get());
     meal = docToMealModel(mealSnapshot);
@@ -129,7 +129,10 @@ class MealController {
     
   }*/  // on part sur une autre stratégie
   /*Stream<List<RestaurantModel>> getAllmeals()  {
-    return fireStore.collection('meals').limit(20).snapshots().map((event) => event.docs.map((e) =>  docToMealModel(e)).toList() );
+    return _fireStore.collection('meals').limit(20).snapshots().map((event) => event.docs.map((e) =>  docToMealModel(e)).toList() );
     
   }*/
+  Stream<List<MealModel>> getMealsOfRestaurant(RestaurantModel restaurant) async* {
+    yield* _fireStore.collection("meals").where("mealRestaurantId", isEqualTo: restaurant.restaurantId).snapshots(includeMetadataChanges: true).map((event) => event.docs.map((e) => docToMealModel(e)).toList());
+  }
 }

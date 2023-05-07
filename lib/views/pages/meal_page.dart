@@ -37,7 +37,6 @@ class _MealPageState extends State<MealPage> {
   ///num _totalPrice = 0;
   DecorationImage? _decorationImage() {
     if (widget.meal.mealImage != null) {
-      print(widget.meal.mealImage);
       return DecorationImage(
         image: FileImage(widget.meal.mealImage),
         fit: BoxFit.cover,
@@ -115,7 +114,6 @@ class _MealPageState extends State<MealPage> {
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
-      extendBody: true,
       extendBodyBehindAppBar:  true,
       bottomNavigationBar: BottomAppBar(
         elevation: 5,
