@@ -79,7 +79,7 @@ class _MealThumbnailState extends State<MealThumbnail> {
                   thick: 6,
                 ),
                 SimpleText(
-                  text: "5.25€",
+                  text: "${(widget.meal.mealPrice as num).toStringAsFixed(2)}€",
                   color: 2,
                   thick: 6,
                 ),
