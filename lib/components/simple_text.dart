@@ -32,17 +32,18 @@ class _SimpleTextState extends State<SimpleText> {
     // TODO: implement initState
     super.initState();
     
+    
+  }
+
+  @override
+  Widget build(BuildContext context) {
     List<FontWeight> weightList = [
       FontWeight.normal, FontWeight.w100, FontWeight.w200, FontWeight.w300, FontWeight.w400, FontWeight.w500, FontWeight.w600, FontWeight.w700,
       FontWeight.w800, FontWeight.w900,
     ];
     _thick = weightList[widget.thick??0];
-  }
-
-  @override
-  Widget build(BuildContext context) {
     _color = Theme.of(context).primaryColorLight;
-    List<Color> colors = [Theme.of(context).primaryColorLight,Theme.of(context).primaryColor, Theme.of(context).primaryColorDark ];
+    List<Color> colors = [Theme.of(context).primaryColorLight,Theme.of(context).primaryColor, Theme.of(context).primaryColorDark, Color.fromARGB(255, 124, 124, 124), Colors.red ];
     _color = colors[widget.color??0];
     return Text(widget.text, 
       style: TextStyle(

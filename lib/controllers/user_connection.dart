@@ -42,7 +42,7 @@ class UserConnection {
 
       String userId = "";
       userId = _userCredential.user?.uid ?? '';
-      print(userId);
+      
       UserModel _user = UserModel(email, password, userId);
       return _user;
     
@@ -95,7 +95,7 @@ class UserConnection {
       
       String userId = "";
       userId = phoneUserCredential.user?.uid ?? '';
-      print(userId);
+      
       UserModel _user = UserModel(email, phoneUserCredential.user?.phoneNumber ?? '' ,password, userId);
       return _user;
     } catch (e) {

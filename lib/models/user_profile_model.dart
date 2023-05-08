@@ -11,6 +11,8 @@ class UserProfileModel extends UserModel {
   String? _userProfileImageURL;
   double? _userRate;
   String? _userDescription;
+  String? _userAddress;
+  String? _userCity;
   File? _userProfileImageFile;
   UserProfileModel(email, phone, password, uid) : super(email, phone, password, uid);
   UserProfileModel.byModel(UserModel user)
@@ -45,6 +47,12 @@ class UserProfileModel extends UserModel {
   set userProfileImageFile(value) {
     _userProfileImageFile = value;
   }
+  set userAddress(value) {
+    _userAddress = value;
+  }
+  set userCity(value) {
+    _userCity = value;
+  }
   String? get userName {
     return _userName;
   }
@@ -71,6 +79,13 @@ class UserProfileModel extends UserModel {
 
   String? get userDescription {
     return _userDescription;
+  }
+  String? get userAddress {
+    return _userAddress;
+  }
+
+  String? get userCity{
+    return _userCity;
   }
   get userProfileImageFile {
     return _userProfileImageFile;

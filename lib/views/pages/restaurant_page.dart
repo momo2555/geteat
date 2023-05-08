@@ -1,21 +1,38 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:geteat/components/menu_thumbnail.dart';
+import 'package:geteat/components/meal_thumbnail.dart';
 import 'package:geteat/components/simple_close_button.dart';
+import 'package:geteat/controllers/meal_controller.dart';
+import 'package:geteat/models/meal_model.dart';
+import 'package:geteat/models/restaurant_model.dart';
 
 class RestaurantPage extends StatefulWidget {
-  const RestaurantPage({Key? key}) : super(key: key);
-
+  const RestaurantPage({Key? key,required this.restaurant,}) : super(key: key);
+  final RestaurantModel restaurant;
   @override
   State<RestaurantPage> createState() => _RestaurantPageState();
 }
 
 class _RestaurantPageState extends State<RestaurantPage> {
+  MealController _mealController = MealController();
+  DecorationImage? _decorationImage() {
+    if(widget.restaurant.restaurantImage != null){
+      return DecorationImage(
+        image: FileImage(widget.restaurant.restaurantImage) ,
+        fit: BoxFit.cover,
+        alignment: Alignment.center,
+      );
+    }else {
+      return null;
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).primaryColorLight,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         toolbarHeight: 0,
@@ -29,14 +46,12 @@ class _RestaurantPageState extends State<RestaurantPage> {
               Stack(
                 children: [
                   Hero(
-                    tag: "FRENCHIE - French Tacos".trim(),
+                    tag: widget.restaurant.restaurantId,
                     child: Container(
                       width: double.infinity,
                       height: 200,
                       decoration: BoxDecoration(
-                        image: DecorationImage(
-                            image: AssetImage('assets/images/resto_2.jpg'),
-                            fit: BoxFit.cover),
+                        image: _decorationImage(),
                       ),
                     ),
                   ),
@@ -47,16 +62,23 @@ class _RestaurantPageState extends State<RestaurantPage> {
                   ),
                 ],
               ),
-              MenuThumbnail(),
-              MenuThumbnail(),
-              MenuThumbnail(),
-              MenuThumbnail(),
-              MenuThumbnail(),
-              MenuThumbnail(),
-              MenuThumbnail(),
-              MenuThumbnail(),
-              MenuThumbnail(),
-              MenuThumbnail(),
+             Builder(builder: (context) {
+              List<Widget> meals = [];
+              for(DocumentReference ref in widget.restaurant.restaurantMeals) {
+                meals.add(FutureBuilder(
+                  future: _mealController.getMeal(ref),
+                  builder: (context, snapshot) {
+                  if(snapshot.hasData){
+                    print(snapshot.data);
+                    return MealThumbnail(meal: snapshot.data as MealModel);
+                  }
+                  return Container();
+                },));
+              }
+              return Column(
+                children: meals,
+              );
+             },)
             ],
           ),
         ),

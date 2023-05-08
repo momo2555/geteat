@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 
-class MealModel {
+class CommandModel {
   String? _mealId;
   String? _mealDescription;
   String? _mealName;
@@ -13,7 +13,7 @@ class MealModel {
   File? _mealImage;
    
    
-  MealModel() : super();
+  CommandModel() : super();
 
   set mealId(value) {
     _mealId = value;

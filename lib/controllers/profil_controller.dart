@@ -50,6 +50,8 @@ class ProfileController {
     userProfile.userProfileImage = profileData.get('userProfileImage');
     userProfile.phone            = profileData.get('userPhone');
     userProfile.email            = profileData.get('userEmail');
+    userProfile.userAddress      = profileData.get('userAddress');
+    userProfile.userCity         = profileData.get('userCity');
     //get the link of the profile image
     
     Reference imgRef = fireStorage.ref('userImages/'+(userProfile.userProfileImage??''));
