@@ -21,7 +21,8 @@ class CacheStorageController {
   Future<File> downloadFromCloud(
       String folderPath, String fileName, LocalSaveMode mode) async {
     Reference downloadRef = fireStorage.ref(folderPath + fileName);
-    (await downloadRef.getMetadata()).updated;
+    print(folderPath + fileName);
+    
     //by default the directory is the cache
     Directory tempDir = await getTemporaryDirectory();
     if (mode == LocalSaveMode.userDocuments) {
