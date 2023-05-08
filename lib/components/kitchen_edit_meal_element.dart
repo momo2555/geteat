@@ -17,17 +17,7 @@ class KitchenEditMealElement extends StatefulWidget {
 
 class _KitchenEditMealElementState extends State<KitchenEditMealElement> {
   MealController _mealController = MealController();
-  DecorationImage? _decorationImage() {
-    if(widget.meal.mealImage != null){
-      return DecorationImage(
-        image: FileImage(widget.meal.mealImage) ,
-        fit: BoxFit.cover,
-        alignment: Alignment.center,
-      );
-    }else {
-      return null;
-    }
-  }
+  
   _updateAll() {
     _mealController.getImage(widget.meal).then((value) {
       setState(() {
@@ -67,29 +57,32 @@ class _KitchenEditMealElementState extends State<KitchenEditMealElement> {
             borderRadius: BorderRadius.all(Radius.circular(6)),
           ),
           child: Row(
+            
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Padding(
-                padding: const EdgeInsets.all(20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SimpleText(
-                      text:
-                          "${widget.meal.mealName} - ${(widget.meal.mealPrice as num).toStringAsFixed(2)}€",
-                      color: 2,
-                      size: 16,
-                      thick: 6,
-                    ),
-                    SimpleText(text: "${widget.meal.mealDescription}", color: 3, ),
-                  ],
+              Flexible(
+                child: Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SimpleText(
+                        text:
+                            "${widget.meal.mealName} - ${(widget.meal.mealPrice as num).toStringAsFixed(2)}€",
+                        color: 2,
+                        size: 16,
+                        thick: 6,
+                      ),
+                      SimpleText(text: "${widget.meal.mealDescription}", color: 3, center: false,),
+                    ],
+                  ),
                 ),
               ),
               Container(
                 width: 110,
                 height: 110,
                 decoration: BoxDecoration(
-                  image: _decorationImage(),
+                  image: MealController.decorationImage(widget.meal),
                 ),
                 child: widget.meal.mealImage != null ? null : Center(
                   child: Container(

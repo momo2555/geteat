@@ -9,6 +9,7 @@ import 'package:geteat/components/meal_elements.dart';
 import 'package:geteat/components/simple_close_button.dart';
 import 'package:geteat/components/simple_text.dart';
 import 'package:geteat/controllers/command_controller.dart';
+import 'package:geteat/controllers/meal_controller.dart';
 import 'package:geteat/models/command_model.dart';
 import 'package:geteat/models/meal_model.dart';
 import 'package:geteat/models/sub_command_model.dart';
@@ -34,18 +35,7 @@ class _MealPageState extends State<MealPage> {
   SubCommandModel _command = SubCommandModel();
   CommandController _commandController = CommandController();
 
-  ///num _totalPrice = 0;
-  DecorationImage? _decorationImage() {
-    if (widget.meal.mealImage != null) {
-      return DecorationImage(
-        image: FileImage(widget.meal.mealImage),
-        fit: BoxFit.cover,
-        alignment: Alignment.center,
-      );
-    } else {
-      return null;
-    }
-  }
+  
 
   bool isError() {
     bool error = false;
@@ -194,7 +184,7 @@ class _MealPageState extends State<MealPage> {
                       width: double.infinity,
                       height: 170,
                       decoration: BoxDecoration(
-                        image: _decorationImage(),
+                        image: MealController.decorationCoverImage(widget.meal),
                       ),
                     ),
                   ),

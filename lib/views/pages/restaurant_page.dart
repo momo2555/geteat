@@ -15,29 +15,31 @@ import 'package:geteat/utils/icons_utils.dart';
 import 'package:provider/provider.dart';
 
 class RestaurantPage extends StatefulWidget {
-  const RestaurantPage({Key? key,required this.restaurant,}) : super(key: key);
+  const RestaurantPage({
+    Key? key,
+    required this.restaurant,
+  }) : super(key: key);
   final RestaurantModel restaurant;
   @override
   State<RestaurantPage> createState() => _RestaurantPageState();
 }
 
 class _RestaurantPageState extends State<RestaurantPage> {
-  
   MealController _mealController = MealController();
   DecorationImage? _decorationImage() {
-    if(widget.restaurant.restaurantImage != null){
+    if (widget.restaurant.restaurantImage != null) {
       return DecorationImage(
-        image: FileImage(widget.restaurant.restaurantImage) ,
+        image: FileImage(widget.restaurant.restaurantImage),
         fit: BoxFit.cover,
         alignment: Alignment.center,
       );
-    }else {
+    } else {
       return null;
     }
   }
+
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColorLight,
       appBar: AppBar(
@@ -47,7 +49,7 @@ class _RestaurantPageState extends State<RestaurantPage> {
         elevation: 0,
       ),
       extendBody: true,
-      extendBodyBehindAppBar:  true,
+      extendBodyBehindAppBar: true,
       bottomNavigationBar: ValueListenableBuilder(
         valueListenable: Globals.goToKart,
         builder: (context, bool value, child) {
@@ -69,8 +71,11 @@ class _RestaurantPageState extends State<RestaurantPage> {
                             padding: const EdgeInsets.only(right: 10),
                             child: GeIcons.loadingOk,
                           ),
-                          
-                          SimpleText(text: "Bien ajouté au panier", color: 2, thick: 3,),
+                          SimpleText(
+                            text: "Bien ajouté au panier",
+                            color: 2,
+                            thick: 3,
+                          ),
                         ],
                       ),
                       Padding(
@@ -82,9 +87,9 @@ class _RestaurantPageState extends State<RestaurantPage> {
                           backColor: Theme.of(context).backgroundColor,
                           expanded: true,
                           action: () {
-                            //go to cart 
+                            //go to cart
                             Globals.homeIndex.value = 1;
-                            Globals.goBack(context); 
+                            Globals.goBack(context);
                           },
                         ),
                       ),
@@ -93,13 +98,15 @@ class _RestaurantPageState extends State<RestaurantPage> {
                 ),
               ),
             );
-          }else {
-            return Container(height: 0,);
+          } else {
+            return Container(
+              height: 0,
+            );
           }
-      },),
+        },
+      ),
       body: Container(
         decoration: BoxDecoration(color: Theme.of(context).primaryColorLight),
-
         child: SingleChildScrollView(
           child: Column(
             children: [
@@ -122,30 +129,28 @@ class _RestaurantPageState extends State<RestaurantPage> {
                   ),
                 ],
               ),
-             Builder(builder: (context) {
-              List<Widget> meals = [];
-              for(DocumentReference ref in widget.restaurant.restaurantMeals) {
-                meals.add(FutureBuilder(
-                  future: _mealController.getMeal(ref),
-                  builder: (context, snapshot) {
+              StreamBuilder(
+                stream: _mealController.getMealsOfRestaurant(widget.restaurant),
+                builder: (context, AsyncSnapshot<List<MealModel>> snapshot) {
+                  
                   if(snapshot.hasData){
-                    print(snapshot.data);
-                    return MealThumbnail(meal: snapshot.data as MealModel);
+                    return Column(
+                      children: snapshot.data?.map((e) => MealThumbnail(meal: e)).toList()??[],
+                    );
+                  }else{
+                    return Container(
+                          height: 100,
+                          child: Center(
+                            child: CircularProgressIndicator(
+                              color: Theme.of(context).primaryColor,
+                            ),
+                          ),
+                        );
+
                   }
-                  return Container(
-                    height: 100,
-                    child: Center(
-                      child: CircularProgressIndicator(
-                        color: Theme.of(context).primaryColor,
-                      ),
-                    ),
-                  );
-                },));
-              }
-              return Column(
-                children: meals,
-              );
-             },)
+                       
+                },
+              )
             ],
           ),
         ),
