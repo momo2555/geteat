@@ -20,15 +20,13 @@ class MainSignPage extends StatefulWidget {
 class _MainSignPageState extends State<MainSignPage> {
   UserConnection _userConnection = UserConnection();
 
-
   String _password = '';
   String _phoneSignin = '';
-  
+
   int _signinTentatives = 0;
-  
 
   //keys
-  
+
   final GlobalKey<FormState> _signinKey = GlobalKey<FormState>();
 
   Widget? _actualSign;
@@ -39,24 +37,25 @@ class _MainSignPageState extends State<MainSignPage> {
     }
     return null;
   }
-  
 
   Widget _signin() {
     return Form(
       key: _signinKey,
-      autovalidateMode: _signinTentatives > 0 ? AutovalidateMode.onUserInteraction : null,
+      autovalidateMode:
+          _signinTentatives > 0 ? AutovalidateMode.onUserInteraction : null,
       child: SizedBox(
         height: 350,
         key: ValueKey(1),
         child: Column(
-          
-          children:  [
+          children: [
             SimpleInput(
               placeholder: "Numéro de téléphone",
               type: "phone",
               filled: true,
-              validator: (val) {return _validatePhoneNumber(val);},
-              onChange: (val)  {
+              validator: (val) {
+                return _validatePhoneNumber(val);
+              },
+              onChange: (val) {
                 _phoneSignin = val;
               },
             ),
@@ -95,36 +94,55 @@ class _MainSignPageState extends State<MainSignPage> {
                       setState(() {
                         _signinTentatives++;
                       });
-                      
+
                       if (!form.validate()) {
                         /*_autoValidateModeIndex.value =
                             AutovalidateMode.always.index;*/ // Start validating on every change.
-                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Veuillez corriger vos erreurs')));
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content:
+                                    Text('Veuillez corriger vos erreurs')));
                       } else {
                         form.save();
                         //_emailPassWordvalidator();
                         //connect the user
-                        String phone = "+33" + _phoneSignin.replaceAll("(0)", "").replaceAll(" ", "");
+                        String phone = "+33" +
+                            _phoneSignin
+                                .replaceAll("(0)", "")
+                                .replaceAll(" ", "");
                         print(phone);
-                        _userConnection.authentification(phone, _password).then((value) {
-                          if(value.uid == "" && value.email == "")
-                          Scaffold.of(context).showSnackBar(SnackBar(content: Text("Les identifiants que vous avez renseigné sont incorrectes")));
+                        _userConnection
+                            .authentification(phone, _password)
+                            .then((value) {
+                          //if(value.uid == "" && value.email == "")
+                          //Scaffold.of(context).showSnackBar(SnackBar(content: Text("Les identifiants que vous avez renseigné sont incorrectes")));
                         });
                       }
                     },
                   ),
-                   SizedBox(
+                  SizedBox(
                     height: 10,
                   ),
                   Row(
-                    
                     children: [
-                      Expanded(child: Container(child: Divider(color: Theme.of(context).primaryColorLight),)),
+                      Expanded(
+                          child: Container(
+                        child:
+                            Divider(color: Theme.of(context).primaryColorLight),
+                      )),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: SimpleText(text: "OU", color: 1, size: 12,),
+                        child: SimpleText(
+                          text: "OU",
+                          color: 1,
+                          size: 12,
+                        ),
                       ),
-                      Expanded(child: Container(child: Divider(color: Theme.of(context).primaryColorLight),)),
+                      Expanded(
+                          child: Container(
+                        child:
+                            Divider(color: Theme.of(context).primaryColorLight),
+                      )),
                     ],
                   ),
                   SizedBox(
@@ -148,7 +166,6 @@ class _MainSignPageState extends State<MainSignPage> {
       ),
     );
   }
-
 
   @override
   void initState() {
@@ -186,7 +203,6 @@ class _MainSignPageState extends State<MainSignPage> {
                     SizedBox(
                       height: 40,
                     ),
-                    
                   ]),
                 ),
               ),

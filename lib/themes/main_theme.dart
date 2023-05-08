@@ -20,7 +20,7 @@ class mainTheme {
     return base.copyWith(
       accentColor: SecondaryColor,
       accentColorBrightness: Brightness.dark,
-      
+
       primaryColor: PrimaryColor,
       primaryColorDark: PrimaryColorDark,
       primaryColorLight: PrimaryColorLight,
@@ -38,13 +38,12 @@ class mainTheme {
       ),
       scaffoldBackgroundColor: Background,
       cardColor: Background,
-      textSelectionColor: PrimaryColorLight,
+      //stextSelectionColor: PrimaryColorLight,
       backgroundColor: Background,
       bottomAppBarTheme: base.bottomAppBarTheme.copyWith(
         elevation: 0,
-
       ),
-      
+
       /*textTheme: base.textTheme.copyWith(
           titleLarge: base.textTheme.titleLarge?.copyWith(color: TextColor),
           bodyText1: base.textTheme.bodyText1?.copyWith(color: TextColor),

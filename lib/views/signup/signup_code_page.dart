@@ -63,7 +63,7 @@ class _SignupCodePageState extends State<SignupCodePage> {
                       height: 10,
                     ),
                     Container(
-                      width: 60,
+                        width: 60,
                         child: Image.asset('assets/images/smartphone.png')),
                     SizedBox(
                       height: 20,
@@ -79,7 +79,6 @@ class _SignupCodePageState extends State<SignupCodePage> {
                       size: 13,
                       thick: 4,
                     ),
-
                   ],
                 ),
               ),
@@ -113,7 +112,6 @@ class _SignupCodePageState extends State<SignupCodePage> {
                   inactiveFillColor: Theme.of(context).primaryColorDark,
                   shape: PinCodeFieldShape.box,
                 ),
-                
               ),
               SizedBox(
                 height: 120,
@@ -172,9 +170,9 @@ class _SignupCodePageState extends State<SignupCodePage> {
                             print('Connection ok');
                             Navigator.pushNamed(context, '/signup_confirm');
                           } on Exception catch (e) {
-                            Scaffold.of(context).showSnackBar(SnackBar(
+                            /*Scaffold.of(context).showSnackBar(SnackBar(
                                 content: Text(
-                                    "Une erreur s'est produite lors de la création de votre compte")));
+                                    "Une erreur s'est produite lors de la création de votre compte")));*/
                           }
                           //credentialUser.user.li
                         }
