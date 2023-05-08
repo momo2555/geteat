@@ -1,28 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_spinbox/material.dart';
 
 class SimpleInput extends StatefulWidget {
-  const SimpleInput(
-      {Key? key,
-      this.placeholder,
-      this.type,
-      this.icon,
-      this.textInputAction,
-      this.focusNode,
-      this.nextNode,
-      this.previousNode,
-      this.onChange,
-      this.validator,
-      this.value = "",
-      this.minLines,
-      this.maxLines,
-      this.inputFormatters,
-      this.controller,
-      this.filled,
-      this.label,
-      })
-      
-      : super(key: key);
+  const SimpleInput({
+    Key? key,
+    this.placeholder,
+    this.type,
+    this.icon,
+    this.textInputAction,
+    this.focusNode,
+    this.nextNode,
+    this.previousNode,
+    this.onChange,
+    this.validator,
+    this.value = "",
+    this.minLines,
+    this.maxLines,
+    this.inputFormatters,
+    this.controller,
+    this.style,
+    this.label,
+  }) : super(key: key);
   final String? label;
   final String? placeholder;
   final String? type;
@@ -38,7 +37,7 @@ class SimpleInput extends StatefulWidget {
   final int? maxLines;
   final TextEditingController? controller;
   final TextInputFormatter? inputFormatters;
-  final bool? filled;
+  final String? style;
   @override
   State<SimpleInput> createState() => _SimpleInputState();
 }
@@ -52,18 +51,26 @@ class _SimpleInputState extends State<SimpleInput> {
 
   InputDecoration _inputdecoration() {
     return InputDecoration(
-      prefixIcon: widget.type == "phone" ? Padding(
-        padding: const EdgeInsets.only(top: 22),
-        child: Text("+33", style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 17, fontWeight: FontWeight.bold),),
-      ) : widget.icon,
+      prefixIcon: widget.type == "phone"
+          ? Padding(
+              padding: const EdgeInsets.only(top: 22),
+              child: Text(
+                "+33",
+                style: TextStyle(
+                    color: Theme.of(context).primaryColor,
+                    fontSize: 17,
+                    fontWeight: FontWeight.bold),
+              ),
+            )
+          : widget.icon,
       hintText: widget.placeholder ?? '',
       labelText: widget.label != null ? widget.label?.toUpperCase() : null,
       floatingLabelBehavior: FloatingLabelBehavior.always,
-    
-      
-      
-      floatingLabelStyle: TextStyle(color: Theme.of(context).primaryColorLight, ),
-      
+
+      floatingLabelStyle: TextStyle(
+        color: Theme.of(context).primaryColorLight,
+      ),
+
       prefixStyle: TextStyle(
           color: Colors.green, fontWeight: FontWeight.bold, fontSize: 17),
       hintStyle: TextStyle(
@@ -71,37 +78,29 @@ class _SimpleInputState extends State<SimpleInput> {
           fontStyle: FontStyle.italic,
           fontWeight: FontWeight.w100),
       enabledBorder: UnderlineInputBorder(
-        borderSide: BorderSide(
-          color: Theme.of(context).primaryColorLight,
-          width: 0.3,
-
-        )
-      ),
-      border:  UnderlineInputBorder(
-        borderSide: BorderSide(
-          color: Theme.of(context).primaryColorLight,
-          width: 0.3,
-
-        )
-      ),
-      errorBorder:  UnderlineInputBorder(
-        borderSide: BorderSide(
-          color: Colors.red,
-          width: 0.3,
-
-        )
-      ),
+          borderSide: BorderSide(
+        color: Theme.of(context).primaryColorLight,
+        width: 0.3,
+      )),
+      border: UnderlineInputBorder(
+          borderSide: BorderSide(
+        color: Theme.of(context).primaryColorLight,
+        width: 0.3,
+      )),
+      errorBorder: UnderlineInputBorder(
+          borderSide: BorderSide(
+        color: Colors.red,
+        width: 0.3,
+      )),
       focusedBorder: UnderlineInputBorder(
-        borderSide: BorderSide(
-          color: Theme.of(context).primaryColor,
-          width: 0.3,
-
-        )
-      ),
+          borderSide: BorderSide(
+        color: Theme.of(context).primaryColor,
+        width: 0.3,
+      )),
       //fillColor: Theme.of(context).backgroundColor,
       //filled: true,
       contentPadding: const EdgeInsets.all(10),
-      
+
       suffixIcon: widget.type == 'password'
           ? InkWell(
               onTap: () {
@@ -122,7 +121,7 @@ class _SimpleInputState extends State<SimpleInput> {
           : null,
       focusColor: Theme.of(context).primaryColorLight,
       suffixIconColor: Theme.of(context).accentColor,
-      
+
       //labelText: widget.placeholder ?? '',
     );
   }
@@ -131,7 +130,7 @@ class _SimpleInputState extends State<SimpleInput> {
     return InputDecoration(
       prefixIcon: widget.icon,
       hintText: widget.placeholder ?? '',
-      prefixText: widget.type == "phone" ? "+33" : "",
+      prefixText: widget.type == "phone" ? "+33" :null,
       prefixStyle: TextStyle(
           color: Colors.green, fontWeight: FontWeight.bold, fontSize: 17),
       hintStyle: TextStyle(
@@ -144,17 +143,12 @@ class _SimpleInputState extends State<SimpleInput> {
       ),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.all(Radius.circular(10)),
-
-       
       ),
       errorBorder: OutlineInputBorder(
         borderRadius: BorderRadius.all(Radius.circular(10)),
-        
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.all(Radius.circular(10)),
-        
-        
       ),
       fillColor: Theme.of(context).primaryColorDark,
       filled: true,
@@ -179,13 +173,75 @@ class _SimpleInputState extends State<SimpleInput> {
           : null,
       focusColor: Theme.of(context).primaryColorLight,
       suffixIconColor: Theme.of(context).accentColor,
-      
+
+      //labelText: widget.placeholder ?? '',
+    );
+  }
+
+  InputDecoration _lightDecorationFilled() {
+    return InputDecoration(
+      prefixIcon: widget.icon,
+      hintText: widget.placeholder ?? '',
+      prefixText: widget.type == "phone" ? "+33" : null,
+      prefixStyle: TextStyle(
+          color: Colors.green, fontWeight: FontWeight.bold, fontSize: 17),
+      hintStyle: TextStyle(
+          color: Theme.of(context).primaryColorLight,
+          fontStyle: FontStyle.italic,
+          fontWeight: FontWeight.w100),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(0)),
+        borderSide: BorderSide(
+          color: Color.fromARGB(255, 241, 241, 241),
+        ),
+      ),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(0)),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(0)),
+        borderSide: BorderSide(
+          color: Theme.of(context).backgroundColor,
+          width: 2
+        ),
+      ),
+
+      fillColor: Color.fromARGB(255, 241, 241, 241),
+      filled: true,
+      contentPadding: const EdgeInsets.all(17),
+      suffixIcon: widget.type == 'password'
+          ? InkWell(
+              onTap: () {
+                setState(() {
+                  _obscureText = !_obscureText;
+                });
+              },
+              child: _obscureText
+                  ? Icon(
+                      Icons.visibility,
+                      color: Theme.of(context).primaryColor,
+                    )
+                  : Icon(
+                      Icons.visibility_off,
+                      color: Theme.of(context).primaryColor,
+                    ),
+            )
+          : null,
+      focusColor: Theme.of(context).primaryColorLight,
+      suffixIconColor: Theme.of(context).accentColor,
+
       //labelText: widget.placeholder ?? '',
     );
   }
 
   InputDecoration _decoration() {
-    return widget.filled ?? false ? _inputdecorationFilled() : _inputdecoration();
+    if ((widget.style ?? "default") == "filled") {
+      return _inputdecorationFilled();
+    }
+    if ((widget.style ?? "default") == "light") {
+      return _lightDecorationFilled();
+    }
+    return _inputdecoration();
   }
 
   //TODO implement password type
@@ -193,7 +249,7 @@ class _SimpleInputState extends State<SimpleInput> {
     return TextFormField(
       //textAlign: TextAlign.center,
       controller: widget.controller,
-      style: TextStyle(color: Theme.of(context).primaryColorLight),
+      style: TextStyle(color: (widget.style??"default")=="light"?Theme.of(context).primaryColorDark:Theme.of(context).primaryColorLight),
       decoration: _decoration(),
       onChanged: (val) {
         value = val;
@@ -207,7 +263,6 @@ class _SimpleInputState extends State<SimpleInput> {
       validator: (value) =>
           (widget.validator != null ? widget.validator!(value) : null),
       initialValue: widget.value,
-      
     );
   }
 
@@ -237,12 +292,11 @@ class _SimpleInputState extends State<SimpleInput> {
       ],
     );
   }
-  
 
   Widget _multilineInput() {
     return TextFormField(
       controller: widget.controller,
-      style: TextStyle(color: Theme.of(context).primaryColorLight),
+      style: TextStyle(color: (widget.style??"default")=="light"?Theme.of(context).primaryColorDark:Theme.of(context).primaryColorLight),
       decoration: _decoration(),
       maxLines: widget.maxLines ?? 5,
       minLines: widget.minLines ?? 3,
@@ -258,7 +312,7 @@ class _SimpleInputState extends State<SimpleInput> {
       },
       validator: (value) =>
           (widget.validator != null ? widget.validator!(value) : null),
-      //initialValue: widget.value,
+      initialValue: widget.value,
     );
   }
 
@@ -266,7 +320,7 @@ class _SimpleInputState extends State<SimpleInput> {
     return TextFormField(
       controller: widget.controller,
       //textAlign: TextAlign.center,
-      style: TextStyle(color: Theme.of(context).primaryColorLight),
+      style: TextStyle(color: (widget.style??"default")=="light"?Theme.of(context).primaryColorDark:Theme.of(context).primaryColorLight),
       decoration: _decoration(),
       keyboardType: TextInputType.number,
       onChanged: (val) {
@@ -283,7 +337,22 @@ class _SimpleInputState extends State<SimpleInput> {
       initialValue: widget.value,
     );
   }
-
+  Widget _spinboxInput () {
+    return SpinBox(
+      textStyle:  TextStyle(color: (widget.style??"default")=="light"?Theme.of(context).primaryColorDark:Theme.of(context).primaryColorLight),
+      decoration: _decoration(),
+      decimals: 2,
+       //acceleration: 0.01,
+      digits: 3,
+      step: 0.01,
+      spacing: 40,
+      value: double.parse(widget.value),
+      onChanged: (val) {
+        value = val.toString();
+        widget.onChange != null ? widget.onChange!(val.toString()) : () {};
+      },
+    );
+  }
   Widget _passwordInput() {
     return TextFormField(
       //textAlign: TextAlign.center,
@@ -316,6 +385,8 @@ class _SimpleInputState extends State<SimpleInput> {
       return _passwordInput();
     } else if (widget.type == 'phone') {
       return _phoneInput();
+    } else if (widget.type == 'spinbox') {
+      return _spinboxInput();
     } else {
       return _simpleInput();
     }
@@ -332,16 +403,15 @@ class _UsNumberTextInputFormatter extends TextInputFormatter {
     String workValue = newValue.text;
     final newTextLength = workValue.length;
     var selectionIndex = newValue.selection.end;
-    if (!workValue.startsWith('0') && newTextLength>0) {
+    if (!workValue.startsWith('0') && newTextLength > 0) {
       workValue = '0' + workValue;
       selectionIndex++;
     }
-    
-    
+
     final newText = StringBuffer();
-    
+
     var usedSubstringIndex = 0;
-   
+
     if (newTextLength >= 1) {
       newText.write('(${workValue.substring(0, usedSubstringIndex = 1)})');
       if (newValue.selection.end >= 1) selectionIndex += 2;
@@ -352,15 +422,15 @@ class _UsNumberTextInputFormatter extends TextInputFormatter {
     }
     if (newTextLength >= 5) {
       newText.write('${workValue.substring(2, usedSubstringIndex = 4)} ');
-      if (newValue.selection.end >= 3) selectionIndex+=1;
+      if (newValue.selection.end >= 3) selectionIndex += 1;
     }
     if (newTextLength >= 7) {
       newText.write('${workValue.substring(4, usedSubstringIndex = 6)} ');
-      if (newValue.selection.end >= 5) selectionIndex+=1;
+      if (newValue.selection.end >= 5) selectionIndex += 1;
     }
     if (newTextLength >= 9) {
       newText.write('${workValue.substring(6, usedSubstringIndex = 8)} ');
-      if (newValue.selection.end >= 7) selectionIndex+=1;
+      if (newValue.selection.end >= 7) selectionIndex += 1;
     }
     // Dump the rest.
     if (newTextLength >= usedSubstringIndex) {

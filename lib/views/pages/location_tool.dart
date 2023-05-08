@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:geteat/utils/global_utils.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:uuid/uuid.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -33,6 +35,11 @@ class LocationTools {
         final result = json.decode(response.body);
         if (result['status'] == 'OK') {
           // compose suggestions in a list
+          /*for(int i = 0; i < result["predictions"].length;i++) {
+            LatLng addressCoor = await getPlacePosition(result['predictions'][i]["description"]);
+            result['predictions'][i]["position"] = [addressCoor.latitude, addressCoor.longitude];
+          }*/
+          
           print(result['predictions']);
           return result['predictions'];
             
@@ -50,6 +57,13 @@ class LocationTools {
     
   }
 
+  Future<LatLng> getPlacePosition(String address) async {
+    List<Location> places = await locationFromAddress(address);
+    LatLng position = LatLng(places[0].latitude, places[0].longitude);
+    return position;
+    
+  }
+
 
   Future<bool> handleLocationPermission(context) async {
   bool serviceEnabled;
@@ -64,7 +78,7 @@ class LocationTools {
   }
 
   
-    /*serviceEnabled = await Geolocator.isLocationServiceEnabled();
+  /*serviceEnabled = await Geolocator.isLocationServiceEnabled();
     var status = await Permission.location.status;
     if(status.isGranted) {
       return true;
@@ -104,10 +118,42 @@ class LocationTools {
     
   }
   Future<List<Placemark>> getAddressFromLatLng(Position position) async {
-    List<Placemark> places = await placemarkFromCoordinates(
+    try {
+      List<Placemark> places = await placemarkFromCoordinates(
             position.latitude, position.longitude);
-    return places;
+      return places;
+    }catch (e) {
+      print(e);
+      return  [];
+    }
+    
   }  
+
+  void updateAddress(String address, String city) {
+    Globals.userAddress.value = address;
+    Globals.userCity.value = city;
+  }
+  void updatePosition(List<num> coor) {
+    Globals.userPosition.value = coor;
+  }
+  void updatePositionComment(String comment) {
+    Globals.userPositonComment.value = comment;
+  }
+  
+  String getAddressValue() {
+    return Globals.userAddress.value;
+  }
+  String getCityValue () {
+    return Globals.userCity.value;
+  }
+  List<num> getPositionValue() {
+    return Globals.userPosition.value;
+  }
+  String getPositionCommentValue() {
+    return Globals.userPositonComment.value;
+  }
+  
+
 
 
 }

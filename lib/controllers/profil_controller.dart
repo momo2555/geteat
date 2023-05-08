@@ -26,8 +26,10 @@ class ProfileController {
     userProfile.userRate = profileData.get('userRate');
     userProfile.phone = profileData.get('userPhone');
     userProfile.userProfileImage = profileData.get('userProfileImage');
+    userProfile.userAddress      = profileData.get('userAddress');
+    userProfile.userCity         = profileData.get('userCity');
+    userProfile.userType         = profileData.get('userType');
     //get the link of the profile image
-    
     /*Reference imgRef = fireStorage.ref('userImages/'+(userProfile.userProfileImage??''));
     userProfile.userProfileImageURL = await imgRef.getDownloadURL();*/
     
@@ -52,10 +54,12 @@ class ProfileController {
     userProfile.email            = profileData.get('userEmail');
     userProfile.userAddress      = profileData.get('userAddress');
     userProfile.userCity         = profileData.get('userCity');
+    userProfile.userType         = profileData.get('userType');
+
     //get the link of the profile image
     
-    Reference imgRef = fireStorage.ref('userImages/'+(userProfile.userProfileImage??''));
-    userProfile.userProfileImageURL = await imgRef.getDownloadURL(); // TODO erreor dowload time exceeded
+    //Reference imgRef = fireStorage.ref('userImages/'+(userProfile.userProfileImage??''));
+    //userProfile.userProfileImageURL = await imgRef.getDownloadURL(); // TODO erreor dowload time exceeded
     
     return userProfile;
   }
@@ -97,4 +101,5 @@ class ProfileController {
         fireStore.collection('users').doc(userProfile.uid);
       profileDataRef.set(userProfile.toObject());
   }
+  
 }

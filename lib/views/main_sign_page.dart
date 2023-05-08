@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geteat/components/action_button.dart';
 import 'package:geteat/components/focuse_button.dart';
 import 'package:geteat/components/simple_input.dart';
 import 'package:geteat/components/simple_text.dart';
 import 'package:geteat/controllers/user_connection.dart';
+import 'package:geteat/utils/global_utils.dart';
 
 /*import 'package:legend_app/models/userModel.dart';
 import 'package:legend_app/server/userConnection.dart';
@@ -44,14 +46,13 @@ class _MainSignPageState extends State<MainSignPage> {
       autovalidateMode:
           _signinTentatives > 0 ? AutovalidateMode.onUserInteraction : null,
       child: SizedBox(
-        height: 350,
         key: ValueKey(1),
         child: Column(
           children: [
             SimpleInput(
               placeholder: "Numéro de téléphone",
               type: "phone",
-              filled: true,
+              style: "filled",
               validator: (val) {
                 return _validatePhoneNumber(val);
               },
@@ -65,7 +66,7 @@ class _MainSignPageState extends State<MainSignPage> {
             SimpleInput(
               placeholder: "Mot de passe",
               type: "password",
-              filled: true,
+              style: "filled",
               onChange: (val) {
                 _password = val;
               },
@@ -75,6 +76,7 @@ class _MainSignPageState extends State<MainSignPage> {
             ),
             ActionButton(
               text: "Mot de passe oublié ?",
+              color: Theme.of(context).primaryColor,
               filled: false,
               hasBorder: false,
             ),
@@ -88,7 +90,10 @@ class _MainSignPageState extends State<MainSignPage> {
                 children: [
                   ActionButton(
                     text: "Connexion",
+                    rounded: true,
                     filled: true,
+                    backColor: Theme.of(context).primaryColor,
+                    color: Theme.of(context).primaryColorLight,
                     action: () {
                       final form = _signinKey.currentState!;
                       setState(() {
@@ -106,6 +111,7 @@ class _MainSignPageState extends State<MainSignPage> {
                         form.save();
                         //_emailPassWordvalidator();
                         //connect the user
+                        Globals.connexionWait.value = true;
                         String phone = "+33" +
                             _phoneSignin
                                 .replaceAll("(0)", "")
@@ -114,12 +120,32 @@ class _MainSignPageState extends State<MainSignPage> {
                         _userConnection
                             .authentification(phone, _password)
                             .then((value) {
-                          //if(value.uid == "" && value.email == "")
-                          //Scaffold.of(context).showSnackBar(SnackBar(content: Text("Les identifiants que vous avez renseigné sont incorrectes")));
+                          Globals.connexionWait.value = false;
+                          if (value.uid == "" && value.email == "") {
+                            Fluttertoast.showToast(
+                                msg:
+                                    "Les identifiants que vous avez renseigné sont incorrectes");
+                          }
                         });
                       }
                     },
                   ),
+                  ValueListenableBuilder(
+                      valueListenable: Globals.connexionWait,
+                      builder: (context, bool value, widget) {
+                        if (value) {
+                          return SizedBox(
+                              width: 50,
+                              height: 50,
+                              child: Center(
+                                child: CircularProgressIndicator(
+                                  color: Theme.of(context).primaryColor,
+                                ),
+                              ));
+                        } else {
+                          return Container();
+                        }
+                      }),
                   SizedBox(
                     height: 10,
                   ),
@@ -151,7 +177,10 @@ class _MainSignPageState extends State<MainSignPage> {
                   Container(
                     child: ActionButton(
                       text: "Inscription",
-                      clear: true,
+                      //clear: true,
+                      rounded: true,
+                      backColor: Theme.of(context).primaryColorDark,
+                      color: Theme.of(context).primaryColor,
                       filled: true,
                       action: () {
                         Navigator.pushNamed(context, '/signup_name');
@@ -170,10 +199,8 @@ class _MainSignPageState extends State<MainSignPage> {
   @override
   void initState() {
     // TODO: implement initState
-    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
-        .then((_) {
-      super.initState();
-    });
+    super.initState();
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   }
 
   @override

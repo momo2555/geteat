@@ -1,6 +1,7 @@
 import 'dart:io';
-
+import 'package:path/path.dart' as p;
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:geteat/components/restaurant_thumbnail.dart';
 import 'package:geteat/controllers/cache_storage_controller.dart';
 import 'package:geteat/controllers/user_connection.dart';
@@ -9,8 +10,9 @@ import 'package:geteat/models/restaurant_model.dart';
 import 'package:geteat/models/user_model.dart';
 
 class MealController {
-  FirebaseFirestore fireStore = FirebaseFirestore.instance;
+  FirebaseFirestore _fireStore = FirebaseFirestore.instance;
   UserConnection userConnection = UserConnection();
+  CacheStorageController _cloudDownloader = CacheStorageController();
   //FirebaseStorage fireStorage = FirebaseStorage.instance;
 
   /*Future<UserProfileModel> get getUserProfile async {
@@ -19,7 +21,7 @@ class MealController {
     UserProfileModel userProfile = UserProfileModel.byModel(user);
     //get the user reference 
     DocumentReference profileDataRef =
-        fireStore.collection('users').doc(userProfile.getUid);
+        _fireStore.collection('users').doc(userProfile.getUid);
     //get user data
     DocumentSnapshot profileData = (await profileDataRef.get());
     userProfile.setUserName = profileData.get('userName');
@@ -37,7 +39,7 @@ class MealController {
     UserModel user = await userConnection.UserConnected;
     //newPost.setPostUserId = user.getUid;
     //create a new document for the new post (auto generated uid)
-    DocumentReference ref = fireStore.collection('meals').doc();
+    DocumentReference ref = _fireStore.collection('meals').doc();
     //uid of the post
     String uid = ref.id;
     //upload photos in the firestorage
@@ -62,15 +64,17 @@ class MealController {
 
 
 
-  Future<MealModel> getMealById(String mealId) async {
+  Future<MealModel> getMealById(String mealId, bool withPicture) async {
     MealModel meal = MealModel();
     DocumentReference mealRef =
-        fireStore.collection('meals').doc(mealId);
+        _fireStore.collection('meals').doc(mealId);
     //get user data
     DocumentSnapshot mealSnapshot = (await mealRef.get());
     meal = docToMealModel(mealSnapshot);
-    
-    meal = await getImage(meal);
+    if(withPicture) {
+      meal = await getImage(meal);
+    }
+      
     return meal;
 
   }
@@ -91,9 +95,11 @@ class MealController {
     //post.setPostCurrentUserLike = postSnapshot.get('postCurrentUserLike');
     meal.mealDescription = doc.get('mealDescription');
     meal.mealImageName = doc.get('mealImageName');
+    meal.mealCoverImageName = doc.get('mealCoverImageName');
     meal.mealStruct = doc.get('mealStruct');
     meal.mealId = doc.id;
     meal.mealPrice = doc.get('mealPrice');
+    meal.mealRestaurantId = doc.get('mealRestaurantId');
     
 
     return meal;
@@ -104,26 +110,85 @@ class MealController {
        
       //download images
       //get temp
-      String? imagesStorageName = meal.mealImageName;
+      String? mealImageStorageName = meal.mealImageName;
+      String? mealCoverImageStorageName = meal.mealCoverImageName;
       
       
-      CacheStorageController cloudDownloader = CacheStorageController();
-      File fileImg = await cloudDownloader.downloadFromCloud('meals/', (imagesStorageName as String), LocalSaveMode.userDocuments);
+      
+      File fileImg = await _cloudDownloader.downloadFromCloud('meals/', (mealImageStorageName as String), LocalSaveMode.userDocuments);
+      File fileCoverImg = await _cloudDownloader.downloadFromCloud('meals/', (mealCoverImageStorageName as String), LocalSaveMode.userDocuments);
       
       meal.mealImage = fileImg;
+      meal.mealCoverImage = fileCoverImg;
     
       
     return meal;
     
    
   }
-
+  Future<MealModel> getMealUpdate(MealModel meal, bool withPicture) async {
+    meal = await getMealById(meal.mealId, withPicture);
+    return meal;
+  }
   /*Stream<List<Future<MeaelModel>>> converDocs(QueryDocumentSnapshot<Map<String, dynamic>> snapshots) async* {
     List<MealModel> posts = [];
     
   }*/  // on part sur une autre stratégie
   /*Stream<List<RestaurantModel>> getAllmeals()  {
-    return fireStore.collection('meals').limit(20).snapshots().map((event) => event.docs.map((e) =>  docToMealModel(e)).toList() );
+    return _fireStore.collection('meals').limit(20).snapshots().map((event) => event.docs.map((e) =>  docToMealModel(e)).toList() );
     
   }*/
+  Stream<List<MealModel>> getMealsOfRestaurant(RestaurantModel restaurant) async* {
+    yield* _fireStore.collection("meals").where("mealRestaurantId", isEqualTo: restaurant.restaurantId).snapshots(includeMetadataChanges: true).map((event) => event.docs.map((e) => docToMealModel(e)).toList());
+  }
+  void updateMealImageNames(MealModel meal) {
+    
+    if(meal.mealImage!=null) {
+      var ext = p.extension((meal.mealImage as File).path);
+      meal.mealImageName = "${meal.mealId}$ext";
+    }
+    if(meal.mealCoverImage!=null) {
+      var ext = p.extension((meal.mealCoverImage as File).path);
+      meal.mealCoverImageName = "${meal.mealId}_cover$ext";
+    }
+  }
+  Future<void> editMeal(MealModel meal) async {
+    //upload image
+    updateMealImageNames(meal);
+    await _cloudDownloader.uploadImage(meal.mealImage, "restaurants/${meal.mealImageName}");
+    await _cloudDownloader.uploadImage(meal.mealCoverImage, "restaurants/${meal.mealCoverImageName}");
+    //Save data
+     _fireStore.collection("meals").doc(meal.mealId).set(meal.toObject());
+
+  }
+  Future<void> createMeal(MealModel meal) async {
+    var ref = _fireStore.collection("meals").doc();
+    meal.mealId = ref.id;
+    editMeal(meal);
+
+  }
+
+
+  static DecorationImage? decorationImage(MealModel meal) {
+    if (meal.mealImage != null) {
+      return DecorationImage(
+        image: FileImage(meal.mealImage),
+        fit: BoxFit.cover,
+        alignment: Alignment.center,
+      );
+    } else {
+      return null;
+    }
+  }
+   static DecorationImage? decorationCoverImage(MealModel meal) {
+    if (meal.mealCoverImage != null) {
+      return DecorationImage(
+        image: FileImage(meal.mealCoverImage),
+        fit: BoxFit.cover,
+        alignment: Alignment.center,
+      );
+    } else {
+      return null;
+    }
+  }
 }

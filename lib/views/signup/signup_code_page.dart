@@ -3,11 +3,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geteat/components/action_button.dart';
 import 'package:geteat/components/simple_input.dart';
 import 'package:geteat/components/simple_text.dart';
 import 'package:geteat/controllers/profil_controller.dart';
 import 'package:geteat/controllers/user_connection.dart';
+import 'package:geteat/models/load_model.dart';
 import 'package:geteat/models/user_model.dart';
 import 'package:geteat/models/user_profile_model.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
@@ -22,7 +24,7 @@ class SignupCodePage extends StatefulWidget {
 
 class _SignupCodePageState extends State<SignupCodePage> {
   FirebaseAuth auth = FirebaseAuth.instance;
-  UserConnection? _userConnection;
+  UserConnection _userConnection = UserConnection();
   ProfileController _profileController = ProfileController();
 
   final GlobalKey<FormState> _signupCodeKey = GlobalKey<FormState>();
@@ -35,7 +37,7 @@ class _SignupCodePageState extends State<SignupCodePage> {
     super.initState();
 
     _userConnection = UserConnection();
-    _userConnection?.pocessPhone(widget.user?.phone ?? '', (user) {
+    _userConnection.pocessPhone(widget.user?.phone ?? '', (user) {
       _checkId = user.checkId;
     }, (Credential, user) {});
   }
@@ -149,30 +151,51 @@ class _SignupCodePageState extends State<SignupCodePage> {
 
                           // Create a PhoneAuthCredential with the code
                           try {
-                            PhoneAuthCredential credential =
-                                PhoneAuthProvider.credential(
-                                    verificationId: _checkId,
-                                    smsCode: _smsCode);
-
-                            // Sign the user in (or link) with the credential
-                            UserProfileModel userProfile =
-                                widget.user ?? UserProfileModel('', '', '', '');
-                            UserModel userTemp = await _userConnection!
-                                .createAccount(widget.user!.email,
-                                    widget.user!.password, credential);
-                            userProfile.uid = userTemp.uid;
-                            await _profileController
-                                .createProfileByProfileModel(userProfile);
                             //UserCredential credentialUser = await auth.signInWithCredential(credential);
 
                             //GoogleAuthCredential googleCredential;
 
                             print('Connection ok');
-                            Navigator.pushNamed(context, '/signup_confirm');
+                            Navigator.pushNamed(
+                              context,
+                              '/load_page',
+                              arguments: LoadModel(
+                                callback: (_) async {
+                                  try {
+                                    PhoneAuthCredential credential =
+                                        PhoneAuthProvider.credential(
+                                            verificationId: _checkId,
+                                            smsCode: _smsCode);
+
+                                    // Sign the user in (or link) with the credential
+                                    UserProfileModel userProfile =
+                                        widget.user ??
+                                            UserProfileModel('', '', '', '');
+                                    UserModel userTemp =
+                                        await _userConnection.createAccount(
+                                            widget.user!.email,
+                                            widget.user!.password,
+                                            credential);
+                                    userProfile.uid = userTemp.uid;
+                                    await _profileController
+                                        .createProfileByProfileModel(
+                                            userProfile);
+                                  } catch (e) {}
+                                },
+                                afterCallback: (_) {
+                                  Navigator.pop(context, (route) => true);
+                                  Navigator.pushNamed(context, '/client_home');
+                                  Navigator.pushNamed(
+                                      context, '/signup_confirm');
+                                },
+                                message: "Compte en cours de creéation",
+                                minimumTime: 1,
+                              ),
+                            );
                           } on Exception catch (e) {
-                            /*Scaffold.of(context).showSnackBar(SnackBar(
-                                content: Text(
-                                    "Une erreur s'est produite lors de la création de votre compte")));*/
+                            Fluttertoast.showToast(
+                                msg:
+                                    "Une erreur s'est produite lors de la création de votre compte");
                           }
                           //credentialUser.user.li
                         }

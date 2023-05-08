@@ -221,7 +221,10 @@ class _SignupNamePageState extends State<SignupNamePage> {
               child: ActionButton(
                 expanded: true,
                 text: "Valider",
+                
                 filled: true,
+                backColor: Theme.of(context).primaryColor,
+                rounded: true,
                 action: () async {
                   
                   final form = _signupKey.currentState!;
@@ -238,11 +241,7 @@ class _SignupNamePageState extends State<SignupNamePage> {
                     //adapt phone number
                    _phoneSignup =  PhoneUtils.trimePhone(_phoneSignup);
                     //TODO verification ----------------------
-
-                    
-                    
                     UserProfileModel userProfile = UserProfileModel(_email, _phoneSignup, _password1, '');
-                    print(_phoneSignup);
                     userProfile.userName = _name;
                     Navigator.pushNamed(context, '/signup_code', arguments: userProfile);
                     //_emailPassWordvalidator();

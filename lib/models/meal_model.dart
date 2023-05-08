@@ -2,17 +2,20 @@ import 'dart:core';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:geteat/models/meal_element_model.dart';
+import 'package:geteat/models/restaurant_model.dart';
 
 class MealModel {
   String? _mealId;
   String? _mealDescription;
   String? _mealName;
   String? _mealImageName;
+  String? _mealCoverImageName;
   num? _mealPrice;
   List<dynamic>? _mealStruct;
   File? _mealImage;
-   
-   
+  File? _mealCoverImage;
+  String? _mealRestaurantId ;
   MealModel() : super();
 
   set mealId(value) {
@@ -33,8 +36,17 @@ class MealModel {
   set mealImageName(value) {
     _mealImageName = value;
   }
+  set mealCoverImage(value) {
+    _mealCoverImage = value;
+  }
+  set mealCoverImageName(value) {
+    _mealCoverImageName = value;
+  }
   set mealStruct(value) {
     _mealStruct = value;
+  }
+  set mealRestaurantId(value) {
+   _mealRestaurantId = value;
   }
 
 
@@ -56,18 +68,36 @@ class MealModel {
   get mealImageName {
     return _mealImageName;
   }
+  get mealCoverImage {
+    return _mealCoverImage;
+  }
+  get mealCoverImageName {
+    return _mealCoverImageName;
+  }
   get mealStruct {
     return _mealStruct;
   }
+  get mealRestaurantId {
+    return _mealRestaurantId;
+  }
 
+  List<MealElementModel> getMealStruct() {
+    List<MealElementModel> elemnts = [];
+    for(var el in _mealStruct??[]) {
+      elemnts.add(MealElementModel.fromObject(el));
+    }
+    return elemnts;
+  }
 
   dynamic toObject() {
     return {
       'mealName' : _mealName,
-      'mealtDescription' : _mealDescription,
+      'mealDescription' : _mealDescription,
       'mealPrice' : _mealPrice,
       'mealImageName' : _mealImageName,
+      'mealCoverImageName' : _mealCoverImageName,
       'mealStruct' : _mealStruct, 
+      'mealRestaurantId' : _mealRestaurantId,
     };
   }
 

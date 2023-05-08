@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:geteat/components/simple_text.dart';
@@ -17,16 +18,13 @@ class MealThumbnail extends StatefulWidget {
 
 class _MealThumbnailState extends State<MealThumbnail> {
   MealController _mealController = MealController();
-   DecorationImage? _decorationImage() {
-    if(widget.meal.mealImage != null){
-      return DecorationImage(
-        image: FileImage(widget.meal.mealImage) ,
-        fit: BoxFit.cover,
-        alignment: Alignment.center,
-      );
-    }else {
-      return null;
-    }
+
+  _update() {
+    _mealController.getImage(widget.meal).then((value) {
+      setState(() {
+        widget.meal.mealImage = value.mealImage;
+      });
+    });
   }
 
   @override
@@ -34,22 +32,22 @@ class _MealThumbnailState extends State<MealThumbnail> {
     // TODO: implement initState
 
     super.initState();
-    print(widget.meal.mealName);
-    
-    _mealController.getImage(widget.meal).then((value) {
-      setState(() {
-        widget.meal.mealImage = value.mealImage;
-      });
-    }
-    );
+    _update();
 
+    
+  }
+  @override
+  void didUpdateWidget(covariant MealThumbnail oldWidget) {
+    // TODO: implement didUpdateWidget
+    super.didUpdateWidget(oldWidget);
+    _update();
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(16),
-      child: GestureDetector(
+      child: InkWell(
         onTap: () {
           Navigator.pushNamed(context, '/meal', arguments: widget.meal);
         },
@@ -73,8 +71,7 @@ class _MealThumbnailState extends State<MealThumbnail> {
                 Padding(
                   padding: const EdgeInsets.only(top: 6),
                   child: SimpleText(
-                    text:
-                        widget.meal.mealDescription,
+                    text: widget.meal.mealDescription,
                     color: 2,
                     center: false,
                   ),
@@ -82,7 +79,6 @@ class _MealThumbnailState extends State<MealThumbnail> {
               ],
             ),
           ),
-          
           Hero(
             tag: widget.meal.mealId,
             child: Container(
@@ -90,7 +86,7 @@ class _MealThumbnailState extends State<MealThumbnail> {
               width: 100,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15),
-                  image: _decorationImage()),
+                  image: MealController.decorationImage(widget.meal)),
             ),
           )
         ]),
