@@ -45,152 +45,155 @@ class _MainSignPageState extends State<MainSignPage> {
       key: _signinKey,
       autovalidateMode:
           _signinTentatives > 0 ? AutovalidateMode.onUserInteraction : null,
-      child: SizedBox(
-        key: ValueKey(1),
-        child: Column(
-          children: [
-            SimpleInput(
-              placeholder: "Numéro de téléphone",
-              type: "phone",
-              style: "filled",
-              validator: (val) {
-                return _validatePhoneNumber(val);
-              },
-              onChange: (val) {
-                _phoneSignin = val;
-              },
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            SimpleInput(
-              placeholder: "Mot de passe",
-              type: "password",
-              style: "filled",
-              onChange: (val) {
-                _password = val;
-              },
-            ),
-            SizedBox(
-              height: 0,
-            ),
-            ActionButton(
-              text: "Mot de passe oublié ?",
-              color: Theme.of(context).primaryColor,
-              filled: false,
-              hasBorder: false,
-            ),
-            SizedBox(
-              height: 30,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 35),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  ActionButton(
-                    text: "Connexion",
-                    rounded: true,
-                    filled: true,
-                    backColor: Theme.of(context).primaryColor,
-                    color: Theme.of(context).primaryColorLight,
-                    action: () {
-                      final form = _signinKey.currentState!;
-                      setState(() {
-                        _signinTentatives++;
-                      });
-
-                      if (!form.validate()) {
-                        /*_autoValidateModeIndex.value =
-                            AutovalidateMode.always.index;*/ // Start validating on every change.
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                                content:
-                                    Text('Veuillez corriger vos erreurs')));
-                      } else {
-                        form.save();
-                        //_emailPassWordvalidator();
-                        //connect the user
-                        Globals.connexionWait.value = true;
-                        String phone = "+33" +
-                            _phoneSignin
-                                .replaceAll("(0)", "")
-                                .replaceAll(" ", "");
-                        print(phone);
-                        _userConnection
-                            .authentification(phone, _password)
-                            .then((value) {
-                          Globals.connexionWait.value = false;
-                          if (value.uid == "" && value.email == "") {
-                            Fluttertoast.showToast(
-                                msg:
-                                    "Les identifiants que vous avez renseigné sont incorrectes");
-                          }
-                        });
-                      }
-                    },
-                  ),
-                  ValueListenableBuilder(
-                      valueListenable: Globals.connexionWait,
-                      builder: (context, bool value, widget) {
-                        if (value) {
-                          return SizedBox(
-                              width: 50,
-                              height: 50,
-                              child: Center(
-                                child: CircularProgressIndicator(
-                                  color: Theme.of(context).primaryColor,
-                                ),
-                              ));
-                        } else {
-                          return Container();
-                        }
-                      }),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                          child: Container(
-                        child:
-                            Divider(color: Theme.of(context).primaryColorLight),
-                      )),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: SimpleText(
-                          text: "OU",
-                          color: 1,
-                          size: 12,
-                        ),
-                      ),
-                      Expanded(
-                          child: Container(
-                        child:
-                            Divider(color: Theme.of(context).primaryColorLight),
-                      )),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    child: ActionButton(
-                      text: "Inscription",
-                      //clear: true,
+      child: Center(
+        child: Container(
+          constraints: BoxConstraints(maxWidth: 470),
+          key: ValueKey(1),
+          child: Column(
+            children: [
+              SimpleInput(
+                placeholder: "Numéro de téléphone",
+                type: "phone",
+                style: "filled",
+                validator: (val) {
+                  return _validatePhoneNumber(val);
+                },
+                onChange: (val) {
+                  _phoneSignin = val;
+                },
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              SimpleInput(
+                placeholder: "Mot de passe",
+                type: "password",
+                style: "filled",
+                onChange: (val) {
+                  _password = val;
+                },
+              ),
+              SizedBox(
+                height: 0,
+              ),
+              ActionButton(
+                text: "Mot de passe oublié ?",
+                color: Theme.of(context).primaryColor,
+                filled: false,
+                hasBorder: false,
+              ),
+              SizedBox(
+                height: 30,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 35),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    ActionButton(
+                      text: "Connexion",
                       rounded: true,
-                      backColor: Theme.of(context).primaryColorDark,
-                      color: Theme.of(context).primaryColor,
                       filled: true,
+                      backColor: Theme.of(context).primaryColor,
+                      color: Theme.of(context).primaryColorLight,
                       action: () {
-                        Navigator.pushNamed(context, '/signup_name');
+                        final form = _signinKey.currentState!;
+                        setState(() {
+                          _signinTentatives++;
+                        });
+
+                        if (!form.validate()) {
+                          /*_autoValidateModeIndex.value =
+                              AutovalidateMode.always.index;*/ // Start validating on every change.
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content:
+                                      Text('Veuillez corriger vos erreurs')));
+                        } else {
+                          form.save();
+                          //_emailPassWordvalidator();
+                          //connect the user
+                          Globals.connexionWait.value = true;
+                          String phone = "+33" +
+                              _phoneSignin
+                                  .replaceAll("(0)", "")
+                                  .replaceAll(" ", "");
+                          print(phone);
+                          _userConnection
+                              .authentification(phone, _password)
+                              .then((value) {
+                            Globals.connexionWait.value = false;
+                            if (value.uid == "" && value.email == "") {
+                              Fluttertoast.showToast(
+                                  msg:
+                                      "Les identifiants que vous avez renseigné sont incorrectes");
+                            }
+                          });
+                        }
                       },
                     ),
-                  ),
-                ],
+                    ValueListenableBuilder(
+                        valueListenable: Globals.connexionWait,
+                        builder: (context, bool value, widget) {
+                          if (value) {
+                            return SizedBox(
+                                width: 50,
+                                height: 50,
+                                child: Center(
+                                  child: CircularProgressIndicator(
+                                    color: Theme.of(context).primaryColor,
+                                  ),
+                                ));
+                          } else {
+                            return Container();
+                          }
+                        }),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                            child: Container(
+                          child: Divider(
+                              color: Theme.of(context).primaryColorLight),
+                        )),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: SimpleText(
+                            text: "OU",
+                            color: 1,
+                            size: 12,
+                          ),
+                        ),
+                        Expanded(
+                            child: Container(
+                          child: Divider(
+                              color: Theme.of(context).primaryColorLight),
+                        )),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                      child: ActionButton(
+                        text: "Inscription",
+                        //clear: true,
+                        rounded: true,
+                        backColor: Theme.of(context).primaryColorDark,
+                        color: Theme.of(context).primaryColor,
+                        filled: true,
+                        action: () {
+                          Navigator.pushNamed(context, '/signup_name');
+                        },
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -201,7 +204,6 @@ class _MainSignPageState extends State<MainSignPage> {
     // TODO: implement initState
     super.initState();
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-        
   }
 
   @override

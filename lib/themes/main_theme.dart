@@ -7,7 +7,7 @@ const PrimaryColorDark = Color.fromARGB(255, 28, 28, 28);
 const SecondaryColor = const Color(0xFFF2F2F2);
 const SecondaryColorLight = const Color(0xFFe5ffff);
 const SecondaryColorDark = const Color(0xFF6F6F6F);
-const errorColor =  Colors.red;
+const errorColor = Colors.red;
 const Background = Color.fromARGB(255, 0, 0, 0);
 const TextColor = Color.fromARGB(255, 255, 255, 255);
 
@@ -49,7 +49,6 @@ class mainTheme {
       ),
       scaffoldBackgroundColor: Background,
       cardColor: Background,
-      
       backgroundColor: Background,
       bottomAppBarTheme: base.bottomAppBarTheme.copyWith(
         elevation: 0,

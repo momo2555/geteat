@@ -193,7 +193,8 @@ class _SignupCodePageState extends State<SignupCodePage> {
                               ),
                             );
                           } on Exception catch (e) {
-                           Fluttertoast.showToast(msg: 
+                            Fluttertoast.showToast(
+                                msg:
                                     "Une erreur s'est produite lors de la création de votre compte");
                           }
                           //credentialUser.user.li
