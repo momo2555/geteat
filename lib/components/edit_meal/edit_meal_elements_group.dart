@@ -44,6 +44,11 @@ class _EditMealElementsGroupState extends State<EditMealElementsGroup> {
       return EditMealElement(
         element: e,
         index: i,
+        onDeleteClick:  (index) {
+          setState(() {
+            _elData.subElements.removeAt(index);
+          });
+        },
         onChanged: (subel, index) {
           _elData.subElements[index] = subel;
           widget.onChanged(_elData, widget.index);

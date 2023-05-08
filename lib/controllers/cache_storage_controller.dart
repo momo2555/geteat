@@ -15,6 +15,7 @@ enum LocalSaveMode { cache, userDocuments }
  * you want to save data in the cache or in the user document folder
  */
 class CacheStorageController {
+  static Map<String, File> tempCache = {};
   FirebaseStorage fireStorage = FirebaseStorage.instance;
 
   Future<File> downloadFromCloud(
@@ -35,7 +36,7 @@ class CacheStorageController {
     }
     File file = File(tempPathFilePath);
     //check if the file exists (if it exists do not download it again)
-    DateTime lastModifiedLocal = DateTime.fromMillisecondsSinceEpoch(0);
+    /*DateTime lastModifiedLocal = DateTime.fromMillisecondsSinceEpoch(0);
     try {
        lastModifiedLocal = await file.lastModified();
        print("______________<.>______________");
@@ -45,12 +46,22 @@ class CacheStorageController {
     }
     
     DateTime? lastModifiedCloud = (await downloadRef.getMetadata()).timeCreated;
-    print(lastModifiedCloud.toString());
+    print(lastModifiedCloud.toString());*/
     if (file.existsSync()) {
       //return the existing file
-      return file;
+      
+      if (CacheStorageController.tempCache.containsKey(tempPathFilePath)) {
+        print("get file from cache ram");
+        return CacheStorageController.tempCache[tempPathFilePath] ?? file;
+      } else {
+        print("get file from cache storage");
+        CacheStorageController.tempCache[tempPathFilePath] = file;
+        return file;
+      }
+      
     } else {
       //download the file from the cloud
+      print("download the file");
       final downloadTask = await downloadRef.writeToFile(file);
       if (downloadTask.state == TaskState.success) {
         print("succes file dowloaded");

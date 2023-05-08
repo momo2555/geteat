@@ -112,7 +112,7 @@ class RestaurantController {
   void updateRestaurantImageName(RestaurantModel restaurant) {
     if(restaurant.restaurantImage!=null) {
       var ext = p.extension((restaurant.restaurantImage as File).path);
-      restaurant.restaurantImageName = "${restaurant.restaurantId}.$ext";
+      restaurant.restaurantImageName = "${restaurant.restaurantId}$ext";
     }
   }
   Future<void> editRestaurant(RestaurantModel restaurant) async {

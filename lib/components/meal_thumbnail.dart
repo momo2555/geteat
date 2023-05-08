@@ -18,6 +18,7 @@ class MealThumbnail extends StatefulWidget {
 
 class _MealThumbnailState extends State<MealThumbnail> {
   MealController _mealController = MealController();
+  bool _diposed = false;
 
   _update() {
     _mealController.getImage(widget.meal).then((value) {
@@ -33,9 +34,23 @@ class _MealThumbnailState extends State<MealThumbnail> {
 
     super.initState();
     _update();
-
-    
   }
+
+  @override
+  void setState(VoidCallback fn) {
+    // TODO: implement setState
+    if (!_diposed) {
+      super.setState(fn);
+    }
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _diposed = true;
+    super.dispose();
+  }
+
   @override
   void didUpdateWidget(covariant MealThumbnail oldWidget) {
     // TODO: implement didUpdateWidget

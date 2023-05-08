@@ -33,12 +33,27 @@ class _EditMealListPageState extends State<EditMealListPage> {
         centerTitle: true,
         automaticallyImplyLeading: false,
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        backgroundColor: Theme.of(context).primaryColor,
-        child: Icon(Icons.add, color: Theme.of(context).primaryColorLight),
-        heroTag: "add_meal",
-      ),
+      floatingActionButton: ValueListenableBuilder(
+          valueListenable: Globals.kitchenSelectedRestaurantEdition,
+          builder: (context, String value, widget) {
+            if (value != "") {
+              return FloatingActionButton(
+                onPressed: () {
+                  MealModel newMeal = MealModel();
+                  newMeal.mealRestaurantId =
+                      Globals.kitchenSelectedRestaurantEdition.value;
+                  Navigator.pushNamed(context, "/edit_meal",
+                      arguments: newMeal);
+                },
+                backgroundColor: Theme.of(context).primaryColor,
+                child:
+                    Icon(Icons.add, color: Theme.of(context).primaryColorLight),
+                heroTag: "add_meal",
+              );
+            }else {
+              return Container();
+            }
+          }),
       body: ValueListenableBuilder(
         valueListenable: Globals.kitchenSelectedRestaurantEdition,
         builder: (context, String value, child) {

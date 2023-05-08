@@ -14,10 +14,12 @@ class EditMealElement extends StatefulWidget {
     required this.element,
     required this.onChanged,
     required this.index,
+    this.onDeleteClick,
   });
   final MealSubelementModel element;
   final Function(MealSubelementModel subel, int index) onChanged;
   final int index;
+  final Function(int index)? onDeleteClick;
 
   @override
   State<EditMealElement> createState() => _EditMealElementState();
@@ -73,6 +75,9 @@ class _EditMealElementState extends State<EditMealElement> {
             IconButton(
               onPressed: () async {
                 //await _editGroup(context);
+                if (widget.onDeleteClick!=null) {
+                  widget.onDeleteClick!(widget.index);
+                }
               },
               icon: Icon(Icons.delete),
               color: Theme.of(context).primaryColorDark,

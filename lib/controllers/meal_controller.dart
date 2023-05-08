@@ -155,8 +155,8 @@ class MealController {
   Future<void> editMeal(MealModel meal) async {
     //upload image
     updateMealImageNames(meal);
-    await _cloudDownloader.uploadImage(meal.mealImage, "restaurants/${meal.mealImageName}");
-    await _cloudDownloader.uploadImage(meal.mealCoverImage, "restaurants/${meal.mealCoverImageName}");
+    await _cloudDownloader.uploadImage(meal.mealImage, "meals/${meal.mealImageName}");
+    await _cloudDownloader.uploadImage(meal.mealCoverImage, "meals/${meal.mealCoverImageName}");
     //Save data
      _fireStore.collection("meals").doc(meal.mealId).set(meal.toObject());
 

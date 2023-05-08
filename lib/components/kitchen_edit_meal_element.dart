@@ -17,6 +17,7 @@ class KitchenEditMealElement extends StatefulWidget {
 
 class _KitchenEditMealElementState extends State<KitchenEditMealElement> {
   MealController _mealController = MealController();
+  bool _dispoed = false;
   
   _updateAll() {
     _mealController.getImage(widget.meal).then((value) {
@@ -38,6 +39,21 @@ class _KitchenEditMealElementState extends State<KitchenEditMealElement> {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
     _updateAll();
+  }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _dispoed = true;
+    super.dispose();
+    
+  }
+  @override
+  void setState(VoidCallback fn) {
+    // TODO: implement setState
+    if(!_dispoed){
+      super.setState(fn);
+    }
+    
   }
 
   @override
@@ -78,18 +94,21 @@ class _KitchenEditMealElementState extends State<KitchenEditMealElement> {
                   ),
                 ),
               ),
-              Container(
-                width: 110,
-                height: 110,
-                decoration: BoxDecoration(
-                  image: MealController.decorationImage(widget.meal),
-                ),
-                child: widget.meal.mealImage != null ? null : Center(
-                  child: Container(
-                    width: 60,
-                    height: 60,
-                    child: CircularProgressIndicator(
-                      color: Theme.of(context).primaryColor,
+              Hero(
+                tag: widget.meal.mealId,
+                child: Container(
+                  width: 110,
+                  height: 110,
+                  decoration: BoxDecoration(
+                    image: MealController.decorationImage(widget.meal),
+                  ),
+                  child: widget.meal.mealImage != null ? null : Center(
+                    child: Container(
+                      width: 60,
+                      height: 60,
+                      child: CircularProgressIndicator(
+                        color: Theme.of(context).primaryColor,
+                      ),
                     ),
                   ),
                 ),

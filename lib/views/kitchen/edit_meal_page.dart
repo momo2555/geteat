@@ -30,7 +30,7 @@ class _EditMealPageState extends State<EditMealPage> {
   MealModel _copy = MealModel();
   List<MealElementModel> _elements = [];
   bool _saving = false;
-
+  bool _dispoed = false;
   bool _isNew = false;
 
   Widget _showProperties() {
@@ -105,6 +105,21 @@ class _EditMealPageState extends State<EditMealPage> {
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    _dispoed = true;
+    super.dispose();
+  }
+
+  @override
+  void setState(VoidCallback fn) {
+    // TODO: implement setState
+    if (!_dispoed) {
+      super.setState(fn);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Theme.of(context).primaryColorLight,
@@ -166,11 +181,11 @@ class _EditMealPageState extends State<EditMealPage> {
                   Positioned(
                     left: 100,
                     top: 80,
-                    child: Hero(
-                      tag: widget.meal.mealId,
-                      child: Stack(
-                        children: [
-                          Container(
+                    child: Stack(
+                      children: [
+                        Hero(
+                          tag: widget.meal.mealId,
+                          child: Container(
                             width: 140,
                             height: 140,
                             decoration: BoxDecoration(
@@ -180,29 +195,29 @@ class _EditMealPageState extends State<EditMealPage> {
                                     color: Theme.of(context).primaryColorLight,
                                     width: 8)),
                           ),
-                          Positioned(
-                            right: 8,
-                            bottom: 8,
-                            child: _editButton(() async {
-                              print("object");
-                              FilePickerResult? result =
-                                  await FilePicker.platform.pickFiles(
-                                type: FileType.image,
-                                allowMultiple: false,
-                              );
-                              if (result != null) {
-                                if (result.paths.length > 0) {
-                                  if (result.paths[0] != null) {
-                                    setState(() {
-                                      _copy.mealImage = File(result.paths[0]!);
-                                    });
-                                  }
+                        ),
+                        Positioned(
+                          right: 8,
+                          bottom: 8,
+                          child: _editButton(() async {
+                            print("object");
+                            FilePickerResult? result =
+                                await FilePicker.platform.pickFiles(
+                              type: FileType.image,
+                              allowMultiple: false,
+                            );
+                            if (result != null) {
+                              if (result.paths.length > 0) {
+                                if (result.paths[0] != null) {
+                                  setState(() {
+                                    _copy.mealImage = File(result.paths[0]!);
+                                  });
                                 }
                               }
-                            }),
-                          ),
-                        ],
-                      ),
+                            }
+                          }),
+                        ),
+                      ],
                     ),
                   ),
                 ],
@@ -312,10 +327,11 @@ class _EditMealPageState extends State<EditMealPage> {
                             setState(() {
                               _saving = true;
                             });
-                            _copy.mealStruct = _elements.map((e) => e.toObject()).toList();
-                            if(_isNew) {
+                            _copy.mealStruct =
+                                _elements.map((e) => e.toObject()).toList();
+                            if (_isNew) {
                               await _mealController.createMeal(_copy);
-                            }else {
+                            } else {
                               await _mealController.editMeal(_copy);
                             }
                             Navigator.pop(context);

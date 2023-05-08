@@ -6,16 +6,16 @@ import 'package:geteat/models/meal_element_model.dart';
 import 'package:geteat/models/restaurant_model.dart';
 
 class MealModel {
-  String? _mealId;
-  String? _mealDescription;
-  String? _mealName;
-  String? _mealImageName;
-  String? _mealCoverImageName;
-  num? _mealPrice;
+  String? _mealId = "";
+  String? _mealDescription = "";
+  String? _mealName = "";
+  String? _mealImageName = "meal.jpg";
+  String? _mealCoverImageName = "meal_cover.png";
+  num? _mealPrice = 0.0;
   List<dynamic>? _mealStruct;
   File? _mealImage;
   File? _mealCoverImage;
-  String? _mealRestaurantId ;
+  String? _mealRestaurantId = "";
   MealModel() : super();
 
   set mealId(value) {
