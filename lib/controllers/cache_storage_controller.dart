@@ -16,13 +16,23 @@ enum LocalSaveMode { cache, userDocuments }
  */
 class CacheStorageController {
   static Map<String, File> tempCache = {};
+
+  deleteRefFromTempCache(String ref) {
+    if (CacheStorageController.tempCache.containsKey(ref)) {
+      CacheStorageController.tempCache.remove(ref);
+    }
+  }
+  addRefToTempCache(String ref, File data) {
+     CacheStorageController.tempCache[ref] = data;
+  }
+
   FirebaseStorage fireStorage = FirebaseStorage.instance;
 
   Future<File> downloadFromCloud(
       String folderPath, String fileName, LocalSaveMode mode) async {
     Reference downloadRef = fireStorage.ref(folderPath + fileName);
     print(folderPath + fileName);
-    
+
     //by default the directory is the cache
     Directory tempDir = await getTemporaryDirectory();
     if (mode == LocalSaveMode.userDocuments) {
@@ -37,42 +47,48 @@ class CacheStorageController {
     }
     File file = File(tempPathFilePath);
     //check if the file exists (if it exists do not download it again)
-    /*DateTime lastModifiedLocal = DateTime.fromMillisecondsSinceEpoch(0);
-    try {
-       lastModifiedLocal = await file.lastModified();
-       print("______________<.>______________");
-       print(lastModifiedLocal.toString());
-    } catch (e) {
-      print("impossible to get modified date of the file");
-    }
     
-    DateTime? lastModifiedCloud = (await downloadRef.getMetadata()).timeCreated;
-    print(lastModifiedCloud.toString());*/
     if (file.existsSync()) {
       //return the existing file
-      
+
       if (CacheStorageController.tempCache.containsKey(tempPathFilePath)) {
         print("get file from cache ram");
         return CacheStorageController.tempCache[tempPathFilePath] ?? file;
       } else {
         print("get file from cache storage");
-        CacheStorageController.tempCache[tempPathFilePath] = file;
-        return file;
+        DateTime lastModifiedLocal = DateTime.fromMillisecondsSinceEpoch(0);
+        try {
+          lastModifiedLocal = await file.lastModified();
+        } catch (e) {
+          print("impossible to get modified date of the file");
+        }
+
+        DateTime lastModifiedCloud =
+            (await downloadRef.getMetadata()).timeCreated ?? DateTime.fromMillisecondsSinceEpoch(0);
+        print("______________<.>______________");
+        print("local : ${lastModifiedLocal.toString()}");
+        print("cloud : ${lastModifiedCloud.toString()}");
+        //compare date
+        if(lastModifiedCloud.isBefore(lastModifiedLocal)) {
+          addRefToTempCache(tempPathFilePath, file);
+          return file;
+        }
+        
       }
-      
+    } 
+    //download the file from the cloud
+    print("download the file");
+    final downloadTask = await downloadRef.writeToFile(file);
+    if (downloadTask.state == TaskState.success) {
+      print("succes file dowloaded");
+      addRefToTempCache(tempPathFilePath, file);
+      return file;
     } else {
-      //download the file from the cloud
-      print("download the file");
-      final downloadTask = await downloadRef.writeToFile(file);
-      if (downloadTask.state == TaskState.success) {
-        print("succes file dowloaded");
-        return file;
-      } else {
-        print("failed file dowloaded");
-        throw Exception(
-            "Une erreur lors du téléchargement de l'image s'est produite ! ");
-      }
+      print("failed file dowloaded");
+      throw Exception(
+          "Une erreur lors du téléchargement de l'image s'est produite ! ");
     }
+    
   }
 
   Future<void> uploadImage(File image, String destination) async {
@@ -85,6 +101,7 @@ class CacheStorageController {
       quality: 40,
     );
     if (compressedImage != null) {
+      deleteRefFromTempCache(destination);
       await image.writeAsBytes(compressedImage);
       Reference uploadRef = fireStorage.ref(destination);
       final uploadTask = await uploadRef
