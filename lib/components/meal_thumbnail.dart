@@ -61,7 +61,7 @@ class _MealThumbnailState extends State<MealThumbnail> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(16),
+      padding: EdgeInsets.all(16), 
       child: InkWell(
         onTap: () {
           Navigator.pushNamed(context, '/meal', arguments: widget.meal);

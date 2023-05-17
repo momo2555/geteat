@@ -77,7 +77,7 @@ flutter_native_splash: #flutter pub run flutter_native_splash:create
   color: "#000000"
   android: true
   ios: true
-  image: "assets/icons/geteat_icon.png"
+  image: "assets/icons/geteat_icon_2.png"
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 

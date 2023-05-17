@@ -7,6 +7,50 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:1071150230703:android:afaf7c9d71ceaff335f85a",
+        "android_client_info": {
+          "package_name": "app.geteat.geteat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1071150230703-g9uok2cq6370mdifjudmojdsc8bdqvmm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "app.geteat.geteat",
+            "certificate_hash": "32ec94b098af8187fdb652319d9beaec41338a4e"
+          }
+        },
+        {
+          "client_id": "1071150230703-nvemkcurdo873eskaqef89740ca9nrnk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBTaa_FIXKBBY_c138FhpyPrMYbrScjQdc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1071150230703-nvemkcurdo873eskaqef89740ca9nrnk.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1071150230703-c4vtmu00j4s3jfjsnfp3thk96ejilpka.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.geteat.geteat"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:1071150230703:android:73f8af74b6375e9e35f85a",
         "android_client_info": {
           "package_name": "com.geteat.geteat"
@@ -37,6 +81,13 @@
             {
               "client_id": "1071150230703-nvemkcurdo873eskaqef89740ca9nrnk.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "1071150230703-c4vtmu00j4s3jfjsnfp3thk96ejilpka.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.geteat.geteat"
+              }
             }
           ]
         }

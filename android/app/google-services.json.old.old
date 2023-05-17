@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1071150230703",
+    "project_id": "geteat-bb4d8",
+    "storage_bucket": "geteat-bb4d8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1071150230703:android:73f8af74b6375e9e35f85a",
+        "android_client_info": {
+          "package_name": "com.geteat.geteat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1071150230703-cnbe2t50skdie519u2d5f8iaf8ckdmol.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.geteat.geteat",
+            "certificate_hash": "0a7f8e4688dc6a471c840f8f641825229c9db93e"
+          }
+        },
+        {
+          "client_id": "1071150230703-nvemkcurdo873eskaqef89740ca9nrnk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBTaa_FIXKBBY_c138FhpyPrMYbrScjQdc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1071150230703-nvemkcurdo873eskaqef89740ca9nrnk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

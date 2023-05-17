@@ -1,4 +1,11 @@
-class FileSystemManager {
+class Lang {
+  static Map<String, dynamic> tradCache = {};
+  static String l(String phrase, [List<String> params = const []]) {
+    return "";
+  }
+}
+
+/*class FileSystemManager {
   static final FileSystemManager _instance = FileSystemManager._internal();
   // https://flutterbyexample.com/lesson/singletons
   // using a factory is important
@@ -19,3 +26,4 @@ class FileSystemManager {
   void openFile() {}
   void writeFile() {}
 }
+*/
