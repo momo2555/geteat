@@ -57,6 +57,7 @@ dependencies:
   flutter_launcher_icons: ^0.13.1
   flutter_native_splash: ^2.2.19
   flutter_spinbox: ^0.13.0
+  firebase_app_check: ^0.1.4+1
 
 dev_dependencies:
   flutter_test:
