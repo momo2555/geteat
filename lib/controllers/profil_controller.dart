@@ -41,8 +41,8 @@ class ProfileController {
     UserModel user = UserModel('', '', '', userId);
     
     UserProfileModel userProfile = UserProfileModel.byModel(user);
-    //get the user reference 
-    DocumentReference profileDataRef =
+    try {
+       DocumentReference profileDataRef =
         fireStore.collection('users').doc(userProfile.uid);
     //get user data
     DocumentSnapshot profileData = (await profileDataRef.get());
@@ -62,6 +62,12 @@ class ProfileController {
     //userProfile.userProfileImageURL = await imgRef.getDownloadURL(); // TODO erreor dowload time exceeded
     
     return userProfile;
+    } catch (e) {
+      print("unable to find the user");
+      return userProfile;
+
+    }
+    //get the user reference
   }
 
   Future<UserProfileModel> createProfileBUserModel(UserModel user) async {

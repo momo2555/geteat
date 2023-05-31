@@ -1,11 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:geteat/controllers/otp_controller.dart';
 import 'package:geteat/models/user_model.dart';
 
 class UserConnection {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   FirebaseFirestore fireStore = FirebaseFirestore.instance;
+  OtpController _otp = OtpController();
   Stream<UserModel> get userStream {
     return _auth
         .authStateChanges()
@@ -50,13 +52,12 @@ class UserConnection {
     }
   }
 
-  void pocessPhone(phone, Function(UserModel) CodeCallBack,
-      Function(PhoneAuthCredential, UserModel) CredentialCallback) async {
+  void pocessPhone(phone) async {
     UserModel user = UserModel('', phone, '');
-
+    _otp.sendOtpMessage(phone);
     ///_auth.setSettings(appVerificationDisabledForTesting: false);
     
-    await _auth.verifyPhoneNumber(
+    /*await _auth.verifyPhoneNumber(
       phoneNumber: phone,
       verificationCompleted: (PhoneAuthCredential credential) async {
         // ANDROID ONLY!
@@ -78,29 +79,36 @@ class UserConnection {
       codeAutoRetrievalTimeout: (String verificationId) {
         // Auto-resolution timed out...
       },
-    );
+    );*/
+
+
     
   }
-
+  Future<bool> checkPhone(phone, code) async {
+    return _otp.verifyCode(phone, code);
+    
+  }
+ 
   Future<UserModel> createAccount(
-      email, password, PhoneAuthCredential phoneCredential) async {
+      email, password, phone) async {
     try {
-      UserCredential phoneUserCredential =
-          await _auth.signInWithCredential(phoneCredential);
-      //UserCredential userCredential;
-      AuthCredential emailCredential =
-          EmailAuthProvider.credential(email: email, password: password);
-      //userCredential = await _auth.createUserWithEmailAndPassword(email: email, password: password);
+      /*UserCredential phoneUserCredential =
+          await _auth.signInWithCredential(phoneCredential);*/
+      UserCredential userCredential;
+      /*AuthCredential emailCredential =
+          EmailAuthProvider.credential(email: email, password: password);*/
+      userCredential = await _auth.createUserWithEmailAndPassword(email: email, password: password);
 
-      await phoneUserCredential.user!.linkWithCredential(emailCredential);
+      //await phoneUserCredential.user!.linkWithCredential(emailCredential);
 
       String userId = "";
-      userId = phoneUserCredential.user?.uid ?? '';
-
+      //userId = phoneUserCredential.user?.uid ?? '';
+      userId = userCredential.user?.uid??"";
       UserModel _user = UserModel(
-          email, phoneUserCredential.user?.phoneNumber ?? '', password, userId);
+          email, phone, password, userId);
       return _user;
     } catch (e) {
+      print("EEEEEEEEEERRRRRRRRRRRRRRRRRORRRRRRRRRRRR");
       return UserModel('', '', '');
     }
   }

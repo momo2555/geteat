@@ -29,7 +29,7 @@ class _SignupCodePageState extends State<SignupCodePage> {
 
   final GlobalKey<FormState> _signupCodeKey = GlobalKey<FormState>();
   String _smsCode = "";
-  String _checkId = "";
+  //String _checkId = "";
 
   @override
   void initState() {
@@ -37,9 +37,7 @@ class _SignupCodePageState extends State<SignupCodePage> {
     super.initState();
 
     _userConnection = UserConnection();
-    _userConnection.pocessPhone(widget.user?.phone ?? '', (user) {
-      _checkId = user.checkId;
-    }, (Credential, user) {});
+    _userConnection.pocessPhone(widget.user?.phone ?? '');
   }
 
   @override
@@ -140,11 +138,15 @@ class _SignupCodePageState extends State<SignupCodePage> {
                         if (!form.validate()) {
                           /*_autoValidateModeIndex.value =
                             AutovalidateMode.always.index;*/ // Start validating on every change.
-                          ScaffoldMessenger.of(context).showSnackBar(
+                           
+                              ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
                                   content:
                                       Text('Veuillez corriger vos erreurs')));
+                            
+                          
                         } else {
+                          if (await _userConnection.checkPhone(widget.user?.phone??"", _smsCode)) {
                           form.save();
 
                           // Update the UI - wait for the user to enter the SMS code
@@ -156,37 +158,53 @@ class _SignupCodePageState extends State<SignupCodePage> {
                             //GoogleAuthCredential googleCredential;
 
                             print('Connection ok');
+                            bool isRegisterOk = false;
                             Navigator.pushNamed(
                               context,
                               '/load_page',
                               arguments: LoadModel(
                                 callback: (_) async {
                                   try {
-                                    PhoneAuthCredential credential =
+                                    /*PhoneAuthCredential credential =
                                         PhoneAuthProvider.credential(
                                             verificationId: _checkId,
-                                            smsCode: _smsCode);
+                                            smsCode: _smsCode);*/
 
                                     // Sign the user in (or link) with the credential
                                     UserProfileModel userProfile =
                                         widget.user ??
                                             UserProfileModel('', '', '', '');
-                                    UserModel userTemp =
-                                        await _userConnection.createAccount(
-                                            widget.user!.email,
-                                            widget.user!.password,
-                                            credential);
-                                    userProfile.uid = userTemp.uid;
-                                    await _profileController
-                                        .createProfileByProfileModel(
-                                            userProfile);
+                                   
+                                        UserModel userTemp =
+                                          await _userConnection.createAccount(
+                                              widget.user!.email,
+                                              widget.user!.password,
+                                              widget.user!.phone
+                                              );
+                                             if(userTemp.uid != "") {
+                                                userProfile.uid = userTemp.uid;
+                                                await _profileController
+                                                  .createProfileByProfileModel(
+                                                      userProfile);
+                                                isRegisterOk = true;
+                                             }
+                                      
+                                    
+
+
+                                    
                                   } catch (e) {}
                                 },
                                 afterCallback: (_) {
-                                  Navigator.pop(context, (route) => true);
-                                  Navigator.pushNamed(context, '/client_home');
-                                  Navigator.pushNamed(
-                                      context, '/signup_confirm');
+                                  if(isRegisterOk) {
+                                    Navigator.pop(context, (route) => true);
+                                    Navigator.pushNamed(context, '/client_home');
+                                    Navigator.pushNamed(
+                                        context, '/signup_confirm');
+                                  }else {
+                                    Fluttertoast.showToast(msg:"Erreur : une erreur est survenue", backgroundColor: Theme.of(context).colorScheme.error);
+                                  }
+                                  
                                 },
                                 message: "Compte en cours de creéation",
                                 minimumTime: 1,
@@ -198,6 +216,9 @@ class _SignupCodePageState extends State<SignupCodePage> {
                                     "Une erreur s'est produite lors de la création de votre compte");
                           }
                           //credentialUser.user.li
+                          }else {
+                              Fluttertoast.showToast(msg:"Erreur : Le code de vérification n'est pas correcte", backgroundColor: Theme.of(context).colorScheme.error);
+                            }
                         }
                       },
                     ),
