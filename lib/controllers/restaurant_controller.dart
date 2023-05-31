@@ -12,9 +12,7 @@ class RestaurantController {
   UserConnection _userConnection = UserConnection();
   CacheStorageController _cloudDownloader = CacheStorageController();
   //FirebaseStorage fireStorage = FirebaseStorage.instance;
-
   /*Future<UserProfileModel> get getUserProfile async {
-
     UserModel user = await _userConnection.UserConnected;
     UserProfileModel userProfile = UserProfileModel.byModel(user);
     //get the user reference 
@@ -27,12 +25,11 @@ class RestaurantController {
     userProfile.setUserRate = profileData.get('userRate');
     userProfile.setUserProfileImage = profileData.get('userProfileImage');
     //get the link of the profile image
-    
     Reference imgRef = fireStorage.ref('userImages/'+userProfile.getUserProfileImage);
     userProfile.setUserProfileImageURL = await imgRef.getDownloadURL();
-    
     return userProfile;
   }*/
+
   void addRestaurant(RestaurantModel newRestaurant) async {
     UserModel user = await _userConnection.UserConnected;
     //newPost.setPostUserId = user.getUid;
@@ -60,8 +57,6 @@ class RestaurantController {
     ref.set(newRestaurant.toObject());
   }
 
-
-
   Future<RestaurantModel> getRestaurantById(String uid) async {
     RestaurantModel restaurant = RestaurantModel();
     DocumentReference restaurantRef =
@@ -69,10 +64,8 @@ class RestaurantController {
     //get user data
     DocumentSnapshot restaurantSnapshot = (await restaurantRef.get());
     restaurant = docToRestaurantModel(restaurantSnapshot);
-    
     //restaurant = await getImage(restaurant);
     return restaurant;
-
   }
 
   RestaurantModel docToRestaurantModel(DocumentSnapshot doc) {
@@ -84,13 +77,8 @@ class RestaurantController {
     restaurant.restaurantHours = doc.get('restaurantHours');
     restaurant.restaurantImageName = doc.get('restaurantImageName');
     restaurant.restaurantMeals = doc.get('restaurantMeals');
-
-    
-    
     return restaurant;
   }
-
-
 
   Future<RestaurantModel> getImage(RestaurantModel restaurant) async {
     //download images
@@ -115,18 +103,19 @@ class RestaurantController {
       restaurant.restaurantImageName = "${restaurant.restaurantId}$ext";
     }
   }
+
   Future<void> editRestaurant(RestaurantModel restaurant) async {
     //upload image
     updateRestaurantImageName(restaurant);
     await _cloudDownloader.uploadImage(restaurant.restaurantImage, "restaurants/${restaurant.restaurantImageName}");
     //Save data
-     _fireStore.collection("restaurants").doc(restaurant.restaurantId).set(restaurant.toObject());
-
+    _fireStore.collection("restaurants").doc(restaurant.restaurantId).set(restaurant.toObject());
   }
+
   Future<void> createRestaurant(RestaurantModel restaurant) async {
     var ref = _fireStore.collection("restaurants").doc();
     restaurant.restaurantId = ref.id;
     editRestaurant(restaurant);
-
   }
+
 }
