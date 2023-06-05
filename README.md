@@ -57,6 +57,10 @@ flutter clean
 flutter build appbundle
 ```
 
+## TODO
+- bug déconnexion lors de la première inscription
+- traduction 
+
 
 
 
