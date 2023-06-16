@@ -3,6 +3,7 @@ import 'package:geteat/components/action_button.dart';
 import 'package:geteat/components/simpleDropDown.dart';
 import 'package:geteat/components/simple_input.dart';
 import 'package:geteat/components/simple_text.dart';
+import 'package:geteat/lang/lang.dart';
 import 'package:geteat/models/meal_element_model.dart';
 import 'package:geteat/models/mesl_subelement_model.dart';
 
@@ -15,7 +16,7 @@ class MealUtils {
         return StatefulBuilder(builder: (context, _setState) {
           return AlertDialog(
             title: SimpleText(
-              text: "Modification/Création d'un sous Element",
+              text: Lang.l("Modification/Création d'un sous Element"),
               color: 2,
               thick: 5,
               size: 20,
@@ -25,7 +26,7 @@ class MealUtils {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SimpleText(
-                  text: "Nom de l'élement",
+                  text: Lang.l("Nom de l'élement"),
                   color: 2,
                   thick: 6,
                 ),
@@ -39,7 +40,7 @@ class MealUtils {
                 SizedBox(height: 20),
                 // ----------------------------------
                 SimpleText(
-                  text: "Prix supplément (0.0 = gratuit)",
+                  text: Lang.l("Prix supplément (0.0 = gratuit)"),
                   color: 2,
                   thick: 6,
                 ),
@@ -55,7 +56,7 @@ class MealUtils {
                 // ----------------------------------
 
                 SimpleText(
-                  text: "Minimum (seulment si multilist)",
+                  text: Lang.l("Minimum (seulment si multilist)"),
                   color: 2,
                   thick: 6,
                 ),
@@ -83,7 +84,7 @@ class MealUtils {
                 SizedBox(height: 20),
                 // ----------------------------------
                 SimpleText(
-                  text: "Maximum (seulment si multilist)",
+                  text: Lang.l("Maximum (seulment si multilist)"),
                   color: 2,
                   thick: 6,
                 ),
@@ -115,7 +116,7 @@ class MealUtils {
             actions: [
               ActionButton(
                 backColor: Theme.of(context).primaryColorDark,
-                text: "Annuler",
+                text:Lang.l("Annuler"),
                 filled: true,
                 action: () {
                   Navigator.pop(context, 0);
@@ -123,7 +124,7 @@ class MealUtils {
               ),
               ActionButton(
                 filled: true,
-                text: "Enregistrer",
+                text:Lang.l("Enregistrer"),
                 action: () async {
                   Navigator.pop(context, 1);
                 },
@@ -151,7 +152,7 @@ class MealUtils {
         return StatefulBuilder(builder: (context, _setState) {
           return AlertDialog(
             title: SimpleText(
-              text: "Modification/Création d'un Element",
+              text:Lang.l("Modification/Création d'un Element"),
               color: 2,
               thick: 5,
               size: 20,
@@ -161,7 +162,7 @@ class MealUtils {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SimpleText(
-                  text: "Nom du choix",
+                  text: Lang.l("Nom du choix"),
                   color: 2,
                   thick: 6,
                 ),
@@ -175,7 +176,7 @@ class MealUtils {
                 SizedBox(height: 20),
                 // ----------------------------------
                 SimpleText(
-                  text: "Type de choix",
+                  text: Lang.l("Type de choix"),
                   color: 2,
                   thick: 6,
                 ),
@@ -193,7 +194,7 @@ class MealUtils {
                 // ----------------------------------
                 if (_copy.type == "checklist") ...[
                   SimpleText(
-                    text: "Minimum",
+                    text: Lang.l("Minimum"),
                     color: 2,
                     thick: 6,
                   ),
@@ -221,7 +222,7 @@ class MealUtils {
                   SizedBox(height: 20),
                   // ----------------------------------
                   SimpleText(
-                    text: "Maximum",
+                    text: Lang.l("Maximum"),
                     color: 2,
                     thick: 6,
                   ),
@@ -255,7 +256,7 @@ class MealUtils {
             actions: [
               ActionButton(
                 backColor: Theme.of(context).primaryColorDark,
-                text: "Annuler",
+                text: Lang.l("Annuler"),
                 filled: true,
                 action: () {
                   Navigator.pop(context, 0);
@@ -263,7 +264,7 @@ class MealUtils {
               ),
               ActionButton(
                 filled: true,
-                text: "Enregistrer",
+                text: Lang.l("Enregistrer"),
                 action: () async {
                   Navigator.pop(context, 1);
                 },

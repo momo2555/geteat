@@ -9,6 +9,7 @@ import 'package:geteat/components/simple_input.dart';
 import 'package:geteat/components/simple_text.dart';
 import 'package:geteat/controllers/profil_controller.dart';
 import 'package:geteat/controllers/user_connection.dart';
+import 'package:geteat/lang/lang.dart';
 import 'package:geteat/models/load_model.dart';
 import 'package:geteat/models/user_model.dart';
 import 'package:geteat/models/user_profile_model.dart';
@@ -69,13 +70,13 @@ class _SignupCodePageState extends State<SignupCodePage> {
                       height: 20,
                     ),
                     SimpleText(
-                      text: "Code de confirmation",
+                      text: Lang.l("Code de confirmation"),
                       size: 24,
                       thick: 6,
                     ),
                     SimpleText(
                       text:
-                          "Un code vous est envoyé par sms afin de vérifier de votre numéro de téléphone",
+                          Lang.l("Un code vous est envoyé par sms afin de vérifier de votre numéro de téléphone"),
                       size: 13,
                       thick: 4,
                     ),
@@ -121,7 +122,7 @@ class _SignupCodePageState extends State<SignupCodePage> {
                 child: Column(
                   children: [
                     ActionButton(
-                      text: "Renvoyer le code",
+                      text: Lang.l("Renvoyer le code"),
                       expanded: true,
                       clear: true,
                       filled: true,
@@ -130,7 +131,7 @@ class _SignupCodePageState extends State<SignupCodePage> {
                       height: 15,
                     ),
                     ActionButton(
-                      text: "Valider",
+                      text: Lang.l("Vérifier"),
                       filled: true,
                       expanded: true,
                       action: () async {
@@ -140,9 +141,9 @@ class _SignupCodePageState extends State<SignupCodePage> {
                             AutovalidateMode.always.index;*/ // Start validating on every change.
                            
                               ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
+                               SnackBar(
                                   content:
-                                      Text('Veuillez corriger vos erreurs')));
+                                      Text(Lang.l(AutofillHints.birthdayDay))));
                             
                           
                         } else {
@@ -202,22 +203,22 @@ class _SignupCodePageState extends State<SignupCodePage> {
                                     Navigator.pushNamed(
                                         context, '/signup_confirm');
                                   }else {
-                                    Fluttertoast.showToast(msg:"Erreur : une erreur est survenue", backgroundColor: Theme.of(context).colorScheme.error);
+                                    Fluttertoast.showToast(msg: Lang.l("Erreur : une erreur est survenue"), backgroundColor: Theme.of(context).colorScheme.error);
                                   }
                                   
                                 },
-                                message: "Compte en cours de creéation",
+                                message: Lang.l("Compte en cours de creéation"),
                                 minimumTime: 1,
                               ),
                             );
                           } on Exception catch (e) {
                             Fluttertoast.showToast(
                                 msg:
-                                    "Une erreur s'est produite lors de la création de votre compte");
+                                    Lang.l("Une erreur s'est produite lors de la création de votre compte"));
                           }
                           //credentialUser.user.li
                           }else {
-                              Fluttertoast.showToast(msg:"Erreur : Le code de vérification n'est pas correcte", backgroundColor: Theme.of(context).colorScheme.error);
+                              Fluttertoast.showToast(msg:Lang.l("Erreur : Le code de vérification n'est pas correcte"), backgroundColor: Theme.of(context).colorScheme.error);
                             }
                         }
                       },

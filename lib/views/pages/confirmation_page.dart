@@ -10,6 +10,7 @@ import 'package:geteat/components/edit_address_button.dart';
 import 'package:geteat/components/simple_close_button.dart';
 import 'package:geteat/components/simple_text.dart';
 import 'package:geteat/controllers/command_controller.dart';
+import 'package:geteat/lang/lang.dart';
 import 'package:geteat/models/command_model.dart';
 import 'package:geteat/models/sub_command_model.dart';
 import 'package:geteat/models/load_model.dart';
@@ -43,7 +44,7 @@ class _ConfirmationPageState extends State<ConfirmationPage> {
         child: Column(
           children: [
             SimpleText(
-              text: "Confirmation",
+              text: Lang.l("Confirmation"),
               color: 2,
               thick: 9,
               size: 20,
@@ -76,12 +77,12 @@ class _ConfirmationPageState extends State<ConfirmationPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SimpleText(
-                      text: "Moyen de payement :",
+                      text: Lang.l("Moyen de payement :"),
                       color: 2,
                       size: 16,
                     ),
                     SimpleText(
-                      text: "En Espèce (€)",
+                      text: Lang.l("En Espèce (€)"),
                       color: 1,
                       size: 16,
                     )
@@ -98,7 +99,7 @@ class _ConfirmationPageState extends State<ConfirmationPage> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     SimpleText(
-                      text: "Detail de la commande",
+                      text: Lang.l("Detail de la commande"),
                       color: 2,
                       size: 16,
                       thick: 8,
@@ -142,7 +143,7 @@ class _ConfirmationPageState extends State<ConfirmationPage> {
             padding: const EdgeInsets.all(16.0),
             child: ActionButton(
               text:
-                  "Confirmer la commande - ${(Globals.userCart.commandTotalPrice as num).toStringAsFixed(2)}€",
+                 Lang.l ("Confirmer la commande - \$0€", [(Globals.userCart.commandTotalPrice as num).toStringAsFixed(2)]),
               backColor: Theme.of(context).primaryColor,
               filled: true,
               expanded: true,
@@ -167,9 +168,9 @@ class _ConfirmationPageState extends State<ConfirmationPage> {
                       Navigator.of(_).pushNamed("/state_page",
                           arguments: command);
                       Fluttertoast.showToast(
-                          msg: "Votre commande a bien été confirmée");
+                          msg: Lang.l("Votre commande a bien été confirmée"));
                     },
-                    message: "Commande en cours de creéation",
+                    message:Lang.l( "Commande en cours de creéation"),
                     minimumTime: 1,
                   ),
                 );

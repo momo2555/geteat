@@ -9,6 +9,7 @@ import 'package:geteat/components/simple_input.dart';
 import 'package:geteat/components/simple_input_label.dart';
 import 'package:geteat/components/simple_text.dart';
 import 'package:geteat/controllers/restaurant_controller.dart';
+import 'package:geteat/lang/lang.dart';
 import 'package:geteat/models/restaurant_model.dart';
 
 class EditRestaurantPage extends StatefulWidget {
@@ -48,8 +49,8 @@ class _EditRestaurantPageState extends State<EditRestaurantPage> {
       scrollable: true,
       title: SimpleText(
         text: widget.isNew ?? false
-            ? "Créer un restaurant"
-            : "Modifier un restaurant",
+            ? Lang.l("Créer un restaurant")
+            : Lang.l("Modifier un restaurant"),
         color: 2,
         size: 16,
         thick: 5,
@@ -59,7 +60,7 @@ class _EditRestaurantPageState extends State<EditRestaurantPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SimpleText(
-              text: "Nom du restaurant",
+              text: Lang.l("Nom du restaurant"),
               color: 2,
               thick: 6,
             ),
@@ -73,7 +74,7 @@ class _EditRestaurantPageState extends State<EditRestaurantPage> {
             SizedBox(height: 15),
             // ----------------------------------
             SimpleText(
-              text: "Description du restaurant",
+              text: Lang.l("Description du restaurant"),
               color: 2,
               thick: 6,
             ),
@@ -92,13 +93,13 @@ class _EditRestaurantPageState extends State<EditRestaurantPage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 SimpleText(
-                  text: "Heure d'ouverture : ${_copy.getOpenTimeAsString()}",
+                  text: Lang.l("Heure d'ouverture : \$0", [_copy.getOpenTimeAsString()]),
                   color: 2,
                   thick: 6,
                 ),
                 SizedBox(width: 25),
                 ActionButton(
-                  text: "Modifier",
+                  text: Lang.l("Modifier"),
                   filled: true,
                   backColor: Theme.of(context).primaryColorDark,
                   action: () async {
@@ -120,13 +121,13 @@ class _EditRestaurantPageState extends State<EditRestaurantPage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 SimpleText(
-                  text: "Heure de fermeture : ${_copy.getCloseTimeAsString()}",
+                  text: Lang.l("Heure de fermeture : \$0", [_copy.getCloseTimeAsString()]),
                   color: 2,
                   thick: 6,
                 ),
                 SizedBox(width: 25),
                 ActionButton(
-                  text: "Modifier",
+                  text: Lang.l("Modifier"),
                   filled: true,
                   backColor: Theme.of(context).primaryColorDark,
                   action: () async {
@@ -145,7 +146,7 @@ class _EditRestaurantPageState extends State<EditRestaurantPage> {
             SizedBox(height: 15),
             // ----------------------------------
             SimpleText(
-              text: "Photo de présentation",
+              text: Lang.l("Photo de présentation"),
               color: 2,
               thick: 6,
             ),
@@ -157,7 +158,7 @@ class _EditRestaurantPageState extends State<EditRestaurantPage> {
                   color: Theme.of(context).colorScheme.surface),
             ),
             ActionButton(
-              text: "Modifier",
+              text: Lang.l("Modifier"),
               filled: true,
               backColor: Theme.of(context).primaryColorDark,
               expanded: true,
@@ -188,7 +189,7 @@ class _EditRestaurantPageState extends State<EditRestaurantPage> {
       actions: [
         ActionButton(
           backColor: Theme.of(context).primaryColorDark,
-          text: "Annuler",
+          text: Lang.l("Annuler"),
           filled: true,
           action: () {
             Navigator.pop(context);
@@ -197,7 +198,7 @@ class _EditRestaurantPageState extends State<EditRestaurantPage> {
         ActionButton(
           wait : _isLoading,
           filled: true,
-          text: widget.isNew ?? false ? "Créer" : "Modifier",
+          text: widget.isNew ?? false ? Lang.l("Créer") : Lang.l("Modifier"),
           action: () async {
             setState(() {
               _isLoading = true;

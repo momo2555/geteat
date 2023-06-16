@@ -4,6 +4,7 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:geteat/components/simple_text.dart';
 import 'package:geteat/controllers/restaurant_controller.dart';
+import 'package:geteat/lang/lang.dart';
 import 'package:geteat/models/restaurant_model.dart';
 
 class RestaurantThumbnail extends StatefulWidget {
@@ -73,7 +74,7 @@ class _RestaurantThumbnailState extends State<RestaurantThumbnail> {
               thick: 9,
             ),
             SimpleText(
-              text: "Ferme à 2:00",
+              text: Lang.l("Ferme à 2:00"),
               size: 13,
               color: 1,
              

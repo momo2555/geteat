@@ -11,6 +11,7 @@ import 'package:geteat/components/action_button.dart';
 import 'package:geteat/components/simple_text.dart';
 import 'package:geteat/controllers/command_controller.dart';
 import 'package:geteat/controllers/profil_controller.dart';
+import 'package:geteat/lang/lang.dart';
 import 'package:geteat/models/command_model.dart';
 import 'package:geteat/models/sub_command_model.dart';
 import 'package:geteat/models/user_profile_model.dart';
@@ -44,7 +45,7 @@ class _MainKitchenPageState extends State<MainKitchenPage> {
               
               return AlertDialog(
                 title: SimpleText(
-                  text: "Nouvelle commande",
+                  text: Lang.l("Nouvelle commande"),
                   color: 2,
                   size: 16,
                 ),
@@ -100,7 +101,7 @@ class _MainKitchenPageState extends State<MainKitchenPage> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             SimpleText(
-                              text: "TOTAL:",
+                              text: Lang.l("TOTAL:"),
                               thick: 8,
                               color: 2,
                               size: 16,
@@ -121,7 +122,7 @@ class _MainKitchenPageState extends State<MainKitchenPage> {
                 actions: [
                   ActionButton(
                     backColor: Theme.of(context).primaryColorDark,
-                    text: "Refuser",
+                    text: Lang.l("Refuser"),
                     filled: true,
                     action: () {
                       _commandController.updateCommandStatus(c, "refused");
@@ -131,7 +132,7 @@ class _MainKitchenPageState extends State<MainKitchenPage> {
                   ),
                   ActionButton(
                     filled: true,
-                    text: "Prendre",
+                    text: Lang.l("Prendre"),
                     action: () async {
                       _commandController.updateCommandStatus(c, "kitchen");
                       Globals.commandPopupOn = false;

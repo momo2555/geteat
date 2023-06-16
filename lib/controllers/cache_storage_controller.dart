@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
+import 'package:geteat/lang/lang.dart';
 import 'package:path_provider/path_provider.dart';
 
 enum LocalSaveMode { cache, userDocuments }
@@ -86,7 +87,7 @@ class CacheStorageController {
     } else {
       print("failed file dowloaded");
       throw Exception(
-          "Une erreur lors du téléchargement de l'image s'est produite ! ");
+          Lang.l("Une erreur lors du téléchargement de l'image s'est produite ! "));
     }
     
   }
@@ -108,11 +109,11 @@ class CacheStorageController {
           .putFile(image); //await until upload (befor editing data base)
       if (uploadTask.state != TaskState.success) {
         throw Exception(
-            "Une erreur lors du téléchargement de l'image s'est produite ! ");
+            Lang.l("Une erreur lors du téléchargement de l'image s'est produite ! "));
       }
     } else {
       throw Exception(
-          "Une erreur lors du téléchargement de l'image s'est produite ! ");
+          Lang.l("Une erreur lors du téléchargement de l'image s'est produite ! "));
     }
   }
 }

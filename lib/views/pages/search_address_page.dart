@@ -6,6 +6,7 @@ import 'package:geteat/components/actual_position_button.dart';
 import 'package:geteat/components/search_address_bar.dart';
 import 'package:geteat/components/simple_close_button.dart';
 import 'package:geteat/components/simple_text.dart';
+import 'package:geteat/lang/lang.dart';
 
 class SearchAddressPage extends StatefulWidget {
   const SearchAddressPage({Key? key}) : super(key: key);
@@ -36,7 +37,7 @@ class _SearchAddressPageState extends State<SearchAddressPage> {
                   Positioned(
                     bottom: 50,
                     left: 16,
-                    child: SimpleText(text: "Choix de l'adresse", size: 23,thick: 6,),
+                    child: SimpleText(text: Lang.l("Choix de l'adresse"), size: 23,thick: 6,),
                   ),
                   Positioned(
                     top: 10,

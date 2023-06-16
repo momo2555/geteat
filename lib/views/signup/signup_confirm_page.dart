@@ -5,6 +5,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:geteat/components/action_button.dart';
 import 'package:geteat/components/simple_input.dart';
 import 'package:geteat/components/simple_text.dart';
+import 'package:geteat/lang/lang.dart';
 import 'package:geteat/utils/global_utils.dart';
 
 class SignupConfirmPage extends StatefulWidget {
@@ -33,13 +34,13 @@ class _SignupConfirmPageState extends State<SignupConfirmPage> {
                 height: 25,
               ),
             SimpleText(
-              text: "Votre compte a bien été créé",
+              text: Lang.l("Votre compte a bien été créé"),
               size: 20,
               thick: 6,
               color: 0,
               ),
                SimpleText(
-              text: "Vous avez ouvert votre compte avec succès !",
+              text: Lang.l("Vous avez ouvert votre compte avec succès !"),
               size: 14,
               thick: 3,
               color: 3,
@@ -51,7 +52,7 @@ class _SignupConfirmPageState extends State<SignupConfirmPage> {
             
            
             ActionButton(
-              text: "Valider",
+              text: Lang.l("Valider"),
               filled: true,
               expanded: true,
               action: () {

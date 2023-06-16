@@ -4,6 +4,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:geteat/components/command_details.dart';
 import 'package:geteat/components/simple_text.dart';
 import 'package:geteat/controllers/command_controller.dart';
+import 'package:geteat/lang/lang.dart';
 import 'package:geteat/models/command_model.dart';
 import 'package:geteat/utils/global_utils.dart';
 
@@ -39,7 +40,7 @@ class _CommandPageState extends State<CommandPage> {
           SizedBox(
             height: 40,
           ),
-          SimpleText(text: "Commandes", thick: 8, size: 20, color: 2),
+          SimpleText(text: Lang.l("Commandes"), thick: 8, size: 20, color: 2),
           Expanded(
             child: StreamBuilder(
               stream: _commandController.getAllUserCommands(),

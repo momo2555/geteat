@@ -4,6 +4,7 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:geteat/components/kitchen_edit_meal_element.dart';
 import 'package:geteat/components/simple_text.dart';
 import 'package:geteat/controllers/meal_controller.dart';
+import 'package:geteat/lang/lang.dart';
 import 'package:geteat/models/meal_model.dart';
 import 'package:geteat/utils/global_utils.dart';
 
@@ -25,7 +26,7 @@ class _EditMealListPageState extends State<EditMealListPage> {
         elevation: 2,
         foregroundColor: Theme.of(context).backgroundColor,
         title: SimpleText(
-          text: "Menus",
+          text: Lang.l("Menus"),
           color: 2,
           thick: 6,
           size: 16,
@@ -94,7 +95,7 @@ class _EditMealListPageState extends State<EditMealListPage> {
           } else {
             return Center(
               child: SimpleText(
-                text: "Pas de restaurant sélectionné",
+                text: Lang.l("Pas de restaurant sélectionné"),
                 color: 3,
                 size: 24,
               ),

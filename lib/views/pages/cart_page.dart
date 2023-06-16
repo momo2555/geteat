@@ -6,6 +6,7 @@ import 'package:geteat/components/action_button.dart';
 import 'package:geteat/components/cart_element.dart';
 import 'package:geteat/components/simple_text.dart';
 import 'package:geteat/controllers/command_controller.dart';
+import 'package:geteat/lang/lang.dart';
 import 'package:geteat/models/sub_command_model.dart';
 import 'package:geteat/utils/global_utils.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
@@ -44,7 +45,7 @@ class _cartPageState extends State<cartPage> {
           height: 40,
         ),
         SimpleText(
-          text: "Mon panier",
+          text: Lang.l("Mon panier"),
           color: 2,
           thick: 7,
           size: 20,
@@ -73,7 +74,7 @@ class _cartPageState extends State<cartPage> {
                     } else {
                       return Center(
                         child: SimpleText(
-                          text: "Le panier est vide",
+                          text: Lang.l("Le panier est vide"),
                           color: 3,
                           size: 20,
                           thick: 6,
@@ -101,7 +102,7 @@ class _cartPageState extends State<cartPage> {
                 return ActionButton(
                     wait: _loadingButton,
                     text:
-                        "Valider Commande - ${snapshot.hasData ? snapshot.data?.toStringAsFixed(2) ?? '' : ''}€",
+                        Lang.l("Valider Commande - \$0€", [snapshot.hasData ? snapshot.data?.toStringAsFixed(2) ?? '' : '']),
                     backColor: Theme.of(context).colorScheme.background,
                     filled: true,
                     expanded: true,

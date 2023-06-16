@@ -7,6 +7,7 @@ import 'package:geteat/components/action_button.dart';
 import 'package:geteat/components/simple_input.dart';
 import 'package:geteat/components/simple_text.dart';
 import 'package:geteat/controllers/user_connection.dart';
+import 'package:geteat/lang/lang.dart';
 import 'package:geteat/models/user_profile_model.dart';
 import 'package:geteat/utils/phone_utils.dart';
 
@@ -34,25 +35,24 @@ class _SignupNamePageState extends State<SignupNamePage> {
   
   String? _validateName(String? value) {
     if (value == null || value.isEmpty) {
-      return "Vous devez absolument entrer un nom";
+      return Lang.l("Vous devez absolument entrer un nom");
     }
     final nameExp = RegExp(r"^[A-Za-z ']+$");
     if (!nameExp.hasMatch(value)) {
-      return "Votre nom doit se composer que de lettres";
+      return Lang.l("Votre nom doit se composer que de lettres");
     }
     return null;
   }
   String? _lastEmailValue = "";
   String? _validateEmail(String? value) {
-    print("coucou");
     if (value == null || value.isEmpty) {
       _lastEmailValue = value;
-      return "Veuillez saisir une adresse E-mail";
+      return Lang.l("Veuillez saisir une adresse E-mail");
     }
     final nameExp = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
     if (!nameExp.hasMatch(value)) {
       _lastEmailValue = value;
-      return "Adresse E-mail incorrecte";
+      return Lang.l( "Adresse E-mail incorrecte");
     }
     if(_lastEmailValue!=value){
       _userConnection.isEmailExists(value).then((val){
@@ -67,7 +67,7 @@ class _SignupNamePageState extends State<SignupNamePage> {
     }  
     if (_emailExists){
       _lastEmailValue = value;
-      return "Cette addresse e-mail existe déjà.";
+      return Lang.l("Cette addresse e-mail existe déjà.");
     }
     _lastEmailValue = value;
     return null;
@@ -77,7 +77,7 @@ class _SignupNamePageState extends State<SignupNamePage> {
     final phoneExp = RegExp(r'^\(0\)\d \d\d \d\d\ \d\d \d\d$');
     if (!phoneExp.hasMatch(value!)) {
       _lastPhoneValue = value;
-      return "Le numéro de téléphone n'est pas valide";
+      return Lang.l("Le numéro de téléphone n'est pas valide");
     }
     if(_lastPhoneValue!=value){
       print(PhoneUtils.trimePhone(value));
@@ -93,7 +93,7 @@ class _SignupNamePageState extends State<SignupNamePage> {
     }  
     if(_phoneExists) {
       _lastPhoneValue = value;
-      return "ce numéro de téléphone existe déjà";
+      return Lang.l("ce numéro de téléphone existe déjà");
     }
     _lastPhoneValue = value;
     return null;
@@ -101,19 +101,19 @@ class _SignupNamePageState extends State<SignupNamePage> {
   String? _validatePassword1(String? value) {
     
     if (value == null || value.isEmpty) {
-      return "Le mot de passe ne peut pas être vide";
+      return Lang.l("Le mot de passe ne peut pas être vide");
     }else if (value.length < 8) {
-      return "Le mot de passe doit contenir au moins 8 caractères";
+      return Lang.l("Le mot de passe doit contenir au moins 8 caractères");
     }
     
     return null;
   }
  String? _validatePassword2(String? value) {
     if (value == null || value.isEmpty) {
-      return "Veuillez resaisir le mot de passe";
+      return Lang.l("Veuillez resaisir le mot de passe");
     }
     if (_password1!=value) {
-      return "Les mots de passe sont différents";
+      return Lang.l("Les mots de passe sont différents");
     }
     
     return null;
@@ -151,7 +151,7 @@ class _SignupNamePageState extends State<SignupNamePage> {
               
             SimpleInput(
               placeholder: "(0)6 12 34 56 78",
-              label: "Numéro de téléphone",
+              label: Lang.l("Numéro de téléphone"),
               type: "phone",
               validator: (val) {return _validatePhoneNumber(val);},
               onChange: (val){
@@ -162,8 +162,8 @@ class _SignupNamePageState extends State<SignupNamePage> {
                 height: 18,
               ),
             SimpleInput(
-              placeholder: "E-mail",
-              label: "Adresse e-mail",
+              placeholder: Lang.l("E-mail"),
+              label: Lang.l("Adresse e-mail"),
               type: "text",
               nextNode: _nameFocus,
               focusNode: _emailFocus,
@@ -177,8 +177,8 @@ class _SignupNamePageState extends State<SignupNamePage> {
               ),
              
             SimpleInput(
-              placeholder: "Nom",
-              label: "Nom et prénom",
+              placeholder: Lang.l("Nom"),
+              label: Lang.l("Nom et prénom"),
               type: "text",
               validator: (val)=>_validateName(val),
               focusNode: _nameFocus,
@@ -191,8 +191,8 @@ class _SignupNamePageState extends State<SignupNamePage> {
                 height: 15,
               ),
             SimpleInput(
-              placeholder: "MOt de passe",
-              label: "Mot de passe",
+              placeholder: Lang.l("Mot de passe"),
+              label: Lang.l("Mot de passe"),
               type: "password",
               onChange: (val){
                 _password2 = val;
@@ -204,8 +204,8 @@ class _SignupNamePageState extends State<SignupNamePage> {
               ),
            
             SimpleInput(
-              placeholder: "Mot de passe",
-              label: "Retappez le mot de passe",
+              placeholder: Lang.l("Mot de passe"),
+              label: Lang.l("Retappez le mot de passe"),
               type: "password",
               onChange: (val){
                 _password1 = val;
@@ -220,7 +220,7 @@ class _SignupNamePageState extends State<SignupNamePage> {
               padding: EdgeInsets.symmetric(horizontal: 35),
               child: ActionButton(
                 expanded: true,
-                text: "Valider",
+                text: Lang.l("Valider"),
                 
                 filled: true,
                 backColor: Theme.of(context).primaryColor,
@@ -235,7 +235,7 @@ class _SignupNamePageState extends State<SignupNamePage> {
                   if (!form.validate()) {
                     /*_autoValidateModeIndex.value =
                         AutovalidateMode.always.index;*/ // Start validating on every change.
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Veuillez corriger vos erreurs')));
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(Lang.l('Veuillez corriger vos erreurs'))));
                   } else {
                     form.save();
                     //adapt phone number

@@ -10,6 +10,7 @@ import 'package:geteat/components/simple_close_button.dart';
 import 'package:geteat/components/simple_input.dart';
 import 'package:geteat/components/simple_text.dart';
 import 'package:geteat/controllers/meal_controller.dart';
+import 'package:geteat/lang/lang.dart';
 import 'package:geteat/models/meal_element_model.dart';
 import 'package:geteat/models/meal_model.dart';
 import 'package:geteat/utils/meal_utils.dart';
@@ -231,7 +232,7 @@ class _EditMealPageState extends State<EditMealPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SimpleText(
-                      text: "Nom du Menu",
+                      text: Lang.l("Nom du Menu"),
                       color: 2,
                       thick: 6,
                     ),
@@ -245,7 +246,7 @@ class _EditMealPageState extends State<EditMealPage> {
                     SizedBox(height: 20),
                     // ----------------------------------
                     SimpleText(
-                      text: "Description du Menu",
+                      text: Lang.l("Description du Menu"),
                       color: 2,
                       thick: 6,
                     ),
@@ -261,7 +262,7 @@ class _EditMealPageState extends State<EditMealPage> {
                     SizedBox(height: 20),
                     // ----------------------------------
                     SimpleText(
-                      text: "Prix du Menu",
+                      text: Lang.l("Prix du Menu"),
                       color: 2,
                       thick: 6,
                     ),
@@ -276,7 +277,7 @@ class _EditMealPageState extends State<EditMealPage> {
                     ),
                     SizedBox(height: 20),
                     SimpleText(
-                      text: "Groupes de choix",
+                      text: Lang.l("Groupes de choix"),
                       color: 2,
                       thick: 6,
                     ),
@@ -286,7 +287,7 @@ class _EditMealPageState extends State<EditMealPage> {
                     ),
                     ActionButton(
                       filled: true,
-                      text: "Nouveau Groupe de choix",
+                      text:Lang.l("Nouveau Groupe de choix"),
                       expanded: true,
                       action: () async {
                         MealElementModel? newGroup = await MealUtils.editGroup(
@@ -310,7 +311,7 @@ class _EditMealPageState extends State<EditMealPage> {
                       children: [
                         ActionButton(
                           backColor: Theme.of(context).primaryColorDark,
-                          text: "Annuler",
+                          text:Lang.l ("Annuler"),
                           filled: true,
                           action: () {
                             Navigator.pop(context);
@@ -322,7 +323,7 @@ class _EditMealPageState extends State<EditMealPage> {
                         ActionButton(
                           filled: true,
                           wait: _saving,
-                          text: "Enregistrer",
+                          text: Lang.l("Enregistrer"),
                           action: () async {
                             setState(() {
                               _saving = true;

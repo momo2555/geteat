@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:geteat/components/simple_text.dart';
+import 'package:geteat/lang/lang.dart';
 import 'package:geteat/utils/global_utils.dart';
 
 class ActualPositionButton extends StatefulWidget {
@@ -35,7 +36,7 @@ class _ActualPositionButtonState extends State<ActualPositionButton> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SimpleText(
-                      text: "Ma position actuelle",
+                      text: Lang.l("Ma position actuelle"),
                       thick: 5,
                     ),
                     ValueListenableBuilder(

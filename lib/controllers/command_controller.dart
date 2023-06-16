@@ -4,6 +4,7 @@ import 'package:geteat/components/kitchen_command_element.dart';
 import 'package:geteat/components/kitchen_delivery_element.dart';
 import 'package:geteat/controllers/meal_controller.dart';
 import 'package:geteat/controllers/user_connection.dart';
+import 'package:geteat/lang/lang.dart';
 import 'package:geteat/models/command_model.dart';
 import 'package:geteat/models/meal_model.dart';
 import 'package:geteat/models/sub_command_model.dart';
@@ -130,7 +131,7 @@ class CommandController {
           .map((event) =>
               event.docs.map((doc) => docToSubCommand(doc)).toList());
     } catch (e) {
-      Fluttertoast.showToast(msg: "Une erreur est survenue");
+      Fluttertoast.showToast(msg: Lang.l("Une erreur est survenue"));
     }
   }
 

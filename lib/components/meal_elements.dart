@@ -7,6 +7,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:geteat/components/simple_input.dart';
 import 'package:geteat/components/simple_text.dart';
 import 'package:collection/collection.dart';
+import 'package:geteat/lang/lang.dart';
 
 class MealElements extends StatefulWidget {
   const MealElements({
@@ -216,8 +217,8 @@ class _MealElementsState extends State<MealElements> {
   Widget _titleElement(title) {
     Widget indication = Container();
     if (_type == "radiolist") {
-      indication = const SimpleText(
-        text: "Obligatoire",
+      indication = SimpleText(
+        text: Lang.l("Obligatoire"),
         color: 2,
         size: 12,
       );
@@ -265,14 +266,14 @@ class _MealElementsState extends State<MealElements> {
 
   Widget _errorElement() {
     if (_type == "radiolist" && _radioValues == -1) {
-      _error = "Veuillez sélectionner une option";
+      _error = Lang.l("Veuillez sélectionner une option");
     } else if (_type == "checklist") {
       List<int> checked = _checkValues.map((e) {
         return e ? 1 : 0;
       }).toList();
       if (_min > 0 && checked.sum < _min) {
         print(checked.sum);
-        _error = "Il faut choisir au minimum ${_min} option";
+        _error = Lang.l("Il faut choisir au minimum \$0 option", [_min]);
       } else {
         _error = "";
       }

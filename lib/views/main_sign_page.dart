@@ -6,6 +6,7 @@ import 'package:geteat/components/focuse_button.dart';
 import 'package:geteat/components/simple_input.dart';
 import 'package:geteat/components/simple_text.dart';
 import 'package:geteat/controllers/user_connection.dart';
+import 'package:geteat/lang/lang.dart';
 import 'package:geteat/utils/global_utils.dart';
 
 /*import 'package:legend_app/models/userModel.dart';
@@ -35,7 +36,7 @@ class _MainSignPageState extends State<MainSignPage> {
   String? _validatePhoneNumber(String? value) {
     final phoneExp = RegExp(r'^\(0\)\d \d\d \d\d\ \d\d \d\d$');
     if (!phoneExp.hasMatch(value!)) {
-      return "Le numéro de téléphone n'est pas valide";
+      return Lang.l("Le numéro de téléphone n'est pas valide");
     }
     return null;
   }
@@ -52,7 +53,7 @@ class _MainSignPageState extends State<MainSignPage> {
           child: Column(
             children: [
               SimpleInput(
-                placeholder: "Numéro de téléphone",
+                placeholder: Lang.l("Numéro de téléphone"),
                 type: "phone",
                 style: "filled",
                 validator: (val) {
@@ -66,7 +67,7 @@ class _MainSignPageState extends State<MainSignPage> {
                 height: 10,
               ),
               SimpleInput(
-                placeholder: "Mot de passe",
+                placeholder: Lang.l("Mot de passe"),
                 type: "password",
                 style: "filled",
                 onChange: (val) {
@@ -77,7 +78,7 @@ class _MainSignPageState extends State<MainSignPage> {
                 height: 0,
               ),
               ActionButton(
-                text: "Mot de passe oublié ?",
+                text: Lang.l("Mot de passe oublié ?"),
                 color: Theme.of(context).primaryColor,
                 filled: false,
                 hasBorder: false,
@@ -91,7 +92,7 @@ class _MainSignPageState extends State<MainSignPage> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     ActionButton(
-                      text: "Connexion",
+                      text: Lang.l("Connexion"),
                       rounded: true,
                       filled: true,
                       backColor: Theme.of(context).primaryColor,
@@ -106,9 +107,9 @@ class _MainSignPageState extends State<MainSignPage> {
                           /*_autoValidateModeIndex.value =
                               AutovalidateMode.always.index;*/ // Start validating on every change.
                           ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
+                               SnackBar(
                                   content:
-                                      Text('Veuillez corriger vos erreurs')));
+                                      Text(Lang.l('Veuillez corriger vos erreurs'))));
                         } else {
                           form.save();
                           //_emailPassWordvalidator();
@@ -126,7 +127,7 @@ class _MainSignPageState extends State<MainSignPage> {
                             if (value.uid == "" && value.email == "") {
                               Fluttertoast.showToast(
                                   msg:
-                                      "Les identifiants que vous avez renseigné sont incorrectes");
+                                      Lang.l("Les identifiants que vous avez renseigné sont incorrectes"));
                             }
                           });
                         }
@@ -161,7 +162,7 @@ class _MainSignPageState extends State<MainSignPage> {
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 10),
                           child: SimpleText(
-                            text: "OU",
+                            text: Lang.l("OU"),
                             color: 1,
                             size: 12,
                           ),
@@ -178,7 +179,7 @@ class _MainSignPageState extends State<MainSignPage> {
                     ),
                     Container(
                       child: ActionButton(
-                        text: "Inscription",
+                        text:Lang.l("Inscription"),
                         //clear: true,
                         rounded: true,
                         backColor: Theme.of(context).primaryColorDark,

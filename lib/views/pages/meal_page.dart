@@ -10,6 +10,7 @@ import 'package:geteat/components/simple_close_button.dart';
 import 'package:geteat/components/simple_text.dart';
 import 'package:geteat/controllers/command_controller.dart';
 import 'package:geteat/controllers/meal_controller.dart';
+import 'package:geteat/lang/lang.dart';
 import 'package:geteat/models/command_model.dart';
 import 'package:geteat/models/meal_model.dart';
 import 'package:geteat/models/sub_command_model.dart';
@@ -146,7 +147,7 @@ class _MealPageState extends State<MealPage> {
                 ),
                 ActionButton(
                   text:
-                      'Ajouter ${_command.subCommandLength} au panier - ${(_command.subCommandTotalPrice).toStringAsFixed(2)}€',
+                      Lang.l('Ajouter \$0 au panier - \$1€', [_command.subCommandLength, (_command.subCommandTotalPrice).toStringAsFixed(2)]),
                   backColor: Theme.of(context).backgroundColor,
                   filled: true,
                   expanded: true,
@@ -158,7 +159,7 @@ class _MealPageState extends State<MealPage> {
                       _commandController.addToUserCart(_command);
                     } else {
                       Fluttertoast.showToast(
-                        msg: "Il y a des erreurs dans le formulalaire !",
+                        msg: Lang.l("Il y a des erreurs dans le formulalaire !"),
                         backgroundColor: Colors.red,
                         toastLength: Toast.LENGTH_LONG,
                         

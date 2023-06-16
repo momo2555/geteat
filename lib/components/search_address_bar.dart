@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:geteat/components/simple_text.dart';
+import 'package:geteat/lang/lang.dart';
 import 'package:geteat/views/pages/location_tool.dart';
 
 class SearchAddressBar extends StatefulWidget {
@@ -23,7 +24,7 @@ class _SearchAddressBarState extends State<SearchAddressBar> {
   InputDecoration _decoration() {
     return InputDecoration(
      
-      hintText: "Rechercher une adresse",
+      hintText: Lang.l("Rechercher une adresse"),
 
       floatingLabelStyle: TextStyle(
         color: Theme.of(context).primaryColorLight,
@@ -115,8 +116,8 @@ class _SearchAddressBarState extends State<SearchAddressBar> {
               ),
             ),
             widget.static
-                ? const SimpleText(
-                    text: "Rechercher une adresse",
+                ? SimpleText(
+                    text: Lang.l("Rechercher une adresse"),
                     color: 3,
                   )
                 : Expanded(

@@ -8,6 +8,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:geteat/components/action_button.dart';
 import 'package:geteat/components/simple_input.dart';
 import 'package:geteat/components/simple_text.dart';
+import 'package:geteat/lang/lang.dart';
 import 'package:geteat/utils/global_utils.dart';
 import 'package:geteat/utils/icons_utils.dart';
 import 'package:geteat/views/pages/location_tool.dart';
@@ -85,7 +86,7 @@ class _PositionMapPageState extends State<PositionMapPage> {
         backgroundColor: Theme.of(context).primaryColorLight,
         elevation: 0,
         title: SimpleText(
-          text: "Adresse",
+          text: Lang.l("Adresse"),
           color: 2,
           thick: 7,
         ),
@@ -98,12 +99,12 @@ class _PositionMapPageState extends State<PositionMapPage> {
           if(_position[0]!= savedPos[0]||_position[1]!= savedPos[1]|| _positionComment !=_locationTools.getPositionCommentValue()){
             showDialog(context: context, builder: (context){
                 return AlertDialog(
-                  title: SimpleText(text: "Annulation", color: 2,),
-                  content: SimpleText(text: "Voulez vous vraiment annuler le choix de votre position ?", color: 2),
+                  title: SimpleText(text: Lang.l("Annulation"), color: 2,),
+                  content: SimpleText(text: Lang.l("Voulez vous vraiment annuler le choix de votre position ?"), color: 2),
                   actions: [
                     ActionButton(
                       backColor: Theme.of(context).primaryColorDark,
-                      text: "Annuler",
+                      text: Lang.l("Annuler"),
                       filled: true,
                       action: () {
                         Navigator.pop(context);
@@ -112,7 +113,7 @@ class _PositionMapPageState extends State<PositionMapPage> {
                     ),
                     ActionButton(
                       filled: true,
-                      text: "Confirmer",
+                      text: Lang.l("Confirmer"),
                       action: () async {
                         
                         Navigator.pop(context);
@@ -142,7 +143,7 @@ class _PositionMapPageState extends State<PositionMapPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 ActionButton(
-                  text: 'Confirmer ma position',
+                  text: Lang.l('Confirmer ma position'),
                   backColor: Theme.of(context).backgroundColor,
                   filled: true,
                   expanded: true,
@@ -202,7 +203,7 @@ class _PositionMapPageState extends State<PositionMapPage> {
                       ),
                       child: Center(
                           child: SimpleText(
-                        text: "Régler position",
+                        text: Lang.l("Régler position"),
                         size: 12,
                       )),
                     ),
@@ -217,7 +218,7 @@ class _PositionMapPageState extends State<PositionMapPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SimpleText(
-                  text: "Ajouter des précisions",
+                  text:Lang.l( "Ajouter des précisions"),
                   thick: 6,
                   color: 2,
                 ),

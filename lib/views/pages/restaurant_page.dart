@@ -8,6 +8,7 @@ import 'package:geteat/components/meal_thumbnail.dart';
 import 'package:geteat/components/simple_close_button.dart';
 import 'package:geteat/components/simple_text.dart';
 import 'package:geteat/controllers/meal_controller.dart';
+import 'package:geteat/lang/lang.dart';
 import 'package:geteat/models/meal_model.dart';
 import 'package:geteat/models/restaurant_model.dart';
 import 'package:geteat/utils/global_utils.dart';
@@ -72,7 +73,7 @@ class _RestaurantPageState extends State<RestaurantPage> {
                             child: GeIcons.loadingOk,
                           ),
                           SimpleText(
-                            text: "Bien ajouté au panier",
+                            text: Lang.l("Bien ajouté au panier"),
                             color: 2,
                             thick: 3,
                           ),
@@ -81,7 +82,7 @@ class _RestaurantPageState extends State<RestaurantPage> {
                       Padding(
                         padding: const EdgeInsets.only(top: 14),
                         child: ActionButton(
-                          text: 'Voir mon panier'.toUpperCase(),
+                          text: Lang.l('Voir mon panier').toUpperCase(),
                           color: Theme.of(context).primaryColor,
                           filled: true,
                           backColor: Theme.of(context).backgroundColor,

@@ -1,7 +1,31 @@
+import 'dart:convert';
+import 'package:flutter/services.dart' show rootBundle;
+import 'package:flutter/material.dart';
+
 class Lang {
+  static const langCode = "al";
+  static Future initLang() async {
+    if(Lang.langCode!="fr") {
+      String data = await rootBundle.loadString("assets/langs/$langCode.json");
+      final jsonResult = jsonDecode(data); //latest Dart
+      tradCache = jsonResult;
+
+    }
+  }
   static Map<String, dynamic> tradCache = {};
-  static String l(String phrase, [List<String> params = const []]) {
-    return "";
+  static String l(String phrase, [List params = const []]) {
+    if(Lang.langCode != "fr") {
+      if(Lang.tradCache.containsKey(phrase)){
+        phrase = Lang.tradCache[phrase];
+      }
+      
+    }
+    int i = 0;
+    for(dynamic param in params) {
+      phrase.replaceAll('\$$i', param.toString());
+      i++;
+    }
+    return phrase;
   }
 }
 

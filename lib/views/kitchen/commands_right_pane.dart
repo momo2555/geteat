@@ -5,6 +5,7 @@ import 'package:geteat/components/kitchen_command_element.dart';
 import 'package:geteat/components/kitchen_delivery_element.dart';
 import 'package:geteat/components/simple_text.dart';
 import 'package:geteat/controllers/command_controller.dart';
+import 'package:geteat/lang/lang.dart';
 import 'package:geteat/models/command_model.dart';
 
 class CommandsRightPane extends StatefulWidget {
@@ -24,7 +25,7 @@ class _CommandsRightPaneState extends State<CommandsRightPane> {
         elevation: 2,
         foregroundColor: Theme.of(context).backgroundColor,
         title: SimpleText(
-          text: "Livraisons",
+          text: Lang.l("Livraisons"),
           color: 2,
           thick: 6,
           size: 16,

@@ -4,6 +4,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:geteat/components/simple_close_button.dart';
 import 'package:geteat/components/simple_text.dart';
 import 'package:geteat/controllers/command_controller.dart';
+import 'package:geteat/lang/lang.dart';
 import 'package:geteat/models/command_model.dart';
 import 'package:geteat/models/sub_command_model.dart';
 import 'package:geteat/utils/command_utils.dart';
@@ -35,7 +36,7 @@ class _CommandStatusPageState extends State<CommandStatusPage> {
             child: Column(
           children: [
             SimpleText(
-              text: "Commande ${CommandUtils.commandNumber(widget.command)}",
+              text: Lang.l("Commande \$0", [CommandUtils.commandNumber(widget.command)]),
               size: 18,
               thick: 9,
               color: 2,
@@ -70,7 +71,7 @@ class _CommandStatusPageState extends State<CommandStatusPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     SimpleText(
-                      text: "TOTAL",
+                      text: Lang.l("TOTAL"),
                       color: 2,
                       thick: 8,
                       size: 16,
@@ -138,7 +139,7 @@ class _CommandStatusPageState extends State<CommandStatusPage> {
                     children: [
                       confirmed ? GeIcons.loadingOkGreen : GeIcons.loadingOkGrey,
                       SimpleText(
-                        text: "Commande Confirmée",
+                        text: Lang.l("Commande Confirmée"),
                         color: confirmed ? 2 : 3,
                         thick: 7,
                         size: 18,
@@ -153,7 +154,7 @@ class _CommandStatusPageState extends State<CommandStatusPage> {
                       ),
                      livering ? GeIcons.loadingOkGreen : GeIcons.loadingOkGrey,
                       SimpleText(
-                        text: "Commande en livraison",
+                        text: Lang.l("Commande en livraison"),
                         color: livering ? 2 : 3,
                         thick: 7,
                         size: 18,
@@ -168,7 +169,7 @@ class _CommandStatusPageState extends State<CommandStatusPage> {
                       ),
                       received ? GeIcons.loadingOkGreen : GeIcons.loadingOkGrey,
                       SimpleText(
-                        text: "Commande reçue",
+                        text: Lang.l("Commande reçue"),
                         color: received ? 2 : 3,
                         thick: 7,
                         size: 18,
@@ -180,7 +181,7 @@ class _CommandStatusPageState extends State<CommandStatusPage> {
               },
             ),
             SizedBox(height: 134),
-            SimpleText(text: "Pour voir le processus de votre commande,\n veuillez vous rendre sur commander.", color: 3,),
+            SimpleText(text: Lang.l("Pour voir le processus de votre commande,\n veuillez vous rendre sur commander."), color: 3,),
             SizedBox(height: 40),
           ],
         )),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:geteat/components/simple_text.dart';
+import 'package:geteat/lang/lang.dart';
 import 'package:geteat/utils/global_utils.dart';
 import 'package:geteat/utils/icons_utils.dart';
 import 'package:geteat/views/pages/location_tool.dart';
@@ -71,7 +72,7 @@ class _EditAddressButtonState extends State<EditAddressButton> {
                   children: [
                     const SizedBox(height: 40),
                     SimpleText(
-                      text: "Mon Adresse",
+                      text: Lang.l("Mon Adresse"),
                       thick: 5,
                       size: 15,
                     ),

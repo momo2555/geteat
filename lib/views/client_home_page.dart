@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:geteat/lang/lang.dart';
 import 'package:geteat/utils/global_utils.dart';
 import 'package:geteat/utils/icons_utils.dart';
 import 'package:geteat/views/pages/cart_page.dart';
@@ -73,28 +74,28 @@ class _ClientHomepageState extends State<ClientHomepage> {
                           icon: Globals.homeIndex.value == 0
                               ? GeIcons.homeBlack
                               : GeIcons.homeGrey,
-                          label: "Commander",
+                          label: Lang.l("Commander"),
                           backgroundColor: Theme.of(context).primaryColorLight,
                         ),
                         BottomNavigationBarItem(
                           icon: Globals.homeIndex.value == 1
                               ? GeIcons.cartBlack
                               : GeIcons.cartGrey,
-                          label: "Panier",
+                          label: Lang.l("Panier"),
                           backgroundColor: Theme.of(context).primaryColorLight,
                         ),
                         BottomNavigationBarItem(
                           icon: Globals.homeIndex.value == 2
                               ? GeIcons.commandsBlack
                               : GeIcons.commandsGrey, //GeIcons.personBlack,
-                          label: "Commandes",
+                          label: Lang.l("Commandes"),
                           backgroundColor: Theme.of(context).primaryColorLight,
                         ),
                         BottomNavigationBarItem(
                           icon: Globals.homeIndex.value == 3
                               ? GeIcons.personBlack
                               : GeIcons.personGrey,
-                          label: "Profil",
+                          label: Lang.l("Profil"),
                           backgroundColor: Theme.of(context).primaryColorLight,
                         ),
                       ],

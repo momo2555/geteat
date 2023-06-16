@@ -7,6 +7,7 @@ import 'package:geteat/components/profile_list_element.dart';
 import 'package:geteat/components/simple_text.dart';
 import 'package:geteat/controllers/profil_controller.dart';
 import 'package:geteat/controllers/user_connection.dart';
+import 'package:geteat/lang/lang.dart';
 import 'package:geteat/models/user_model.dart';
 import 'package:geteat/models/user_profile_model.dart';
 import 'package:geteat/utils/global_utils.dart';
@@ -89,33 +90,33 @@ class _ProfilePageState extends State<ProfilePage> {
                       height: 30,
                     ),
                     SimpleText(
-                      text: "Informations personnelles",
+                      text: Lang.l("Informations personnelles"),
                       thick: 9,
                       size: 16,
                     ),
                     SizedBox(height: 8),
                     ProfileListElement(
                         action: () {},
-                        title: "Nom et prénom",
+                        title: Lang.l("Nom et prénom"),
                         description: _userProfile?.userName ?? Globals.persistanttUserProfile.userName),
                     ProfileListElement(
                         action: () {},
-                        title: "Adresse e-mail",
+                        title: Lang.l("Adresse e-mail"),
                         description: _userProfile?.email ?? Globals.persistanttUserProfile.email),
                     ProfileListElement(
                         action: () {},
-                        title: "Numéro de téléphone",
+                        title: Lang.l("Numéro de téléphone"),
                         description: _userProfile?.phone ?? Globals.persistanttUserProfile.phone),
                     ProfileListElement(
                         action: () {},
-                        title: "Mot de passe",
+                        title:Lang.l("Mot de passe"),
                         description: "••••••••"),
                     SizedBox(
                       height: 40,
                     ),
                     Center(
                       child: ActionButton(
-                        text: "Déconnexion",
+                        text: Lang.l("Déconnexion"),
                         filled: true,
                         backColor: Theme.of(context).primaryColorDark,
                         color: Theme.of(context).primaryColorLight,

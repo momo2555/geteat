@@ -28,9 +28,12 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 import 'package:geteat/themes/main_theme.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
+import 'package:geteat/lang/lang.dart';
 
 void main() async {
+  
   WidgetsFlutterBinding.ensureInitialized();
+  await Lang.initLang();
   await Firebase.initializeApp();
   /*await FirebaseAppCheck.instance.activate(
     androidProvider: AndroidProvider.playIntegrity,
@@ -64,10 +67,14 @@ class RouteGenerator {
       case '/':
         //return MaterialPageRoute(builder: (context) => const MainSignPage());
         return MaterialPageRoute(
-            builder: (context) => StreamBuilder(
+            builder: (context) => 
+            
+            StreamBuilder(
                   stream: _userConnection.userStream,
                   builder: (context, snapshot) {
+                    
                     if (snapshot.connectionState == ConnectionState.active) {
+                      
                       if (snapshot.hasData) {
                         //if a user is connected show the client page
                         return FutureBuilder(

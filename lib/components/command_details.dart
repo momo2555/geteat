@@ -4,6 +4,7 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:geteat/components/action_button.dart';
 import 'package:geteat/components/simple_text.dart';
+import 'package:geteat/lang/lang.dart';
 import 'package:geteat/models/command_model.dart';
 import 'package:geteat/models/sub_command_model.dart';
 import 'package:geteat/utils/command_utils.dart';
@@ -54,7 +55,7 @@ class _CommandDetailsState extends State<CommandDetails> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SimpleText(text: "Command ${CommandUtils.commandNumber(widget.command)} ", color: 2, size: 16, thick: 6,),
+            SimpleText(text: Lang.l("Commande \$0", [CommandUtils.commandNumber(widget.command)]), color: 2, size: 16, thick: 6,),
             Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -66,12 +67,12 @@ class _CommandDetailsState extends State<CommandDetails> {
                 Builder(builder: 
                 (context)  {
                   if(widget.command.commandStatus == "archived") {
-                    return Container(child: SimpleText(text: "Commmande terminée", color: 3,cut: true,));
+                    return Container(child: SimpleText(text: Lang.l("Commmande terminée"), color: 3,cut: true,));
                   }else if(widget.command.commandStatus == "refused"){
-                     return Container(child: SimpleText(text: "Refusé", color: 4,cut: true,thick: 7,));
+                     return Container(child: SimpleText(text: Lang.l("Refusé"), color: 4,cut: true,thick: 7,));
                   }else {
                     return ActionButton(
-                      text: "En cours",
+                      text: Lang.l("En cours"),
                       filled: true,
                       hasBorder: false,
                       rounded: true,

@@ -7,6 +7,7 @@ import 'package:geteat/components/action_button.dart';
 import 'package:geteat/components/simple_text.dart';
 import 'package:geteat/controllers/command_controller.dart';
 import 'package:geteat/controllers/profil_controller.dart';
+import 'package:geteat/lang/lang.dart';
 import 'package:geteat/models/command_model.dart';
 import 'package:geteat/models/sub_command_model.dart';
 import 'package:geteat/models/user_profile_model.dart';
@@ -106,11 +107,11 @@ class _KitchenDeliveryElementState extends State<KitchenDeliveryElement> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   SimpleText(
-                    text: "En livraison",
+                    text: Lang.l("En livraison"),
                     color: 3,
                   ),
                   ActionButton(
-                    text: "Fin",
+                    text: Lang.l("Fin"),
                     filled: true,
                     wait: _loading,
                     action: () {
@@ -147,7 +148,7 @@ class _KitchenDeliveryElementState extends State<KitchenDeliveryElement> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 SimpleText(
-                  text: "TOTAL:",
+                  text: Lang.l("TOTAL:"),
                   color: 2,
                   thick: 8,
                   size: 16,

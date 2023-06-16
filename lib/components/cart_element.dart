@@ -7,6 +7,7 @@ import 'package:geteat/components/simple_text.dart';
 import 'package:geteat/controllers/command_controller.dart';
 import 'package:geteat/controllers/meal_controller.dart';
 import 'package:geteat/controllers/restaurant_controller.dart';
+import 'package:geteat/lang/lang.dart';
 import 'package:geteat/models/meal_model.dart';
 import 'package:geteat/models/restaurant_model.dart';
 import 'package:geteat/models/sub_command_model.dart';
@@ -124,17 +125,17 @@ class _CartElementState extends State<CartElement> {
                 builder: (context) {
                   return AlertDialog(
                     title: SimpleText(
-                      text: "Supressions",
+                      text: Lang.l("Supressions"),
                       color: 2,
                     ),
                     content: SimpleText(
                         text:
-                            "Voulez vous vraiment supprimer cette élement de votre panier",
+                            Lang.l("Voulez vous vraiment supprimer cette élement de votre panier"),
                         color: 2),
                     actions: [
                       ActionButton(
                         backColor: Theme.of(context).primaryColorDark,
-                        text: "Annuler",
+                        text: Lang.l("Annuler"),
                         filled: true,
                         action: () {
                           Navigator.pop(context);
@@ -142,7 +143,7 @@ class _CartElementState extends State<CartElement> {
                       ),
                       ActionButton(
                         filled: true,
-                        text: "Supprimer",
+                        text: Lang.l("Supprimer"),
                         action: () async {
                           await _commandController
                               .deleteCartSubCommand(widget.subCommand);
