@@ -96,7 +96,9 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                     SizedBox(height: 8),
                     ProfileListElement(
-                        action: () {},
+                        action: () {
+                          Navigator.pushNamed(context, "/edit_profile");
+                        },
                         title: Lang.l("Nom et prénom"),
                         description: _userProfile?.userName ?? Globals.persistanttUserProfile.userName),
                     ProfileListElement(

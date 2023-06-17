@@ -16,6 +16,7 @@ import 'package:geteat/views/main_kitchen_page.dart';
 import 'package:geteat/views/main_sign_page.dart';
 import 'package:geteat/views/pages/command_status_page.dart';
 import 'package:geteat/views/pages/confirmation_page.dart';
+import 'package:geteat/views/pages/edit_profile_page.dart';
 import 'package:geteat/views/pages/meal_page.dart';
 import 'package:geteat/views/pages/position_map_page.dart';
 import 'package:geteat/views/pages/restaurant_page.dart';
@@ -175,6 +176,10 @@ class RouteGenerator {
           builder: (context) => EditMealPage(
             meal: settings.arguments as MealModel,
           ),
+        );
+      case '/edit_profile':
+        return MaterialPageRoute(
+          builder: (context) => EditProfilePage(),
         );
       /* case '/newPost/confirmation':
         return MaterialPageRoute(
