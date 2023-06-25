@@ -30,6 +30,14 @@
     "Code de confirmation" : "Kodi i verifikimit",
     "Un code vous est envoyé par sms afin de vérifier de votre numéro de téléphone" : "Ne numrin tuaj te telefonit, do te vij nje kod per konfirmim te llogarise tuaj ne geteat",
     "Renvoyer le code" : "Ridergo kodin",
-    "Vérifier" : "Verifiko"
+    "Vérifier" : "Verifiko",
+    "Commande Confirmée" : "Porosia juaj është konfirmuar",
+    "Commande en livraison" : "Porosia juaj është nisur",
+    "Commande reçue" : "Porosia juaj është gati",
+    "TOTAL" : "TOTALI",
+    "Commande $0" : "Porosia $0",
+    "commande $0" : "porosia $0",
+    "En cours" : "Me shume",
+    "Commande terminée" : "Porosia ka mbaruar"
    
 }

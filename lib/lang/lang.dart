@@ -18,11 +18,10 @@ class Lang {
       if(Lang.tradCache.containsKey(phrase)){
         phrase = Lang.tradCache[phrase];
       }
-      
     }
     int i = 0;
     for(dynamic param in params) {
-      phrase.replaceAll('\$$i', param.toString());
+      phrase = phrase.replaceAll('\$$i', param.toString());
       i++;
     }
     return phrase;
