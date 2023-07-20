@@ -106,6 +106,8 @@ class UserConnection {
       userId = userCredential.user?.uid??"";
       UserModel _user = UserModel(
           email, phone, password, userId);
+        
+      
       return _user;
     } catch (e) {
       print("EEEEEEEEEERRRRRRRRRRRRRRRRRORRRRRRRRRRRR");
@@ -132,5 +134,9 @@ class UserConnection {
     } catch (e) {
       return false;
     }
+  }
+  
+  User? getUser() {
+    return _auth.currentUser;
   }
 }

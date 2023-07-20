@@ -20,7 +20,7 @@ class UserModel {
     _checkId = value;
   }
   set phone(value) {
-    _phone = value;
+    _phone = value; 
   }
    set email(value) {
     _email = value;
